@@ -454,3 +454,51 @@ header{
   #product-grid{ grid-template-columns: 1fr; }
   .hero__inner{ padding: 22px 16px; }
 }
+/* HERO BANNER */
+.hero{
+  height: 300px;
+  background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+              url("images/banner.jpg");
+  background-size: cover;
+  background-position: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+}
+
+.hero-inner h1{
+  font-size: 42px;
+  margin:0;
+  letter-spacing:2px;
+}
+
+.hero-inner p{
+  font-size:16px;
+  margin-top:10px;
+}
+.hero{
+  height: 320px;
+  background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+              url("images/banner.jpg");
+  background-size: cover;
+  background-position: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+}
+
+.hero-inner h1{
+  font-size: 44px;
+  letter-spacing:3px;
+  font-weight:600;
+}
+
+.hero-inner p{
+  font-size:18px;
+  margin-top:12px;
+  color:#f3e9dc;
+}

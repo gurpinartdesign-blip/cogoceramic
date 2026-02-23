@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>COGO Seramik</title>
+  <meta name="description" content="COGO Seramik — el yapımı seramik kupalar ve özel parçalar. Sipariş için WhatsApp'tan ulaş." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <div class="brand">
+        <div class="brand__logo">COGO</div>
+        <div class="brand__text">
+          <div class="brand__name">COGO Seramik</div>
+          <div class="brand__tag">Ruh taşıyan el yapımı seramikler.</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#urunler">Ürünler</a>
+        <a href="#satis">Satış</a>
+        <a href="#iletisim">İletişim</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero__card">
+        <h1>El emeği, tekil, karakterli.</h1>
+        <p>
+          Küçük seri kupalar ve özel parçalar. Her parça el yapımı olduğu için
+          kendine özgü doku ve ufak farklılıklar taşır.
+        </p>
+
+        <div class="hero__badges">
+          <span class="pill">El yapımı</span>
+          <span class="pill">Küçük seri</span>
+          <span class="pill">COGO Seramik</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="satis" class="info">
+      <h2>Satış Kanalları</h2>
+      <p>
+        Ürünlerimizi <strong>Trendyol</strong> ve <strong>Hepsiburada</strong> üzerinden de satışa sunuyoruz.
+        En güncel stok ve yeni koleksiyonlar için sosyal medyadan da takip edebilirsin.
+      </p>
+      <div class="info__chips">
+        <span class="chip">Trendyol</span>
+        <span class="chip">Hepsiburada</span>
+      </div>
+    </section>
+
+    <section id="urunler" class="shop">
+      <div class="shop__head">
+        <div>
+          <h2>Ürünler</h2>
+          <p class="muted">Arama ile filtreleyebilirsin.</p>
+        </div>
+
+        <div class="shop__filters">
+          <input id="searchInput" class="input" type="search" placeholder="Ürün ara (kartal, yılan, mamut...)" />
+        </div>
+      </div>
+
+      <div id="product-grid" class="product-grid"></div>
+    </section>
+
+    <section id="iletisim" class="contact">
+      <h2>İletişim</h2>
+
+      <div class="contact__grid">
+        <div class="contact__card">
+          <div class="contact__title">Sipariş / Sorular</div>
+          <div class="contact__value">
+            <a href="mailto:orders@cogoceramic.com">orders@cogoceramic.com</a>
+          </div>
+          <div class="contact__hint">E-posta ile ürün/sipariş desteği alabilirsin.</div>
+        </div>
+
+        <div class="contact__card">
+          <div class="contact__title">WhatsApp</div>
+          <div class="contact__value">
+            <a id="waTop" href="#" target="_blank" rel="noopener">WhatsApp’tan yaz</a>
+          </div>
+          <div class="contact__hint">Hızlı sipariş ve stok soruları için.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>© 23.02.2026 COGO Seramik</div>
+      <div class="footer__muted">El yapımı seramikler • Küçük seri üretim</div>
+    </footer>
+  </main>
+
+  <script>
+    const WHATSAPP_NUMBER = "905529341223";
+
+    function waLink(text) {
+      const msg = encodeURIComponent(text);
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+    }
+
+    const products = [
+      {
+        id: "kartal",
+        name: "Kartal Arketipi Kupa",
+        desc: "Yüksek görüş, özgürlük ve farkındalık teması.",
+        size: "200 ml • 8 × 7.5 cm",
+        img: "images/kartal.jpg.jpeg",
+      },
+      {
+        id: "yilan",
+        name: "Yılan Dönüşüm Kupası",
+        desc: "Dönüşüm, yeniden doğuş ve şifa teması.",
+        size: "200 ml • 8 × 7.5 cm",
+        img: "images/yilan.jpg.jpeg",
+      },
+      {
+        id: "mamut",
+        name: "Mamut Hafıza Kupası",
+        desc: "Kökler, dayanıklılık ve kadim hafıza teması.",
+        size: "200 ml • 8 × 7.5 cm",
+        img: "images/mamut.jpg.jpeg",
+      },
+      {
+        id: "boga",
+        name: "Boğa Güç Kupası",
+        desc: "Güç, köklenme ve kararlılık teması.",
+        size: "200 ml • 8 × 7.5 cm",
+        img: "images/boga.jpg.jpeg",
+      },
+      {
+        id: "elizi",
+        name: "El İzi Ritüel Kupası",
+        desc: "İz, bağlantı ve sembolik korunma teması.",
+        size: "200 ml • 8 × 7.5 cm",
+        img: "images/elizi.jpg.jpeg",
+      },
+    ];
+
+    const waTopEl = document.getElementById("waTop");
+    waTopEl.href = waLink("Merhaba COGO Seramik, ürünlerle ilgili bilgi almak istiyorum.");
+
+    const grid = document.getElementById("product-grid");
+
+    function render(list) {
+      grid.innerHTML = list.map(p => `
+        <article class="product-card" data-name="${(p.name + ' ' + p.desc).toLowerCase()}">
+          <img class="product-card__img" src="${p.img}" alt="${p.name}" loading="lazy" />
+          <h3>${p.name}</h3>
+          <p class="muted">${p.desc}</p>
+          <p>${p.size}</p>
+          <a class="btn" href="${waLink('Merhaba COGO Seramik, ' + p.name + ' için sipariş vermek istiyorum.')}" target="_blank" rel="noopener">
+            Sipariş Ver
+          </a>
+        </article>
+      `).join("");
+    }
+
+    render(products);
+
+    const input = document.getElementById("searchInput");
+    input.addEventListener("input", () => {
+      const q = input.value.trim().toLowerCase();
+      if (!q) return render(products);
+      render(products.filter(p => (p.name + " " + p.desc).toLowerCase().includes(q)));
+    });
+  </script>
+</body>
+</html>
+
+

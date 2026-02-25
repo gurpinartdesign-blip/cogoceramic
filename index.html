@@ -581,6 +581,13 @@ Teslim/şehir:`;
       if(e.key === "Escape"){ closeDrawer(); closeCart(); }
     });
   </script>
-  <script src="app.js"></script>
+  <script src="app.js" defter></script>
+  <!-- Lightbox -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
+  <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
+  <img id="lbImg" class="lightbox__img" alt="Büyük görsel" />
+  <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
+</div>
 </body>
 </html>

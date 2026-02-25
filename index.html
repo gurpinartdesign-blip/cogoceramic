@@ -3,209 +3,535 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>COGO Seramik</title>
-  <meta name="description" content="COGO Seramik — el yapımı seramik kupalar ve özel parçalar. Sipariş için WhatsApp'tan ulaş." />
+  <title>COGO Ceramic</title>
+  <meta name="description" content="COGO Ceramic — el yapımı seramik, ev, sanat, takı, yaşam ve ofis ürünleri. Kampanyalardan ilk sen haberdar ol." />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="wrap topbar__inner">
-      <div class="brand">
-        <div class="brand__logo">COGO</div>
-        <div class="brand__text">
-          <div class="brand__name">COGO Seramik</div>
-          <div class="brand__tag">Ruh taşıyan el yapımı seramikler.</div>
+  <!-- Overlay (menü açıkken arka plan) -->
+  <div id="overlay" class="overlay" hidden></div>
+
+  <!-- Sol Menü (Drawer) -->
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer__head">
+      <div class="drawer__brand">
+        <div class="logo">COGO</div>
+        <div>
+          <div class="brandName">COGO Ceramic</div>
+      
         </div>
       </div>
+      <button class="iconBtn" id="drawerClose" aria-label="Menüyü kapat">✕</button>
+    </div>
 
-      <nav class="nav">
-        <a href="#urunler">Ürünler</a>
-        <a href="#satis">Satış</a>
-        <a href="#iletisim">İletişim</a>
-      </nav>
+    <nav class="drawer__nav">
+      <a href="#kategori-ev" data-cat="ev">Ev</a>
+      <a href="#kategori-sanat" data-cat="sanat">Sanat</a>
+      <a href="#kategori-taki" data-cat="taki">Takı</a>
+      <a href="#kategori-yasam" data-cat="yasam">Yaşam</a>
+      <a href="#kategori-ofis" data-cat="ofis">Ofis</a>
+      <div class="drawer__line"></div>
+      <a href="#kampanyalar">Kampanyalar</a>
+      <a href="#uyelik">Üyelik</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+
+    <div class="drawer__foot">
+      <div class="miniCard">
+        <div class="miniTitle">Hızlı Sipariş</div>
+        <div class="miniText">WhatsApp’tan yaz, stok & fiyat anında.</div>
+        <a class="btn btn--soft" id="waDrawer" href="#" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Üst Bar -->
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <div class="left">
+        <button class="iconBtn" id="menuBtn" aria-label="Menüyü aç">☰</button>
+
+        <a class="brand" href="#">
+          <div class="logo">COGO</div>
+          <div class="brandText">
+            <div class="brandName">COGO Ceramic</div>
+            <div class="brandTag">El emeği • Küçük seri • Tekil</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="right">
+        <div class="search">
+          <input id="searchInput" type="search" placeholder="Ürün ara (kupa, kartal, tütsülük...)" />
+        </div>
+
+        <button class="cartBtn" id="cartBtn" aria-label="Sepeti aç">
+          <span class="cartIcon">🛒</span>
+          <span>Sepet</span>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="hero__card">
-        <h1>El emeği, tekil, karakterli.</h1>
+  <!-- Sepet Paneli -->
+  <aside id="cart" class="cart" aria-hidden="true">
+    <div class="cart__head">
+      <div>
+        <div class="cart__title">Sepet</div>
+        <div class="cart__sub">Seçtiğin ürünler burada.</div>
+      </div>
+      <button class="iconBtn" id="cartClose" aria-label="Sepeti kapat">✕</button>
+    </div>
+
+    <div id="cartItems" class="cart__items"></div>
+
+    <div class="cart__foot">
+      <div class="totalRow">
+        <span>Toplam</span>
+        <strong id="cartTotal">₺0</strong>
+      </div>
+
+      <div class="cart__actions">
+        <button class="btn btn--soft" id="clearCart">Sepeti Temizle</button>
+        <a class="btn" id="checkoutWA" href="#" target="_blank" rel="noopener">WhatsApp ile Sipariş</a>
+      </div>
+
+      <div class="hint">
+       
+      </div>
+    </div>
+  </aside>
+
+  <!-- Hero / Banner -->
+  <section class="hero" id="top">
+    <div class="wrap hero__inner">
+      <div class="hero__copy">
+        <div class="kicker">COGO Ceramic</div>
+        <h1>Ruh taşıyan eşsiz parçalar.</h1>
         <p>
-          Küçük seri kupalar ve özel parçalar. Her parça el yapımı olduğu için
-          kendine özgü doku ve ufak farklılıklar taşır.
+          Ev, sanat, takı, yaşam ve ofis için seçilmiş el yapımı.
+          Küçük seri üretim — her parça kendine özgü.
         </p>
 
-        <div class="hero__badges">
-          <span class="pill">El yapımı</span>
-          <span class="pill">Küçük seri</span>
-          <span class="pill">COGO Seramik</span>
+        <div class="hero__cta">
+          <a class="btn" href="#urunler">Ürünleri Gör</a>
+          <a class="btn btn--soft" href="#uyelik">Üye Ol</a>
+        </div>
+
+        <div class="hero__chips">
+          <span class="chip">Kargo için DM/WhatsApp</span>
+          <span class="chip">Sınırlı stok</span>
+          <span class="chip">Yeni koleksiyonlar</span>
         </div>
       </div>
-    </section>
 
-    <section id="satis" class="info">
-      <h2>Satış Kanalları</h2>
-      <p>
-        Ürünlerimizi <strong>Trendyol</strong> ve <strong>Hepsiburada</strong> üzerinden de satışa sunuyoruz.
-        En güncel stok ve yeni koleksiyonlar için sosyal medyadan da takip edebilirsin.
-      </p>
-      <div class="info__chips">
-        <span class="chip">Trendyol</span>
-        <span class="chip">Hepsiburada</span>
+      <div class="hero__banner" aria-label="Banner görsel alanı">
+        <div class="bannerCard">
+          <div class="bannerTitle">Yeni Seri</div>
+          <div class="bannerText">Kupa • Tütsülük • Takı</div>
+          <div class="bannerNote">Banner görseli için: <code>images/banner.jpg</code></div>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <main class="wrap main">
+
+    <div class="hero__badges">
+  <span class="pill">El yapımı</span>
+  <span class="pill">Küçük seri</span>
+  <span class="pill">Türkiye üretim</span>
+</div>
+<p class="hero__sub">
+  Jung arketipleri, runik semboller ve kadim hikâyelerden ilham alan koleksiyonlar.
+</p>
+
+
+    <!-- Kategori Kısayollar -->
+    <section class="cats" aria-label="Kategoriler">
+      <button class="catPill isActive" data-filter="all">Tümü</button>
+      <button class="catPill" data-filter="ev">Ev</button>
+      <button class="catPill" data-filter="sanat">Sanat</button>
+      <button class="catPill" data-filter="taki">Takı</button>
+      <button class="catPill" data-filter="yasam">Yaşam</button>
+      <button class="catPill" data-filter="ofis">Ofis</button>
     </section>
 
-    <section id="urunler" class="shop">
-      <div class="shop__head">
+    <!-- Ürünler -->
+    <section id="urunler" class="section">
+      <div class="sectionHead">
         <div>
           <h2>Ürünler</h2>
-          <p class="muted">Arama ile filtreleyebilirsin.</p>
-        </div>
-
-        <div class="shop__filters">
-          <input id="searchInput" class="input" type="search" placeholder="Ürün ara (kartal, yılan, mamut...)" />
+          <p class="muted">Kategori seçebilir ya da arama kutusundan filtreleyebilirsin.</p>
         </div>
       </div>
 
-      <div id="product-grid" class="product-grid"></div>
+      <div id="productGrid" class="grid"></div>
     </section>
 
-    <section id="iletisim" class="contact">
-      <h2>İletişim</h2>
+    <!-- Kampanya / Banner blok -->
+    <section id="kampanyalar" class="section promo">
+      <div class="promo__inner">
+        <div>
+          <h3>Bugüne özel</h3>
+          <p class="muted">Yeni koleksiyon yüklenince ilk sen gör. Üyelere erken erişim & sürpriz indirimler.</p>
+        </div>
+        <a class="btn" href="#uyelik">Üye Ol</a>
+      </div>
+    </section>
 
-      <div class="contact__grid">
-        <div class="contact__card">
-          <div class="contact__title">Sipariş / Sorular</div>
-          <div class="contact__value">
-            <a href="mailto:orders@cogoceramic.com">orders@cogoceramic.com</a>
-          </div>
-          <div class="contact__hint">E-posta ile ürün/sipariş desteği alabilirsin.</div>
+    <!-- Üyelik -->
+    <section id="uyelik" class="section">
+      <div class="card">
+        <div class="cardHead">
+          <h2>COGO Ceramic’e Üye Ol</h2>
+          <p class="muted">Kampanyalardan ilk sen haberdar ol. Spam yok, sadece güzel şeyler.</p>
         </div>
 
-        <div class="contact__card">
-          <div class="contact__title">WhatsApp</div>
-          <div class="contact__value">
-            <a id="waTop" href="#" target="_blank" rel="noopener">WhatsApp’tan yaz</a>
+        <form id="signupForm" class="formRow">
+          <div class="field">
+            <label for="name">Ad Soyad</label>
+            <input id="name" type="text" placeholder="Gizem Gürpınar" required />
           </div>
-          <div class="contact__hint">Hızlı sipariş ve stok soruları için.</div>
+          <div class="field">
+            <label for="email">E-posta</label>
+            <input id="email" type="email" placeholder="ornek@mail.com" required />
+          </div>
+          <button class="btn" type="submit">Üye Ol</button>
+        </form>
+
+        <div id="signupMsg" class="note" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- İletişim -->
+    <section id="iletisim" class="section">
+      <div class="sectionHead">
+        <div>
+          <h2>İletişim</h2>
+          <p class="muted">Sipariş, stok, kişiselleştirme için yaz.</p>
+        </div>
+      </div>
+
+      <div class="contactGrid">
+        <div class="miniCard">
+          <div class="miniTitle">WhatsApp</div>
+          <div class="miniText">Hızlı sipariş & stok soruları.</div>
+          <a class="btn" id="waBottom" href="#" target="_blank" rel="noopener">WhatsApp’tan yaz</a>
+        </div>
+
+        <div class="miniCard">
+          <div class="miniTitle">E-posta</div>
+          <div class="miniText">Detaylı siparişler & kurumsal talepler.</div>
+          <a class="btn btn--soft" href="mailto:orders@cogoceramic.com">orders@cogoceramic.com</a>
         </div>
       </div>
     </section>
 
     <footer class="footer">
-      <div>© 23.02.2026 COGO Seramik</div>
-      <div class="footer__muted">El yapımı seramikler • Küçük seri üretim</div>
+      <div>© 2026 COGO Ceramic</div>
+      <div class="footerLinks">
+        <a href="gizlilik.html">Gizlilik</a>
+        <span>•</span>
+        <a href="kvkk.html">KVKK</a>
+        <span>•</span>
+        <a href="iade.html">İade</a>
+        <span>•</span>
+        <a href="mesafeli-satis.html">Mesafeli Satış</a>
+      </div>
     </footer>
   </main>
 
   <script>
+    // ---- Ayarlar
     const WHATSAPP_NUMBER = "905529341223";
 
+    const products = [
+      { id:"p1", cat:"sanat", name:"Kartal Arketipi Kupa", price: 890, desc:"Yüksek görüş, özgürlük ve farkındalık teması.", size:"200 ml • 8 × 7.5 cm", img:"images/kartal.jpg" },
+      { id:"p2", cat:"yasam", name:"Yılan Dönüşüm Kupası", price: 890, desc:"Dönüşüm, yeniden doğuş ve şifa teması.", size:"200 ml • 8 × 7.5 cm", img:"images/yilan.jpg" },
+      { id:"p3", cat:"ev",   name:"Mamut Hafıza Kupası", price: 890, desc:"Kökler, dayanıklılık ve kadim hafıza teması.", size:"200 ml • 8 × 7.5 cm", img:"images/mamut.jpg" },
+      { id:"p4", cat:"ofis", name:"Boğa Güç Kupası", price: 890, desc:"Güç, köklenme ve kararlılık teması.", size:"200 ml • 8 × 7.5 cm", img:"images/boga.jpg" },
+      { id:"p5", cat:"taki", name:"El İzi Ritüel Parça", price: 690, desc:"İz, bağlantı ve sembolik korunma teması.", size:"Mini • el yapımı", img:"images/elizi.jpg" },
+      { id:"p6", cat:"ev",   name:"Tütsülük (Minimal)", price: 520, desc:"Duman akışı için dengeli form.", size:"Seramik", img:"images/tutsuluk.jpg" },
+    ];
+
+    // ---- Helpers
     function waLink(text) {
       const msg = encodeURIComponent(text);
       return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
     }
-
-    const products = [
-      {
-        id: "kartal",
-        name: "Kartal Arketipi Kupa",
-        desc: "Yüksek görüş, özgürlük ve farkındalık teması.",
-        size: "200 ml • 8 × 7.5 cm",
-        img: "images/kartal.jpg.jpeg",
-      },
-      {
-        id: "yilan",
-        name: "Yılan Dönüşüm Kupası",
-        desc: "Dönüşüm, yeniden doğuş ve şifa teması.",
-        size: "200 ml • 8 × 7.5 cm",
-        img: "images/yilan.jpg.jpeg",
-      },
-      {
-        id: "mamut",
-        name: "Mamut Hafıza Kupası",
-        desc: "Kökler, dayanıklılık ve kadim hafıza teması.",
-        size: "200 ml • 8 × 7.5 cm",
-        img: "images/mamut.jpg.jpeg",
-      },
-      {
-        id: "boga",
-        name: "Boğa Güç Kupası",
-        desc: "Güç, köklenme ve kararlılık teması.",
-        size: "200 ml • 8 × 7.5 cm",
-        img: "images/boga.jpg.jpeg",
-      },
-      {
-        id: "elizi",
-        name: "El İzi Ritüel Kupası",
-        desc: "İz, bağlantı ve sembolik korunma teması.",
-        size: "200 ml • 8 × 7.5 cm",
-        img: "images/elizi.jpg.jpeg",
-      },
-    ];
-
-    const waTopEl = document.getElementById("waTop");
-    waTopEl.href = waLink("Merhaba COGO Seramik, ürünlerle ilgili bilgi almak istiyorum.");
-
-    const grid = document.getElementById("product-grid");
-
-    function render(list) {
-      grid.innerHTML = list.map(p => `
-        <article class="product-card" data-name="${(p.name + ' ' + p.desc).toLowerCase()}">
-          <img class="product-card__img" src="${p.img}" alt="${p.name}" loading="lazy" />
-          <h3>${p.name}</h3>
-          <p class="muted">${p.desc}</p>
-          <p>${p.size}</p>
-          <a class="btn" href="${waLink('Merhaba COGO Seramik, ' + p.name + ' için sipariş vermek istiyorum.')}" target="_blank" rel="noopener">
-            Sipariş Ver
-          </a>
-        </article>
-      `).join("");
+    function formatTL(n){
+      return "₺" + (Number(n)||0).toLocaleString("tr-TR");
     }
 
-    render(products);
+    // ---- Drawer (Menü)
+    const drawer = document.getElementById("drawer");
+    const overlay = document.getElementById("overlay");
+    const menuBtn = document.getElementById("menuBtn");
+    const drawerClose = document.getElementById("drawerClose");
 
-    const input = document.getElementById("searchInput");
-    input.addEventListener("input", () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) return render(products);
-      render(products.filter(p => (p.name + " " + p.desc).toLowerCase().includes(q)));
+    function openDrawer(){
+      drawer.classList.add("isOpen");
+      drawer.setAttribute("aria-hidden","false");
+      overlay.hidden = false;
+      document.body.classList.add("noScroll");
+    }
+    function closeDrawer(){
+      drawer.classList.remove("isOpen");
+      drawer.setAttribute("aria-hidden","true");
+      overlay.hidden = true;
+      document.body.classList.remove("noScroll");
+    }
+    menuBtn.addEventListener("click", openDrawer);
+    drawerClose.addEventListener("click", closeDrawer);
+    overlay.addEventListener("click", () => { closeDrawer(); closeCart(); });
+
+    // Drawer nav kategori tıklayınca filtre uygula
+    drawer.querySelectorAll("[data-cat]").forEach(a=>{
+      a.addEventListener("click",(e)=>{
+        e.preventDefault();
+        setActivePill(a.dataset.cat);
+        filterCat = a.dataset.cat;
+        render();
+        closeDrawer();
+        document.getElementById("urunler").scrollIntoView({behavior:"smooth"});
+      });
+    });
+
+    // ---- Sepet
+    const cart = document.getElementById("cart");
+    const cartBtn = document.getElementById("cartBtn");
+    const cartClose = document.getElementById("cartClose");
+    const cartItemsEl = document.getElementById("cartItems");
+    const cartCountEl = document.getElementById("cartCount");
+    const cartTotalEl = document.getElementById("cartTotal");
+    const checkoutWA = document.getElementById("checkoutWA");
+    const clearCartBtn = document.getElementById("clearCart");
+
+    let cartState = JSON.parse(localStorage.getItem("cogo_cart") || "[]");
+
+    function saveCart(){
+      localStorage.setItem("cogo_cart", JSON.stringify(cartState));
+      updateCartUI();
+    }
+
+    function openCart(){
+      cart.classList.add("isOpen");
+      cart.setAttribute("aria-hidden","false");
+      overlay.hidden = false;
+      document.body.classList.add("noScroll");
+    }
+    function closeCart(){
+      cart.classList.remove("isOpen");
+      cart.setAttribute("aria-hidden","true");
+      if(!drawer.classList.contains("isOpen")){
+        overlay.hidden = true;
+        document.body.classList.remove("noScroll");
+      }
+    }
+    cartBtn.addEventListener("click", openCart);
+    cartClose.addEventListener("click", closeCart);
+
+    function addToCart(pid){
+      const p = products.find(x=>x.id===pid);
+      if(!p) return;
+      const found = cartState.find(x=>x.id===pid);
+      if(found) found.qty += 1;
+      else cartState.push({id: pid, qty: 1});
+      saveCart();
+      openCart();
+    }
+
+    function changeQty(pid, delta){
+      const found = cartState.find(x=>x.id===pid);
+      if(!found) return;
+      found.qty += delta;
+      if(found.qty <= 0) cartState = cartState.filter(x=>x.id!==pid);
+      saveCart();
+    }
+
+    function updateCartUI(){
+      const count = cartState.reduce((s,x)=>s+x.qty,0);
+      cartCountEl.textContent = count;
+
+      const rows = cartState.map(item=>{
+        const p = products.find(x=>x.id===item.id);
+        if(!p) return "";
+        return `
+          <div class="cartRow">
+            <div class="cartRow__img">
+              <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'" />
+            </div>
+            <div class="cartRow__info">
+              <div class="cartRow__name">${p.name}</div>
+              <div class="cartRow__muted">${formatTL(p.price)} • ${p.cat.toUpperCase()}</div>
+              <div class="qty">
+                <button class="qtyBtn" data-dec="${p.id}">−</button>
+                <span class="qtyNum">${item.qty}</span>
+                <button class="qtyBtn" data-inc="${p.id}">+</button>
+              </div>
+            </div>
+            <div class="cartRow__sum">${formatTL(p.price * item.qty)}</div>
+          </div>
+        `;
+      }).join("");
+
+      cartItemsEl.innerHTML = rows || `<div class="empty">Sepetin boş. Ürün ekleyelim 🙂</div>`;
+
+      // Qty butonları
+      cartItemsEl.querySelectorAll("[data-inc]").forEach(btn=>{
+        btn.addEventListener("click",()=>changeQty(btn.dataset.inc, +1));
+      });
+      cartItemsEl.querySelectorAll("[data-dec]").forEach(btn=>{
+        btn.addEventListener("click",()=>changeQty(btn.dataset.dec, -1));
+      });
+
+      const total = cartState.reduce((s,item)=>{
+        const p = products.find(x=>x.id===item.id);
+        return s + (p ? p.price * item.qty : 0);
+      },0);
+      cartTotalEl.textContent = formatTL(total);
+
+      // WhatsApp checkout mesajı
+      const lines = cartState.map(item=>{
+        const p = products.find(x=>x.id===item.id);
+        return p ? `• ${p.name} x${item.qty} — ${formatTL(p.price * item.qty)}` : "";
+      }).filter(Boolean);
+
+      const msg =
+`Merhaba COGO Ceramic,
+Sipariş vermek istiyorum:
+
+${lines.join("\n")}
+
+Toplam: ${formatTL(total)}
+Ad Soyad:
+Adres:
+Not:`;
+
+      checkoutWA.href = waLink(msg);
+    }
+
+    clearCartBtn.addEventListener("click",()=>{
+      cartState = [];
+      saveCart();
+    });
+
+    // ---- Ürünler render + filtre
+    const grid = document.getElementById("productGrid");
+    const searchInput = document.getElementById("searchInput");
+    let filterCat = "all";
+    let searchQ = "";
+
+    function render(){
+      const list = products
+        .filter(p => filterCat === "all" ? true : p.cat === filterCat)
+        .filter(p => {
+          if(!searchQ) return true;
+          const blob = (p.name + " " + p.desc + " " + p.cat).toLowerCase();
+          return blob.includes(searchQ);
+        });
+
+      grid.innerHTML = list.map(p => `
+        <article class="pCard" data-cat="${p.cat}">
+          <div class="pImg">
+            <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'" />
+            <div class="pTag">${p.cat.toUpperCase()}</div>
+          </div>
+          <div class="pBody">
+            <h3>${p.name}</h3>
+            <p class="muted">${p.desc}</p>
+            <div class="pMeta">
+              <span class="meta">${p.size}</span>
+              <strong class="price">${formatTL(p.price)}</strong>
+            </div>
+            <div class="pActions">
+              <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
+              <a class="btn" href="${waLink("Merhaba COGO Ceramic, " + p.name + " için bilgi almak istiyorum.")}" target="_blank" rel="noopener">Sor</a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      grid.querySelectorAll("[data-add]").forEach(btn=>{
+        btn.addEventListener("click", ()=> addToCart(btn.dataset.add));
+      });
+    }
+
+    // Kategori pills
+    function setActivePill(cat){
+      document.querySelectorAll(".catPill").forEach(b=>{
+        b.classList.toggle("isActive", b.dataset.filter === cat);
+      });
+    }
+    document.querySelectorAll(".catPill").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        filterCat = btn.dataset.filter;
+        setActivePill(filterCat);
+        render();
+      });
+    });
+
+    searchInput.addEventListener("input", ()=>{
+      searchQ = searchInput.value.trim().toLowerCase();
+      render();
+    });
+
+    // ---- Üyelik form (şimdilik local mesaj)
+    const signupForm = document.getElementById("signupForm");
+    const signupMsg = document.getElementById("signupMsg");
+    signupForm.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      signupMsg.textContent = `Teşekkürler ${name}! (${email}) — Kampanyaları artık kaçırmazsın ✨`;
+      signupForm.reset();
+      signupMsg.classList.add("ok");
+    });
+
+    // ---- WhatsApp linkleri
+    document.getElementById("waDrawer").href = waLink("Merhaba COGO Ceramic, ürünler hakkında bilgi almak istiyorum.");
+    document.getElementById("waBottom").href = waLink("Merhaba COGO Ceramic, sipariş vermek istiyorum.");
+
+    // İlk render
+    render();
+    updateCartUI();
+
+    // ESC ile kapat
+    window.addEventListener("keydown",(e)=>{
+      if(e.key === "Escape"){ closeDrawer(); closeCart(); }
     });
   </script>
 </body>
-<section class="hero">
-  <div class="hero-inner">
-    <h1>CoGo Ceramic</h1>
-    <p>El yapımı, ruhu olan seramikler</p>
-  </div>
-</section>
 </html>
-<section class="hero">
-  <div class="hero__inner">
-    <p class="hero__kicker">CoGo Seramik</p>
-    <h1 class="hero__title">Ruh taşıyan el yapımı seramikler</h1>
-    <p class="hero__sub">Mit, sembol ve dokunun birleştiği küçük seri üretim.</p>
+  </script>
+</body>
+</html>
+<button class="catPill isActive" data-filter="all">Tümü</button>
+<button class="catPill" data-filter="kupalar">Kupalar</button>
+<button class="catPill" data-filter="duvar">Duvar Süsleri</button>
+<button class="catPill" data-filter="buhurdan">Buhurdan & Tütsülük</button>
+<button class="catPill" data-filter="mumluk">Mumluk</button>
+<button class="catPill" data-filter="dekor">Dekoratif Aksesuar</button>
+<button class="catPill" data-filter="askilik">Askılık</button>
+<button class="catPill" data-filter="palet">Boya Paleti</button>
+<button class="catPill" data-filter="taki">Takı</button>
+<button class="catPill" data-filter="koku">Oda Kokusu</button>
+<a href="#urunler" data-cat="kupalar">Kupalar</a>
+<a href="#urunler" data-cat="duvar">Duvar Süsleri</a>
+<a href="#urunler" data-cat="buhurdan">Buhurdan & Tütsülük</a>
+<a href="#urunler" data-cat="mumluk">Mumluk</a>
+<a href="#urunler" data-cat="dekor">Dekoratif Aksesuar</a>
+<a href="#urunler" data-cat="askilik">Askılık</a>
+<a href="#urunler" data-cat="palet">Boya Paleti</a>
+<a href="#urunler" data-cat="taki">Takı</a>
+<a href="#urunler" data-cat="koku">Oda Kokusu</a>
 
-    <div class="hero__cta">
-      <a class="btn btn--primary" href="#urunler">Ürünlere Git</a>
-      <a class="btn btn--ghost" href="/#iletisim">İletişim</a>
-    </div>
-  </div>
-</section>
-<footer style="background:#111; color:#fff; padding:30px; text-align:center; margin-top:50px;">
-  <p>© 2026 CoGo Ceramic</p>
-  
-  <div style="margin-top:10px;">
-    <a href="gizlilik.html" style="color:#fff; margin:0 10px;">Gizlilik Politikası</a> |
-    <a href="kvkk.html" style="color:#fff; margin:0 10px;">KVKK</a> |
-    <a href="iade.html" style="color:#fff; margin:0 10px;">İade & Değişim</a> |
-    <a href="mesafeli-satis.html" style="color:#fff; margin:0 10px;">Mesafeli Satış</a>
-  </div>
-</footer>
-<div class="banner">
-    <img src="images/banner.jpg.jpeg" alt="CoGo Seramik Banner">
-</div>
+<span class="pill">Sınırlı stok</span>
+<span class="pill">Siparişe özel üretim</span>
 
 
-
+<p class="size">200 ml • 8 × 7.5 cm</p>
+<p class="muted">Sınırlı üretim</p>

@@ -417,6 +417,8 @@ function productCard(p) {
 
         <div class="card__actions">
           <a class="btn primary" href="${escapeHtml(p.trendyolLink)}" target="_blank" rel="noopener">Trendyol’da İncele</a>
+
+
         </div>
       </div>
     </article>
@@ -461,3 +463,20 @@ if (categorySelect) {
 renderCategoryUI();
 render();
 
+{ id:"kupa1", cat:"kupalar", name:"Kartal Arketipi Kupa", price: 890,
+  desc:"Yüksek görüş, özgürlük ve farkındalık teması.",
+  size:"200 ml • 8 × 7.5 cm", img:"images/kartal.jpg" },
+
+{ id:"duvar1", cat:"duvar", name:"Runik Duvar Süsü", price: 750,
+  desc:"Hasır ipli, duvara asılabilir dekor.",
+  size:"12 × 8 cm", img:"images/duvar-runik.jpg" },
+
+{ id:"buh1", cat:"buhurdan", name:"Buhurdan (Minimal)", price: 520,
+  desc:"Tütsü/buhur için dengeli form.",
+  size:"Seramik", img:"images/buhurdan.jpg" },
+
+{ id:"koku1", cat:"koku", name:"Oda Kokusu Şişesi", price: 390,
+  desc:"Dekoratif şişe + koku çubukları.",
+  size:"100 ml", img:"images/oda-kokusu.jpg" },
+
+  

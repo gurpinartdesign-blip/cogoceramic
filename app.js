@@ -9,10 +9,7 @@
   // ---- Ayarlar
   const WHATSAPP_NUMBER = "905529341223";
 
-  // ✅ Ürünler
-  // slug = images klasöründeki dosya adı kökü
-  // Sistem şu uzantıları dener: .jpg.jpeg, .jpg, .jpeg, .png, .webp
-  // Galeri için ayrıca: slug-1, slug-2, slug-3 dosyaları varsa otomatik çeker.
+  // ✅ Ürünler (fiyatlar senin dediğin gibi)
   const products = [
     // KUPALAR
     { id: "kartal", cat: "kupalar", name: "Kartal Arketipi Kupa", price: 890, desc: "Yüksek görüş, özgürlük ve farkındalık teması.", size: "200 ml • 8 × 7.5 cm", slug: "kartal" },
@@ -27,14 +24,14 @@
     // BUHURDAN / TÜTSÜLÜK
     { id: "buhur", cat: "buhurdan", name: "Buhurdanlık", price: 420, desc: "Buhur için tasarlanmış el yapımı form.", size: "Seramik", slug: "buhur" },
 
-    // PAL (palasanto + buhurdan) — Model 1/2
+    // PAL (palasanto + buhurdan)
     { id: "pal1", cat: "buhurdan", name: "Pal (Palasanto + Buhur) — Model 1", price: 820, desc: "Palasanto & buhurdanlık olarak kullanılabilir.", size: "Seramik", slug: "pal1" },
     { id: "pal2", cat: "buhurdan", name: "Pal (Palasanto + Buhur) — Model 2", price: 820, desc: "Palasanto & buhurdanlık olarak kullanılabilir.", size: "Seramik", slug: "pal2" },
 
     // PALO2 (sadece palasanto)
     { id: "palo2", cat: "buhurdan", name: "Palo — Palasanto (Tek Amaç)", price: 780, desc: "Sadece palasanto için tasarlanmıştır.", size: "Seramik", slug: "palo2" },
 
-    // MUM / MUMLUK
+    // MUM / MUMLUK (hepsi 520)
     { id: "jpn",  cat: "mumluk", name: "Mum — JPN",  price: 520, desc: "Mum / mumluk ürün.", size: "Seramik", slug: "jpn" },
     { id: "fin",  cat: "mumluk", name: "Mum — FIN",  price: 520, desc: "Mum / mumluk ürün.", size: "Seramik", slug: "fin" },
     { id: "stm",  cat: "mumluk", name: "Mum — STM",  price: 520, desc: "Mum / mumluk ürün.", size: "Seramik", slug: "stm" },
@@ -43,7 +40,7 @@
     // ASKILIK
     { id: "aski", cat: "askilik", name: "Askılık", price: 480, desc: "Duvar askılığı — el yapımı.", size: "Seramik", slug: "aski" },
 
-    // ODA KOKUSU (fiyat söylemedin; şimdilik 520)
+    // ODA KOKUSU (şimdilik 520)
     { id: "koku", cat: "koku", name: "Oda Kokusu", price: 520, desc: "Koku ürün — detay için WhatsApp’tan yaz.", size: "Ürün", slug: "koku" },
   ];
 
@@ -95,7 +92,7 @@ Teslim/şehir:`;
   }
 
   // -------------------------
-  // DOM refs (varsa bağlan)
+  // DOM refs
   // -------------------------
   const overlay     = $("#overlay");
   const drawer      = $("#drawer");
@@ -115,12 +112,17 @@ Teslim/şehir:`;
   const grid        = $("#productGrid");
   const searchInput = $("#searchInput");
 
-  // WhatsApp butonları (varsa)
   const waDrawer = $("#waDrawer");
   const waBottom = $("#waBottom");
 
-  // Eğer sayfada gerekli elementler yoksa sessiz çık
-  if (!grid) return;
+  // Lightbox DOM (index.html’de lightbox ekli olmalı)
+  const lb      = $("#lightbox");
+  const lbImg   = $("#lbImg");
+  const lbClose = $("#lbClose");
+  const lbPrev  = $("#lbPrev");
+  const lbNext  = $("#lbNext");
+
+  if (!grid) return; // Ürün grid yoksa çık
 
   // -------------------------
   // Drawer
@@ -139,11 +141,9 @@ Teslim/şehir:`;
     overlay.hidden = true;
     document.body.classList.remove("noScroll");
   }
-
   if (menuBtn) menuBtn.addEventListener("click", openDrawer);
   if (drawerClose) drawerClose.addEventListener("click", closeDrawer);
 
-  // Drawer menü linkleri kategori filtrelesin
   if (drawer) {
     $$("[data-cat]", drawer).forEach((a) => {
       a.addEventListener("click", (e) => {
@@ -152,17 +152,16 @@ Teslim/şehir:`;
         setActivePill(filterCat);
         render();
         closeDrawer();
-        const section = $("#urunler");
-        if (section) section.scrollIntoView({ behavior: "smooth" });
+        $("#urunler")?.scrollIntoView({ behavior: "smooth" });
       });
     });
   }
 
-  // Overlay tıklayınca kapat
   if (overlay) {
     overlay.addEventListener("click", () => {
       closeDrawer();
       closeCart();
+      closeLightbox();
     });
   }
 
@@ -187,7 +186,6 @@ Teslim/şehir:`;
     if (!cart || !overlay) return;
     cart.classList.remove("isOpen");
     cart.setAttribute("aria-hidden", "true");
-    // Drawer kapalıysa overlay’i kapat
     if (!drawer || !drawer.classList.contains("isOpen")) {
       overlay.hidden = true;
       document.body.classList.remove("noScroll");
@@ -221,38 +219,31 @@ Teslim/şehir:`;
     const count = cartState.reduce((s, x) => s + x.qty, 0);
     cartCountEl.textContent = String(count);
 
-    const rows = cartState
-      .map((item) => {
-        const p = products.find((x) => x.id === item.id);
-        if (!p) return "";
-        return `
-          <div class="cartRow">
-            <div class="cartRow__img">
-              <img data-base="${p.slug}" alt="${p.name}">
-            </div>
-            <div class="cartRow__info">
-              <div class="cartRow__name">${p.name}</div>
-              <div class="cartRow__muted">${formatTL(p.price)} • ${String(p.cat).toUpperCase()}</div>
-              <div class="qty">
-                <button class="qtyBtn" data-dec="${p.id}">−</button>
-                <span class="qtyNum">${item.qty}</span>
-                <button class="qtyBtn" data-inc="${p.id}">+</button>
-              </div>
-            </div>
-            <div class="cartRow__sum">${formatTL(p.price * item.qty)}</div>
+    const rows = cartState.map((item) => {
+      const p = products.find((x) => x.id === item.id);
+      if (!p) return "";
+      return `
+        <div class="cartRow">
+          <div class="cartRow__img">
+            <img data-base="${p.slug}" alt="${p.name}">
           </div>
-        `;
-      })
-      .join("");
+          <div class="cartRow__info">
+            <div class="cartRow__name">${p.name}</div>
+            <div class="cartRow__muted">${formatTL(p.price)} • ${String(p.cat).toUpperCase()}</div>
+            <div class="qty">
+              <button class="qtyBtn" data-dec="${p.id}">−</button>
+              <span class="qtyNum">${item.qty}</span>
+              <button class="qtyBtn" data-inc="${p.id}">+</button>
+            </div>
+          </div>
+          <div class="cartRow__sum">${formatTL(p.price * item.qty)}</div>
+        </div>
+      `;
+    }).join("");
 
     cartItemsEl.innerHTML = rows || `<div class="empty">Sepetin boş. Ürün ekleyelim 🙂</div>`;
 
-    // Sepet görselleri fallback
-    $$("img[data-base]", cartItemsEl).forEach((img) => {
-      setImgWithFallback(img, img.dataset.base);
-    });
-
-    // +/- butonları
+    $$("img[data-base]", cartItemsEl).forEach((img) => setImgWithFallback(img, img.dataset.base));
     $$("[data-inc]", cartItemsEl).forEach((btn) => btn.addEventListener("click", () => changeQty(btn.dataset.inc, +1)));
     $$("[data-dec]", cartItemsEl).forEach((btn) => btn.addEventListener("click", () => changeQty(btn.dataset.dec, -1)));
 
@@ -262,12 +253,10 @@ Teslim/şehir:`;
     }, 0);
     cartTotalEl.textContent = formatTL(total);
 
-    const lines = cartState
-      .map((item) => {
-        const p = products.find((x) => x.id === item.id);
-        return p ? `• ${p.name} x${item.qty} — ${formatTL(p.price * item.qty)}` : "";
-      })
-      .filter(Boolean);
+    const lines = cartState.map((item) => {
+      const p = products.find((x) => x.id === item.id);
+      return p ? `• ${p.name} x${item.qty} — ${formatTL(p.price * item.qty)}` : "";
+    }).filter(Boolean);
 
     const msg =
 `Merhaba COGO Ceramic,
@@ -291,6 +280,46 @@ Not:`;
   }
 
   // -------------------------
+  // Lightbox
+  // -------------------------
+  let lbList = [];
+  let lbIndex = 0;
+
+  function openLightbox(list, index) {
+    if (!lb || !lbImg) return;
+    lbList = list;
+    lbIndex = index;
+    lbImg.src = lbList[lbIndex];
+    lb.classList.add("open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.classList.add("noScroll");
+  }
+
+  function closeLightbox() {
+    if (!lb) return;
+    lb.classList.remove("open");
+    lb.setAttribute("aria-hidden", "true");
+    // Drawer/Cart açıkken scroll’u bozma:
+    if (!drawer?.classList.contains("isOpen") && !cart?.classList.contains("isOpen")) {
+      document.body.classList.remove("noScroll");
+    }
+  }
+
+  function stepLightbox(dir) {
+    if (!lbList.length || !lbImg) return;
+    lbIndex = (lbIndex + dir + lbList.length) % lbList.length;
+    lbImg.src = lbList[lbIndex];
+  }
+
+  lbClose?.addEventListener("click", closeLightbox);
+  lbPrev?.addEventListener("click", () => stepLightbox(-1));
+  lbNext?.addEventListener("click", () => stepLightbox(+1));
+
+  lb?.addEventListener("click", (e) => {
+    if (e.target === lb) closeLightbox();
+  });
+
+  // -------------------------
   // Filtre / Arama / Render
   // -------------------------
   let filterCat = "all";
@@ -300,7 +329,6 @@ Not:`;
     $$(".catPill").forEach((b) => b.classList.toggle("isActive", b.dataset.filter === cat));
   }
 
-  // Kategori pill’leri
   $$(".catPill").forEach((btn) => {
     btn.addEventListener("click", () => {
       filterCat = btn.dataset.filter || "all";
@@ -309,11 +337,42 @@ Not:`;
     });
   });
 
-  // Arama
   if (searchInput) {
     searchInput.addEventListener("input", () => {
       searchQ = (searchInput.value || "").trim().toLowerCase();
       render();
+    });
+  }
+
+  function wireGalleries() {
+    // Her render sonrası galerilere click bağla + dots (opsiyonel)
+    $$(".galeri").forEach((gal) => {
+      const imgs = Array.from(gal.querySelectorAll("img")).filter((im) => im && im.src);
+
+      imgs.forEach((img, i) => {
+        img.addEventListener("click", () => {
+          const list = imgs.map((x) => x.src);
+          openLightbox(list, i);
+        });
+      });
+
+      const wrap = gal.closest(".pImg");
+      if (wrap && !wrap.querySelector(".galeriDots") && imgs.length > 1) {
+        const dots = document.createElement("div");
+        dots.className = "galeriDots";
+        imgs.forEach((_, i) => {
+          const d = document.createElement("span");
+          if (i === 0) d.classList.add("active");
+          dots.appendChild(d);
+        });
+        wrap.appendChild(dots);
+
+        gal.addEventListener("scroll", () => {
+          const w = gal.clientWidth || 1;
+          const idx = Math.round(gal.scrollLeft / w);
+          Array.from(dots.children).forEach((c, i) => c.classList.toggle("active", i === idx));
+        }, { passive: true });
+      }
     });
   }
 
@@ -326,51 +385,45 @@ Not:`;
         return blob.includes(searchQ);
       });
 
-    grid.innerHTML = list
-      .map((p) => `
-        <article class="pCard" data-cat="${p.cat}">
-          <div class="pImg">
-            <!-- Kaydırmalı galeri -->
-            <div class="galeri" data-gallery="${p.slug}"></div>
-            <div class="pTag">${String(p.cat).toUpperCase()}</div>
+    grid.innerHTML = list.map((p) => `
+      <article class="pCard" data-cat="${p.cat}">
+        <div class="pImg">
+          <div class="galeri" data-gallery="${p.slug}"></div>
+          <div class="pTag">${String(p.cat).toUpperCase()}</div>
+        </div>
+
+        <div class="pBody">
+          <h3>${p.name}</h3>
+          <p class="muted">${p.desc}</p>
+
+          <div class="pMeta">
+            <span class="meta">${p.size}</span>
+            <strong class="price">${formatTL(p.price)}</strong>
           </div>
 
-          <div class="pBody">
-            <h3>${p.name}</h3>
-            <p class="muted">${p.desc}</p>
-
-            <div class="pMeta">
-              <span class="meta">${p.size}</span>
-              <strong class="price">${formatTL(p.price)}</strong>
-            </div>
-
-            <div class="pActions">
-              <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
-              <a class="btn" href="${waLink("Merhaba COGO Ceramic, " + p.name + " için bilgi almak istiyorum.")}" target="_blank" rel="noopener">Sor</a>
-            </div>
-
-            <div class="pActions" style="margin-top:10px;">
-              <a class="btn" href="${waLink(aiMessageFor(p))}" target="_blank" rel="noopener">✨ CoGo AI’a Yaptır</a>
-            </div>
+          <div class="pActions">
+            <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
+            <a class="btn" href="${waLink("Merhaba COGO Ceramic, " + p.name + " için bilgi almak istiyorum.")}" target="_blank" rel="noopener">Sor</a>
           </div>
-        </article>
-      `)
-      .join("");
 
-    // Sepete ekle
-    $$("[data-add]", grid).forEach((btn) => {
-      btn.addEventListener("click", () => addToCart(btn.dataset.add));
-    });
+          <div class="pActions" style="margin-top:10px;">
+            <a class="btn" href="${waLink(aiMessageFor(p))}" target="_blank" rel="noopener">✨ CoGo AI’a Yaptır</a>
+          </div>
+        </div>
+      </article>
+    `).join("");
+
+    $$("[data-add]", grid).forEach((btn) => btn.addEventListener("click", () => addToCart(btn.dataset.add)));
 
     // Galerileri doldur
     $$("[data-gallery]", grid).forEach((gal) => {
       const slug = gal.dataset.gallery;
       const bases = galleryBases(slug);
+
       bases.forEach((base) => {
         const img = document.createElement("img");
         img.alt = slug;
         img.loading = "lazy";
-        // CSS yoksa da düzgün dursun:
         img.style.flex = "0 0 100%";
         img.style.height = "190px";
         img.style.objectFit = "cover";
@@ -380,25 +433,33 @@ Not:`;
         gal.appendChild(img);
       });
     });
+
+    // ✅ en kritik satır: render sonrası tıklama/slider bağla
+    wireGalleries();
   }
 
-  // -------------------------
-  // WhatsApp linkleri (varsa)
-  // -------------------------
+  // WhatsApp linkleri
   if (waDrawer) waDrawer.href = waLink("Merhaba COGO Ceramic, ürünler hakkında bilgi almak istiyorum.");
   if (waBottom) waBottom.href = waLink("Merhaba COGO Ceramic, sipariş vermek istiyorum.");
 
-  // -------------------------
-  // Kısayollar
-  // -------------------------
+  // ESC
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       closeDrawer();
       closeCart();
+      closeLightbox();
+    }
+    if (lb?.classList.contains("open")) {
+      if (e.key === "ArrowLeft") stepLightbox(-1);
+      if (e.key === "ArrowRight") stepLightbox(+1);
     }
   });
 
   // İlk yükleme
   render();
-  updateCartUI();
+  // İlk yükleme
+render();
+updateCartUI();
+wireGalleries();
+
 })();

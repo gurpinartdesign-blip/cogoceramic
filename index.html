@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <!-- Overlay (menü/sepet/ai açıkken arka plan) -->
+  <!-- Overlay (menü/sepet/AI açıkken arka plan) -->
   <div id="overlay" class="overlay" hidden></div>
 
   <!-- Sol Menü (Drawer) -->
@@ -141,7 +141,6 @@
   </section>
 
   <main class="wrap main">
-
     <!-- Kategori Kısayollar -->
     <section class="cats" aria-label="Kategoriler">
       <button class="catPill isActive" data-filter="all">Tümü</button>
@@ -164,7 +163,6 @@
           <p class="muted">Kategori seçebilir ya da arama kutusundan filtreleyebilirsin.</p>
         </div>
       </div>
-
       <div id="productGrid" class="grid"></div>
     </section>
 
@@ -238,7 +236,7 @@
     </footer>
   </main>
 
-  <!-- ✅ Tek Lightbox -->
+  <!-- Lightbox -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
     <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
@@ -246,7 +244,7 @@
     <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
   </div>
 
-  <!-- ✅ CoGo AI Widget -->
+  <!-- CoGo AI Floating Button + Panel -->
   <div class="cogoAI">
     <button id="cogoAiFab" class="cogoAI__fab" aria-label="CoGo AI">✨</button>
 
@@ -278,393 +276,7 @@
     </section>
   </div>
 
-  <!-- ✅ Tek JS Dosyası -->
+  <!-- ✅ TEK JS -->
   <script src="app.js" defer></script>
-  <script>
-  // ---- Ayarlar
-  const WHATSAPP_NUMBER = "905529341223";
-  const COGO_AI_URL = "https://cogo-ai.gurpinartdesign.workers.dev/"; // sondaki / kalsın
-
-  // ✅ Ürünler:
-  const products = [
-    { id:"kartal",   cat:"kupalar",  name:"Kartal Arketipi Kupa",   price: 890, desc:"Yüksek görüş, özgürlük ve farkındalık teması.", size:"200 ml • 8 × 7.5 cm", slug:"kartal" },
-    { id:"yilan",    cat:"kupalar",  name:"Yılan Dönüşüm Kupası",   price: 890, desc:"Dönüşüm, yeniden doğuş ve şifa teması.",       size:"200 ml • 8 × 7.5 cm", slug:"yilan" },
-    { id:"mamut",    cat:"kupalar",  name:"Mamut Hafıza Kupası",    price: 890, desc:"Kökler, dayanıklılık ve kadim hafıza teması.",  size:"200 ml • 8 × 7.5 cm", slug:"mamut" },
-    { id:"boga",     cat:"kupalar",  name:"Boğa Güç Kupası",        price: 890, desc:"Güç, köklenme ve kararlılık teması.",           size:"200 ml • 8 × 7.5 cm", slug:"boga" },
-    { id:"elizi",    cat:"taki",     name:"El İzi Ritüel Parça",    price: 690, desc:"İz, bağlantı ve sembolik korunma teması.",      size:"Mini • el yapımı",    slug:"elizi" },
-    { id:"tutsuluk", cat:"buhurdan", name:"Tütsülük (Minimal)",     price: 520, desc:"Duman akışı için dengeli form.",                size:"Seramik",             slug:"tutsuluk" },
-  ];
-
-  // ---- Helpers
-  function waLink(text) {
-    const msg = encodeURIComponent(text);
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-  }
-  function formatTL(n){
-    return "₺" + (Number(n)||0).toLocaleString("tr-TR");
-  }
-
-  // ✅ Görsel çözümleyici
-  function buildCandidates(base){
-    const exts = [".jpg.jpeg", ".jpg", ".jpeg", ".png", ".webp"];
-    return exts.map(ext => `images/${base}${ext}`);
-  }
-  function setImgWithFallback(imgEl, base){
-    const list = buildCandidates(base);
-    let i = 0;
-    imgEl.src = list[i];
-    imgEl.onerror = () => {
-      i += 1;
-      if(i < list.length){
-        imgEl.src = list[i];
-      }else{
-        imgEl.remove();
-      }
-    };
-  }
-  function galleryBases(slug){
-    return [`${slug}-1`, `${slug}-2`, `${slug}-3`, `${slug}`];
-  }
-
-  // ---- Drawer (Menü)
-  const drawer = document.getElementById("drawer");
-  const overlay = document.getElementById("overlay");
-  const menuBtn = document.getElementById("menuBtn");
-  const drawerClose = document.getElementById("drawerClose");
-
-  function openDrawer(){
-    drawer.classList.add("isOpen");
-    drawer.setAttribute("aria-hidden","false");
-    overlay.hidden = false;
-    document.body.classList.add("noScroll");
-  }
-  function closeDrawer(){
-    drawer.classList.remove("isOpen");
-    drawer.setAttribute("aria-hidden","true");
-    overlay.hidden = true;
-    document.body.classList.remove("noScroll");
-  }
-  menuBtn.addEventListener("click", openDrawer);
-  drawerClose.addEventListener("click", closeDrawer);
-
-  // ---- Sepet
-  const cart = document.getElementById("cart");
-  const cartBtn = document.getElementById("cartBtn");
-  const cartClose = document.getElementById("cartClose");
-  const cartItemsEl = document.getElementById("cartItems");
-  const cartCountEl = document.getElementById("cartCount");
-  const cartTotalEl = document.getElementById("cartTotal");
-  const checkoutWA = document.getElementById("checkoutWA");
-  const clearCartBtn = document.getElementById("clearCart");
-
-  let cartState = JSON.parse(localStorage.getItem("cogo_cart") || "[]");
-
-  function saveCart(){
-    localStorage.setItem("cogo_cart", JSON.stringify(cartState));
-    updateCartUI();
-  }
-
-  function openCart(){
-    cart.classList.add("isOpen");
-    cart.setAttribute("aria-hidden","false");
-    overlay.hidden = false;
-    document.body.classList.add("noScroll");
-  }
-  function closeCart(){
-    cart.classList.remove("isOpen");
-    cart.setAttribute("aria-hidden","true");
-    if(!drawer.classList.contains("isOpen") && !aiPanelOpen()){
-      overlay.hidden = true;
-      document.body.classList.remove("noScroll");
-    }
-  }
-  cartBtn.addEventListener("click", openCart);
-  cartClose.addEventListener("click", closeCart);
-
-  function addToCart(pid){
-    const p = products.find(x=>x.id===pid);
-    if(!p) return;
-    const found = cartState.find(x=>x.id===pid);
-    if(found) found.qty += 1;
-    else cartState.push({id: pid, qty: 1});
-    saveCart();
-    openCart();
-  }
-
-  function changeQty(pid, delta){
-    const found = cartState.find(x=>x.id===pid);
-    if(!found) return;
-    found.qty += delta;
-    if(found.qty <= 0) cartState = cartState.filter(x=>x.id!==pid);
-    saveCart();
-  }
-
-  function updateCartUI(){
-    const count = cartState.reduce((s,x)=>s+x.qty,0);
-    cartCountEl.textContent = count;
-
-    const rows = cartState.map(item=>{
-      const p = products.find(x=>x.id===item.id);
-      if(!p) return "";
-      return `
-        <div class="cartRow">
-          <div class="cartRow__img">
-            <img data-base="${p.slug}" alt="${p.name}">
-          </div>
-          <div class="cartRow__info">
-            <div class="cartRow__name">${p.name}</div>
-            <div class="cartRow__muted">${formatTL(p.price)} • ${p.cat.toUpperCase()}</div>
-            <div class="qty">
-              <button class="qtyBtn" data-dec="${p.id}">−</button>
-              <span class="qtyNum">${item.qty}</span>
-              <button class="qtyBtn" data-inc="${p.id}">+</button>
-            </div>
-          </div>
-          <div class="cartRow__sum">${formatTL(p.price * item.qty)}</div>
-        </div>
-      `;
-    }).join("");
-
-    cartItemsEl.innerHTML = rows || `<div class="empty">Sepetin boş. Ürün ekleyelim 🙂</div>`;
-
-    cartItemsEl.querySelectorAll("img[data-base]").forEach(img=>{
-      setImgWithFallback(img, img.dataset.base);
-    });
-
-    cartItemsEl.querySelectorAll("[data-inc]").forEach(btn=>{
-      btn.addEventListener("click",()=>changeQty(btn.dataset.inc, +1));
-    });
-    cartItemsEl.querySelectorAll("[data-dec]").forEach(btn=>{
-      btn.addEventListener("click",()=>changeQty(btn.dataset.dec, -1));
-    });
-
-    const total = cartState.reduce((s,item)=>{
-      const p = products.find(x=>x.id===item.id);
-      return s + (p ? p.price * item.qty : 0);
-    },0);
-    cartTotalEl.textContent = formatTL(total);
-
-    const lines = cartState.map(item=>{
-      const p = products.find(x=>x.id===item.id);
-      return p ? `• ${p.name} x${item.qty} — ${formatTL(p.price * item.qty)}` : "";
-    }).filter(Boolean);
-
-    const msg =
-`Merhaba COGO Ceramic,
-Sipariş vermek istiyorum:
-
-${lines.join("\n")}
-
-Toplam: ${formatTL(total)}
-Ad Soyad:
-Adres:
-Not:`;
-
-    checkoutWA.href = waLink(msg);
-  }
-
-  clearCartBtn.addEventListener("click",()=>{
-    cartState = [];
-    saveCart();
-  });
-
-  // ---- Ürünler render + filtre
-  const grid = document.getElementById("productGrid");
-  const searchInput = document.getElementById("searchInput");
-  let filterCat = "all";
-  let searchQ = "";
-
-  function render(){
-    const list = products
-      .filter(p => filterCat === "all" ? true : p.cat === filterCat)
-      .filter(p => {
-        if(!searchQ) return true;
-        const blob = (p.name + " " + p.desc + " " + p.cat).toLowerCase();
-        return blob.includes(searchQ);
-      });
-
-    grid.innerHTML = list.map(p => `
-      <article class="pCard" data-cat="${p.cat}">
-        <div class="pImg">
-          <div class="galeri" data-gallery="${p.slug}"></div>
-          <div class="pTag">${p.cat.toUpperCase()}</div>
-        </div>
-
-        <div class="pBody">
-          <h3>${p.name}</h3>
-          <p class="muted">${p.desc}</p>
-
-          <div class="pMeta">
-            <span class="meta">${p.size}</span>
-            <strong class="price">${formatTL(p.price)}</strong>
-          </div>
-
-          <div class="pActions">
-            <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
-            <button
-              class="btn ask-cogo"
-              data-product="${p.name}"
-              data-price="${p.price}"
-              data-cat="${p.cat}">
-              ✨ CoGo AI’a Sor
-            </button>
-          </div>
-        </div>
-      </article>
-    `).join("");
-
-    grid.querySelectorAll("[data-add]").forEach(btn=>{
-      btn.addEventListener("click", ()=> addToCart(btn.dataset.add));
-    });
-
-    grid.querySelectorAll("[data-gallery]").forEach(gal=>{
-      const slug = gal.dataset.gallery;
-      const bases = galleryBases(slug);
-      bases.forEach(base=>{
-        const img = document.createElement("img");
-        img.alt = slug;
-        img.loading = "lazy";
-        img.style.width = "100%";
-        img.style.height = "190px";
-        img.style.objectFit = "cover";
-        img.style.borderRadius = "14px";
-        img.style.scrollSnapAlign = "start";
-        img.style.flex = "0 0 100%";
-        setImgWithFallback(img, base);
-        gal.appendChild(img);
-      });
-    });
-  }
-
-  function setActivePill(cat){
-    document.querySelectorAll(".catPill").forEach(b=>{
-      b.classList.toggle("isActive", b.dataset.filter === cat);
-    });
-  }
-  document.querySelectorAll(".catPill").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      filterCat = btn.dataset.filter;
-      setActivePill(filterCat);
-      render();
-    });
-  });
-
-  searchInput.addEventListener("input", ()=>{
-    searchQ = searchInput.value.trim().toLowerCase();
-    render();
-  });
-
-  // ---- Üyelik form
-  const signupForm = document.getElementById("signupForm");
-  const signupMsg = document.getElementById("signupMsg");
-  signupForm.addEventListener("submit",(e)=>{
-    e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    signupMsg.textContent = `Teşekkürler ${name}! (${email}) — Kampanyaları artık kaçırmazsın ✨`;
-    signupForm.reset();
-    signupMsg.classList.add("ok");
-  });
-
-  // ---- WhatsApp linkleri
-  document.getElementById("waDrawer").href = waLink("Merhaba COGO Ceramic, ürünler hakkında bilgi almak istiyorum.");
-  document.getElementById("waBottom").href = waLink("Merhaba COGO Ceramic, sipariş vermek istiyorum.");
-
-  // ---- CoGo AI Panel (Chat)
-  const aiFab = document.getElementById("cogoAiFab");
-  const aiPanel = document.getElementById("cogoAiPanel");
-  const aiClose = document.getElementById("cogoAiClose");
-  const aiMsgs = document.getElementById("cogoAiMsgs");
-  const aiForm = document.getElementById("cogoAiForm");
-  const aiInput = document.getElementById("cogoAiInput");
-
-  function aiPanelOpen(){
-    return aiPanel && aiPanel.getAttribute("aria-hidden") === "false";
-  }
-
-  function openAiPanel(){
-    aiPanel.setAttribute("aria-hidden","false");
-    aiPanel.classList.add("isOpen");   // ✅ SENİN CSS'İNLE UYUMLU
-    overlay.hidden = false;
-    document.body.classList.add("noScroll");
-  }
-  function closeAiPanel(){
-    aiPanel.setAttribute("aria-hidden","true");
-    aiPanel.classList.remove("isOpen");
-    if(!drawer.classList.contains("isOpen") && !cart.classList.contains("isOpen")){
-      overlay.hidden = true;
-      document.body.classList.remove("noScroll");
-    }
-  }
-  aiFab.addEventListener("click", openAiPanel);
-  aiClose.addEventListener("click", closeAiPanel);
-
-  function addMsg(role, text){
-    const div = document.createElement("div");
-    div.className = "cogoAI__msg " + (role === "user" ? "isUser" : "isBot");
-    div.textContent = text;
-    aiMsgs.appendChild(div);
-    aiMsgs.scrollTop = aiMsgs.scrollHeight;
-  }
-
-  async function askAI(question){
-    addMsg("user", question);
-    addMsg("bot", "Yazıyorum…");
-
-    try {
-      const url = COGO_AI_URL + "?q=" + encodeURIComponent(question);
-      const res = await fetch(url, { method: "GET" });
-      const data = await res.json();
-
-      const last = aiMsgs.querySelector(".cogoAI__msg.isBot:last-child");
-      if(last) last.textContent = data?.text || "Cevap alınamadı.";
-    } catch(e){
-      const last = aiMsgs.querySelector(".cogoAI__msg.isBot:last-child");
-      if(last) last.textContent = "CoGo AI şu an cevap veremedi.";
-    }
-  }
-
-  aiForm.addEventListener("submit", (e)=>{
-    e.preventDefault();
-    const q = aiInput.value.trim();
-    if(!q) return;
-    aiInput.value = "";
-    openAiPanel();
-    askAI(q);
-  });
-
-  document.querySelectorAll("[data-aiquick]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      openAiPanel();
-      askAI(btn.dataset.aiquick);
-    });
-  });
-
-  // Ürün kartı butonu → AI panel
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".ask-cogo");
-    if(!btn) return;
-
-    const product = btn.dataset.product;
-    const price = btn.dataset.price;
-    const cat = btn.dataset.cat;
-
-    const question =
-`Bu ürün hakkında kısa bilgi ver, kime hediye edilir ve 3 farklı öneri sun:
-Ürün: ${product}
-Kategori: ${cat}
-Fiyat: ${price} TL`;
-
-    openAiPanel();
-    askAI(question);
-  });
-
-  // Overlay tıklayınca kapat
-  overlay.addEventListener("click", () => { closeDrawer(); closeCart(); closeAiPanel(); });
-
-  // İlk render
-  render();
-  updateCartUI();
-</script>
 </body>
 </html>

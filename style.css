@@ -347,23 +347,6 @@ a:hover{ color:var(--copper); }
   border-radius:999px;
 }
 
-.galeriDots{
-  position:absolute;
-  left:50%;
-  bottom:12px;
-  transform:translateX(-50%);
-  display:flex;
-  gap:6px;
-  z-index:5;
-}
-.galeriDots span{
-  width:7px; height:7px;
-  border-radius:999px;
-  background: rgba(255,255,255,.65);
-  border:1px solid rgba(0,0,0,.08);
-}
-.galeriDots span.active{ background: rgba(184,115,51,.85); }
-
 .pTag{
   position:absolute; left:10px; top:10px;
   padding:6px 10px;
@@ -534,4 +517,185 @@ input:focus{ border-color: rgba(184,115,51,.55); }
 
 .cart__foot{
   padding:12px;
-  
+  border-top:1px solid var(--line);
+  background: rgba(255,255,255,.86);
+}
+.totalRow{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 4px 12px;
+}
+.cart__actions{
+  display:flex; gap:10px;
+}
+.cart__actions .btn{ flex:1; }
+
+/* LIGHTBOX (eksikti) */
+.lightbox{
+  position:fixed; inset:0;
+  z-index:80;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background: rgba(0,0,0,.70);
+  padding:18px;
+}
+.lightbox.open{ display:flex; }
+.lightbox__img{
+  width:min(980px, 92vw);
+  height:auto;
+  max-height: 80vh;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow: 0 18px 60px rgba(0,0,0,.35);
+  object-fit:contain;
+  background: rgba(255,255,255,.05);
+}
+.lightbox__close{
+  position:absolute;
+  top:18px; right:18px;
+  height:44px; width:44px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.12);
+  color:#fff;
+  cursor:pointer;
+}
+.lightbox__nav{
+  position:absolute;
+  top:50%;
+  transform: translateY(-50%);
+  height:54px; width:54px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.12);
+  color:#fff;
+  font-size:28px;
+  cursor:pointer;
+}
+.lightbox__prev{ left:18px; }
+.lightbox__next{ right:18px; }
+
+/* COGO AI (eksikti) */
+.cogoAI{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:70;
+}
+.cogoAI__fab{
+  height:54px;
+  width:54px;
+  border-radius:18px;
+  border:1px solid rgba(184,115,51,.35);
+  background: rgba(184,115,51,.12);
+  box-shadow: 0 16px 40px rgba(0,0,0,.12);
+  cursor:pointer;
+  font-size:18px;
+}
+.cogoAI__fab:hover{
+  background: rgba(184,115,51,.18);
+  border-color: rgba(184,115,51,.55);
+}
+
+.cogoAI__panel{
+  position:absolute;
+  right:0;
+  bottom:68px;
+  width:min(380px, 92vw);
+  max-height: min(560px, 72vh);
+  background: rgba(255,255,255,.92);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow: var(--shadow);
+  overflow:hidden;
+  display:none;
+  backdrop-filter: blur(10px);
+}
+.cogoAI__panel.isOpen{
+  display:flex;
+  flex-direction:column;
+}
+
+.cogoAI__head{
+  padding:12px 12px;
+  display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+  border-bottom:1px solid var(--line);
+  background: rgba(255,255,255,.92);
+}
+.cogoAI__title{ font-weight:1000; }
+.cogoAI__sub{ color:var(--muted); font-size:12px; margin-top:2px; }
+
+.cogoAI__msgs{
+  padding:12px;
+  overflow:auto;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+/* app.js mesaj sınıfları */
+.aiMsg{
+  max-width: 88%;
+  padding:10px 12px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background: rgba(31,26,23,.03);
+  color: var(--text);
+  line-height:1.45;
+  font-size:13px;
+}
+.aiMsg.me{
+  margin-left:auto;
+  border-color: rgba(184,115,51,.35);
+  background: rgba(184,115,51,.10);
+}
+
+.cogoAI__quick{
+  padding:10px 12px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  border-top:1px solid var(--line);
+  background: rgba(255,255,255,.90);
+}
+.cogoAI__chip{
+  height:34px;
+  padding:0 10px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background: rgba(31,26,23,.03);
+  cursor:pointer;
+  font-weight:900;
+  font-size:12px;
+}
+.cogoAI__chip:hover{
+  border-color: rgba(184,115,51,.35);
+  background: rgba(184,115,51,.08);
+}
+
+.cogoAI__form{
+  padding:10px 12px 12px;
+  display:flex;
+  gap:8px;
+  border-top:1px solid var(--line);
+  background: rgba(255,255,255,.92);
+}
+.cogoAI__form input{
+  flex:1;
+  height:42px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,.92);
+  padding:0 12px;
+  outline:none;
+}
+.cogoAI__form input:focus{ border-color: rgba(184,115,51,.55); }
+
+.cogoAI__note{
+  padding:10px 12px 12px;
+  font-size:12px;
+  color: rgba(31,26,23,.70);
+  background: rgba(255,255,255,.92);
+  border-top:1px solid var(--line);
+}

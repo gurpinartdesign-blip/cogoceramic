@@ -278,6 +278,37 @@
   </div>
 
   <!-- ✅ TEK JS -->
+   <!-- ✅ CoGo AI Floating Button + Panel (widget) -->
+  <div class="cogoAI">
+    <button id="cogoAiFab" class="cogoAI__fab" aria-label="CoGo AI">✨</button>
+
+    <section id="cogoAiPanel" class="cogoAI__panel" aria-hidden="true">
+      <header class="cogoAI__head">
+        <div>
+          <div class="cogoAI__title">CoGo AI</div>
+          <div class="cogoAI__sub">Ürün sor • Anlam • Kişiselleştir</div>
+        </div>
+        <button id="cogoAiClose" class="iconBtn" aria-label="Kapat">✕</button>
+      </header>
+
+      <div id="cogoAiMsgs" class="cogoAI__msgs"></div>
+
+      <div class="cogoAI__quick">
+        <button class="cogoAI__chip" data-aiquick="Hediye öner">🎁 Hediye öner</button>
+        <button class="cogoAI__chip" data-aiquick="Bu ürünün anlamı">🜃 Anlamı</button>
+        <button class="cogoAI__chip" data-aiquick="Kişiselleştirme briefi al">✨ Kişiselleştir</button>
+      </div>
+
+      <form id="cogoAiForm" class="cogoAI__form">
+        <input id="cogoAiInput" type="text" placeholder="Bir şey sor..." autocomplete="off" />
+        <button class="btn" type="submit">Gönder</button>
+      </form>
+
+      <div class="cogoAI__note">
+        Not: AI öneridir. Sipariş onayı için “Sepet/İletişim” ile devam edersin.
+      </div>
+    </section>
+  </div>
   <script src="app.js" defer></script>
 </body>
 </html>

@@ -20,7 +20,7 @@
     { id:"mamut",    cat:"kupalar",  name:"Mamut Hafıza Kupası",    price: 890, desc:"Kökler, dayanıklılık ve kadim hafıza teması.",  size:"200 ml • 8 × 7.5 cm", slug:"mamut" },
     { id:"boga",     cat:"kupalar",  name:"Boğa Güç Kupası",        price: 890, desc:"Güç, köklenme ve kararlılık teması.",           size:"200 ml • 8 × 7.5 cm", slug:"boga" },
     { id:"elizi",    cat:"kupalar",     name:"El İzi Ritüel Parça",    price: 690, desc:"İz, bağlantı ve sembolik korunma teması.",      size:"Mini • el yapımı",    slug:"elizi" },
-    { id:"buhurdan", cat:"buhurdan", name:"Bohem Buhurdan",     price: 520, desc:"Duman akışı için dengeli form.",                size:"Seramik",             slug:"tutsuluk" },
+    { id:"buhurdan", cat:"buhurdan", name:"Bohem Buhurdan",     price: 520, desc:"Duman akışı için dengeli form.",                size:"Seramik",             slug:"buhurdan" },
   ];
 
   // =========================

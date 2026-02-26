@@ -1,3 +1,4 @@
+<head></head>
 <!doctype html>
 <html lang="tr">
 <head>
@@ -276,3 +277,283 @@
   <script src="app.js" defer></script>
 </body>
 </html>
+=======
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>COGO Ceramic</title>
+  <meta name="description" content="COGO Ceramic — el yapımı seramik, ev, sanat, takı, yaşam ve ofis ürünleri. Kampanyalardan ilk sen haberdar ol." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Overlay (menü/sepet/AI açıkken arka plan) -->
+  <div id="overlay" class="overlay" hidden></div>
+
+  <!-- Sol Menü (Drawer) -->
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer__head">
+      <div class="drawer__brand">
+        <div class="logo">COGO</div>
+        <div>
+          <div class="brandName">COGO Ceramic</div>
+          <div class="brandTag">El emeği • Küçük seri • Tekil</div>
+        </div>
+      </div>
+      <button class="iconBtn" id="drawerClose" aria-label="Menüyü kapat">✕</button>
+    </div>
+
+    <nav class="drawer__nav">
+      <a href="#urunler" data-cat="kupalar">Kupalar</a>
+      <a href="#urunler" data-cat="duvar">Duvar Süsleri</a>
+      <a href="#urunler" data-cat="buhurdan">Buhurdan & Tütsülük</a>
+      <a href="#urunler" data-cat="mumluk">Mumluk</a>
+      <a href="#urunler" data-cat="dekor">Dekoratif Aksesuar</a>
+      <a href="#urunler" data-cat="askilik">Askılık</a>
+      <a href="#urunler" data-cat="palet">Boya Paleti</a>
+      <a href="#urunler" data-cat="taki">Takı</a>
+      <a href="#urunler" data-cat="koku">Oda Kokusu</a>
+
+      <div class="drawer__line"></div>
+      <a href="#kampanyalar">Kampanyalar</a>
+      <a href="#uyelik">Üyelik</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+
+    <div class="drawer__foot">
+      <div class="miniCard">
+        <div class="miniTitle">Hızlı Sipariş</div>
+        <div class="miniText">WhatsApp’tan yaz, stok & fiyat anında.</div>
+        <a class="btn btn--soft" id="waDrawer" href="#" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Üst Bar -->
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <div class="left">
+        <button class="iconBtn" id="menuBtn" aria-label="Menüyü aç">☰</button>
+
+        <a class="brand" href="#top">
+          <div class="logo">COGO</div>
+          <div class="brandText">
+            <div class="brandName">COGO Ceramic</div>
+            <div class="brandTag">El emeği • Küçük seri • Tekil</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="right">
+        <div class="search">
+          <input id="searchInput" type="search" placeholder="Ürün ara (kupa, kartal, tütsülük...)" />
+        </div>
+
+        <button class="cartBtn" id="cartBtn" aria-label="Sepeti aç">
+          <span class="cartIcon">🛒</span>
+          <span>Sepet</span>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sepet Paneli -->
+  <aside id="cart" class="cart" aria-hidden="true">
+    <div class="cart__head">
+      <div>
+        <div class="cart__title">Sepet</div>
+        <div class="cart__sub">Seçtiğin ürünler burada.</div>
+      </div>
+      <button class="iconBtn" id="cartClose" aria-label="Sepeti kapat">✕</button>
+    </div>
+
+    <div id="cartItems" class="cart__items"></div>
+
+    <div class="cart__foot">
+      <div class="totalRow">
+        <span>Toplam</span>
+        <strong id="cartTotal">₺0</strong>
+      </div>
+
+      <div class="cart__actions">
+        <button class="btn btn--soft" id="clearCart">Sepeti Temizle</button>
+        <a class="btn" id="checkoutWA" href="#" target="_blank" rel="noopener">WhatsApp ile Sipariş</a>
+      </div>
+
+      <div class="hint"></div>
+    </div>
+  </aside>
+
+  <!-- Hero / Banner -->
+  <section class="hero" id="top">
+    <div class="wrap hero__inner">
+      <div class="hero__copy">
+        <div class="kicker">COGO Ceramic</div>
+        <h1>Ruh taşıyan eşsiz parçalar.</h1>
+        <p>
+          Jung arketipleri, runik semboller ve kadim hikâyelerden ilham alan koleksiyonlar.
+          Küçük seri üretim — her parça kendine özgü.
+        </p>
+
+        <div class="hero__cta">
+          <a class="btn" href="#urunler">Ürünleri Gör</a>
+          <a class="btn btn--soft" href="#uyelik">Üye Ol</a>
+        </div>
+
+        <div class="hero__chips">
+          <span class="chip">Sınırlı stok</span>
+          <span class="chip">Siparişe özel üretim</span>
+          <span class="chip">Yeni koleksiyonlar</span>
+        </div>
+      </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap main">
+    <!-- Kategori Kısayollar -->
+    <section class="cats" aria-label="Kategoriler">
+      <button class="catPill isActive" data-filter="all">Tümü</button>
+      <button class="catPill" data-filter="kupalar">Kupalar</button>
+      <button class="catPill" data-filter="duvar">Duvar Süsleri</button>
+      <button class="catPill" data-filter="buhurdan">Buhurdan & Tütsülük</button>
+      <button class="catPill" data-filter="mumluk">Mumluk</button>
+      <button class="catPill" data-filter="dekor">Dekoratif Aksesuar</button>
+      <button class="catPill" data-filter="askilik">Askılık</button>
+      <button class="catPill" data-filter="palet">Boya Paleti</button>
+      <button class="catPill" data-filter="taki">Takı</button>
+      <button class="catPill" data-filter="koku">Oda Kokusu</button>
+    </section>
+
+    <!-- Ürünler -->
+    <section id="urunler" class="section">
+      <div class="sectionHead">
+        <div>
+          <h2>Ürünler</h2>
+          <p class="muted">Kategori seçebilir ya da arama kutusundan filtreleyebilirsin.</p>
+        </div>
+      </div>
+      <div id="productGrid" class="grid"></div>
+    </section>
+
+    <!-- Kampanya -->
+    <section id="kampanyalar" class="section promo">
+      <div class="promo__inner">
+        <div>
+          <h3>Bugüne özel</h3>
+          <p class="muted">Yeni koleksiyon yüklenince ilk sen gör. Üyelere erken erişim & sürpriz indirimler.</p>
+        </div>
+        <a class="btn" href="#uyelik">Üye Ol</a>
+      </div>
+    </section>
+
+    <!-- Üyelik -->
+    <section id="uyelik" class="section">
+      <div class="card">
+        <div class="cardHead">
+          <h2>COGO Ceramic’e Üye Ol</h2>
+          <p class="muted">Kampanyalardan ilk sen haberdar ol. Spam yok, sadece güzel şeyler.</p>
+        </div>
+
+        <form id="signupForm" class="formRow">
+          <div class="field">
+            <label for="name">Ad Soyad</label>
+            <input id="name" type="text" placeholder="Gizem Gürpınar" required />
+          </div>
+          <div class="field">
+            <label for="email">E-posta</label>
+            <input id="email" type="email" placeholder="ornek@mail.com" required />
+          </div>
+          <button class="btn" type="submit">Üye Ol</button>
+        </form>
+
+        <div id="signupMsg" class="note" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- İletişim -->
+    <section id="iletisim" class="section">
+      <div class="sectionHead">
+        <div>
+          <h2>İletişim</h2>
+          <p class="muted">Sipariş, stok, kişiselleştirme için yaz.</p>
+        </div>
+      </div>
+
+      <div class="contactGrid">
+        <div class="miniCard">
+          <div class="miniTitle">WhatsApp</div>
+          <div class="miniText">Hızlı sipariş & stok soruları.</div>
+          <a class="btn" id="waBottom" href="#" target="_blank" rel="noopener">WhatsApp’tan yaz</a>
+        </div>
+
+        <div class="miniCard">
+          <div class="miniTitle">E-posta</div>
+          <div class="miniText">Detaylı siparişler & kurumsal talepler.</div>
+          <a class="btn btn--soft" href="mailto:orders@cogoceramic.com">orders@cogoceramic.com</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>© 2026 COGO Ceramic</div>
+      <div class="footerLinks">
+        <a href="gizlilik.html">Gizlilik</a><span>•</span>
+        <a href="kvkk.html">KVKK</a><span>•</span>
+        <a href="iade.html">İade</a><span>•</span>
+        <a href="mesafeli-satis.html">Mesafeli Satış</a>
+      </div>
+    </footer>
+  
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
+    <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
+    <img id="lbImg" class="lightbox__img" alt="Ürün görseli" />
+    <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
+  </div>
+
+  <!-- CoGo AI Floating Button + Panel -->
+  <div class="cogoAI">
+    <button id="cogoAiFab" class="cogoAI__fab" aria-label="CoGo AI">✨</button>
+
+    <section id="cogoAiPanel" class="cogoAI__panel" aria-hidden="true">
+      <header class="cogoAI__head">
+        <div>
+          <div class="cogoAI__title">CoGo AI</div>
+          <div class="cogoAI__sub">Ürün sor • Anlam • Kişiselleştir</div>
+        </div>
+        <button id="cogoAiClose" class="iconBtn" aria-label="Kapat">✕</button>
+      </header>
+
+      <div id="cogoAiMsgs" class="cogoAI__msgs"></div>
+
+      <div class="cogoAI__quick">
+        <button class="cogoAI__chip" data-aiquick="Hediye öner">🎁 Hediye öner</button>
+        <button class="cogoAI__chip" data-aiquick="Bu ürünün anlamı">🜃 Anlamı</button>
+        <button class="cogoAI__chip" data-aiquick="Kişiselleştirme briefi al">✨ Kişiselleştir</button>
+      </div>
+
+      <form id="cogoAiForm" class="cogoAI__form">
+        <input id="cogoAiInput" type="text" placeholder="Bir şey sor..." autocomplete="off" />
+        <button class="btn" type="submit">Gönder</button>
+      </form>
+
+      <div class="cogoAI__note">
+        Not: AI öneridir. Sipariş onayı için “Sepet/İletişim” ile devam edersin.
+      </div>
+    </section>
+  </div>
+
+  <!-- ✅ TEK JS -->
+  <script src="app.js" defer></script>
+</body>
+</html>
+>>>>>>> ded773a (image extension fix)

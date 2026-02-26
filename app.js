@@ -33,6 +33,22 @@ const aiMsgs  = document.getElementById("cogoAiMsgs");
 const aiForm  = document.getElementById("cogoAiForm");
 const aiInput = document.getElementById("cogoAiInput");
 
+// Quick chips (Hediye öner / Anlamı / Kişiselleştir)
+document.addEventListener("click", (e) => {
+  const chip = e.target.closest(".cogoAI__chip");
+  if (!chip) return;
+
+  const preset = chip.getAttribute("data-aiquick") || chip.textContent || "";
+  const text = preset.trim();
+  if (!text) return;
+
+  // input’a yaz
+  aiInput.value = text;
+
+  // otomatik gönder
+  aiForm.requestSubmit();
+});
+
 /* =========================
    PANEL AÇ / KAPA
 ========================= */

@@ -69,7 +69,8 @@
     });
   });
 
-  function render(){
+  function 
+  render(){
     const list = products
       .filter(p => filterCat === "all" ? true : p.cat === filterCat)
       .filter(p => {
@@ -95,13 +96,17 @@
           </div>
 
           <div class="pActions">
-            <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
-            <button class="btn ask-cogo"
-              data-product="${p.name}"
-              data-price="${p.price}"
-              data-cat="${p.cat}">
-              ✨ CoGo AI’a Sor
-            </button>
+  <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
+
+  <a class="btn" target="_blank"
+href="https://wa.me/${WHATSAPP_NUMBER}?text=Merhaba%20${p.name}%20ürününü%20satın%20almak%20istiyorum">
+  Satın Al
+</a>
+
+  <button class="btn ask-cogo" data-product="${p.name}" data-price="${p.price}" data-cat="${p.cat}">
+    ✨ CoGo AI’a Sor
+  </button>
+</div>
           </div>
         </div>
       </article>

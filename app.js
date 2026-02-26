@@ -39,6 +39,108 @@
     return [`${slug}-1`, `${slug}-2`, `${slug}-3`, `${slug}`];
   }
 
+  let cartState = JSON.parse(localStorage.getItem("cogo_cart") || "[]");
+
+  function saveCart(){
+    localStorage.setItem("cogo_cart", JSON.stringify(cartState));
+    updateCartUI();
+  }
+
+  function openCart(){
+    cart?.classList.add("isOpen");
+    cart?.setAttribute("aria-hidden","false");
+  }
+  function closeCart(){
+    cart?.classList.remove("isOpen");
+    cart?.setAttribute("aria-hidden","true");
+  }
+
+  cartBtn?.addEventListener("click", openCart);
+  cartClose?.addEventListener("click", closeCart);
+
+  function addToCart(pid){
+    const p = products.find(x=>x.id===pid);
+    if(!p) return;
+
+    const found = cartState.find(x=>x.id===pid);
+    if(found) found.qty += 1;
+    else cartState.push({id:pid, qty:1});
+
+    saveCart();
+    openCart();
+  }
+
+  function changeQty(pid, delta){
+    const found = cartState.find(x=>x.id===pid);
+    if(!found) return;
+    found.qty += delta;
+    if(found.qty <= 0) cartState = cartState.filter(x=>x.id!==pid);
+    saveCart();
+  }
+
+  function updateCartUI(){
+    if(!cartItemsEl || !cartCountEl || !cartTotalEl || !checkoutWA) return;
+
+    const count = cartState.reduce((s,x)=>s+x.qty,0);
+    cartCountEl.textContent = String(count);
+
+    const rows = cartState.map(item=>{
+      const p = products.find(x=>x.id===item.id);
+      if(!p) return "";
+      return `
+        <div class="cartRow">
+          <div class="cartRow__info">
+            <div class="cartRow__name">${p.name}</div>
+            <div class="cartRow__muted">${formatTL(p.price)} • ${String(p.cat).toUpperCase()}</div>
+            <div class="qty">
+              <button class="qtyBtn" data-dec="${p.id}">−</button>
+              <span class="qtyNum">${item.qty}</span>
+              <button class="qtyBtn" data-inc="${p.id}">+</button>
+            </div>
+          </div>
+          <div class="cartRow__sum">${formatTL(p.price * item.qty)}</div>
+        </div>
+      `;
+    }).join("");
+
+    cartItemsEl.innerHTML = rows || `<div class="empty">Sepetin boş. Ürün ekleyelim 🙂</div>`;
+
+    $$("[data-inc]", cartItemsEl).forEach(btn=>btn.addEventListener("click",()=>changeQty(btn.dataset.inc, +1)));
+    $$("[data-dec]", cartItemsEl).forEach(btn=>btn.addEventListener("click",()=>changeQty(btn.dataset.dec, -1)));
+
+    const total = cartState.reduce((s,item)=>{
+      const p = products.find(x=>x.id===item.id);
+      return s + (p ? p.price * item.qty : 0);
+    },0);
+
+    cartTotalEl.textContent = formatTL(total);
+
+    const lines = cartState.map(item=>{
+      const p = products.find(x=>x.id===item.id);
+      return p ? `• ${p.name} x${item.qty} — ${formatTL(p.price * item.qty)}` : "";
+    }).filter(Boolean);
+
+    const msg =
+`Merhaba COGO Ceramic,
+Sipariş vermek istiyorum:
+
+${lines.join("\n")}
+
+Toplam: ${formatTL(total)}
+Ad Soyad:
+Adres:
+Not:`;
+
+    checkoutWA.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  }
+
+  clearCartBtn?.addEventListener("click", ()=>{
+    cartState = [];
+    saveCart();
+  });
+
+  // ilk yüklemede sepeti çiz
+  updateCartUI();
   // --- DOM
   const grid = $("#productGrid");
   if(!grid) return;
@@ -50,6 +152,15 @@
   const aiMsgs  = $("#cogoAiMsgs");
   const aiForm  = $("#cogoAiForm");
   const aiInput = $("#cogoAiInput");
+
+const cart = $("#cart");
+  const cartBtn = $("#cartBtn");
+  const cartClose = $("#cartClose");
+  const cartItemsEl = $("#cartItems");
+  const cartCountEl = $("#cartCount");
+  const cartTotalEl = $("#cartTotal");
+  const checkoutWA = $("#checkoutWA");
+  const clearCartBtn = $("#clearCart");
 
   // --- Render
   let filterCat = "all";
@@ -85,7 +196,15 @@
           <div class="galeri" data-gallery="${p.slug}"></div>
           <div class="pTag">${String(p.cat).toUpperCase()}</div>
         </div>
-
+// ✅ Sepete ekle butonları
+    $$("[data-add]", grid).forEach(btn=>{
+      btn.addEventListener("click", (e)=>{
+        e.preventDefault();
+        const pid = btn.dataset.add;
+        console.log("Sepete ekle:", pid); // test için
+        addToCart(pid);
+      });
+    });
         <div class="pBody">
           <h3>${p.name}</h3>
           <p class="muted">${p.desc}</p>

@@ -6,12 +6,11 @@
 (() => {
   "use strict";
 
-  // =========================
-  // 0) CoGo AI (Cloudflare Worker) Ayarı
-  // =========================
-  // ÖNEMLİ: Buraya kendi worker domainini yaz.
-  // Örnek: "https://cogo-ai.gurpinartdesign.workers.dev"
-  const API_BASE = "https://YOUR-WORKER-URL.workers.dev";
+// =========================  
+// 0) CoGo AI (Cloudflare Worker) Ayarı  
+// =========================  
+const API_BASE = "https://cogo-ai.gurpinartdesign.workers.dev";
+
 
   // ---- WhatsApp (sipariş için kullanmaya devam edebilirsin)
   const WHATSAPP_NUMBER = "905529341223";

@@ -497,14 +497,12 @@ Teslim/şehir:`;
 
             <div class="pActions">
               <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
-              <a class="btn" href="${waLink("Merhaba COGO Ceramic, " + p.name + " için bilgi almak istiyorum.")}" target="_blank" rel="noopener">Sor</a>
-            </div>
-
-            <!-- ✅ CoGo AI butonu -->
-            <div class="pActions" style="margin-top:10px;">
-              <a class="btn" href="${waLink(aiMessageFor(p))}" target="_blank" rel="noopener">
-                ✨ CoGo AI’a Yaptır
-              </a>
+             <button 
+  class="btn ask-cogo" 
+  data-product="${p.name}" 
+  data-price="${p.price}">
+  ✨ CoGo AI’a Sor
+</button>
             </div>
 
           </div>
@@ -581,7 +579,19 @@ Teslim/şehir:`;
       if(e.key === "Escape"){ closeDrawer(); closeCart(); }
     });
   </script>
-  <script src="app.js" defter></script>
+  <!-- Lightbox -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
+
+  <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
+
+  <img id="lbImg" class="lightbox__img" alt="Ürün görseli" />
+
+  <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
+</div>
+
+
+  <script src="app.js" defer></script>
   <!-- Lightbox -->
 <div id="lightbox" class="lightbox" aria-hidden="true">
   <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
@@ -589,5 +599,68 @@ Teslim/şehir:`;
   <img id="lbImg" class="lightbox__img" alt="Büyük görsel" />
   <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
 </div>
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
+  <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
+  <img id="lbImg" class="lightbox__img" alt="Büyütülmüş görsel" />
+  <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
+</div>
+
+<!-- CoGo AI Floating Button + Panel (widget) -->
+<div class="cogoAI">
+  <button id="cogoAiFab" class="cogoAI__fab" aria-label="CoGo AI">✨</button>
+
+  <section id="cogoAiPanel" class="cogoAI__panel" aria-hidden="true">
+    <header class="cogoAI__head">
+      <div>
+        <div class="cogoAI__title">CoGo AI</div>
+        <div class="cogoAI__sub">Ürün sor • Anlam • Kişiselleştir</div>
+      </div>
+      <button id="cogoAiClose" class="iconBtn" aria-label="Kapat">✕</button>
+    </header>
+
+    <div id="cogoAiMsgs" class="cogoAI__msgs"></div>
+
+    <div class="cogoAI__quick">
+      <button class="cogoAI__chip" data-aiquick="Hediye öner">🎁 Hediye öner</button>
+      <button class="cogoAI__chip" data-aiquick="Bu ürünün anlamı">🜃 Anlamı</button>
+      <button class="cogoAI__chip" data-aiquick="Kişiselleştirme briefi al">✨ Kişiselleştir</button>
+    </div>
+
+    <form id="cogoAiForm" class="cogoAI__form">
+      <input id="cogoAiInput" type="text" placeholder="Bir şey sor..." autocomplete="off" />
+      <button class="btn" type="submit">Gönder</button>
+    </form>
+
+    <div class="cogoAI__note">
+      Not: AI öneridir. Sipariş onayı için “Sepet/İletişim” ile devam edersin.
+    </div>
+  </section>
+</div>
+
+<script src="app.js"></script>
+<script>
+const COGO_AI_URL = "https://cogo-ai.gurpinartdesign.workers.dev/";
+
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest(".ask-cogo");
+  if(!btn) return;
+
+  const product = btn.dataset.product;
+  const price = btn.dataset.price;
+
+  const question = `Bu ürün hakkında kısa bilgi ver ve kime hediye edilir: ${product} (${price} TL)`;
+
+  try {
+    const res = await fetch(COGO_AI_URL + "?q=" + encodeURIComponent(question));
+    const data = await res.json();
+
+    alert(data.text); // şimdilik popup gösteriyoruz
+  } catch(err){
+    alert("CoGo AI şu an cevap veremedi.");
+  }
+});
+</script>
 </body>
 </html>

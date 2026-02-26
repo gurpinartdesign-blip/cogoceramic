@@ -1,5 +1,6 @@
 /* =========================
    COGO Ceramic — app.js
+   (tek dosya)
    ========================= */
 (() => {
   "use strict";
@@ -7,10 +8,13 @@
   // =========================
   // 0) Ayarlar
   // =========================
-  const API_BASE = "https://cogo-ai.gurpinartdesign.workers.dev"; // sondaki / yok
   const WHATSAPP_NUMBER = "905529341223";
 
-  // ✅ Ürünler (şimdilik senin index’teki 6 ürün)
+  // ✅ Cloudflare Worker URL (SENİN)
+  // Örn: https://cogo-ai.gurpinartdesign.workers.dev/
+  const COGO_AI_URL = "https://cogo-ai.gurpinartdesign.workers.dev/";
+
+  // ✅ Ürünler (şimdilik senin 6 ürün)
   const products = [
     { id:"kartal",   cat:"kupalar",  name:"Kartal Arketipi Kupa",   price: 890, desc:"Yüksek görüş, özgürlük ve farkındalık teması.", size:"200 ml • 8 × 7.5 cm", slug:"kartal" },
     { id:"yilan",    cat:"kupalar",  name:"Yılan Dönüşüm Kupası",   price: 890, desc:"Dönüşüm, yeniden doğuş ve şifa teması.",       size:"200 ml • 8 × 7.5 cm", slug:"yilan" },
@@ -97,22 +101,15 @@
   // Drawer
   // =========================
   function openDrawer(){
-    if(!drawer || !overlay) return;
-    drawer.classList.add("isOpen");
-    drawer.setAttribute("aria-hidden","false");
-    overlay.hidden = false;
+    drawer?.classList.add("isOpen");
+    drawer?.setAttribute("aria-hidden","false");
+    if(overlay) overlay.hidden = false;
     document.body.classList.add("noScroll");
   }
   function closeDrawer(){
-    if(!drawer || !overlay) return;
-    drawer.classList.remove("isOpen");
-    drawer.setAttribute("aria-hidden","true");
-    // cart/ai açık değilse overlay kapat
-    const anyOpen = (cart?.classList.contains("isOpen")) || (aiPanel?.classList.contains("open"));
-    if(!anyOpen){
-      overlay.hidden = true;
-      document.body.classList.remove("noScroll");
-    }
+    drawer?.classList.remove("isOpen");
+    drawer?.setAttribute("aria-hidden","true");
+    maybeCloseOverlay();
   }
   menuBtn?.addEventListener("click", openDrawer);
   drawerClose?.addEventListener("click", closeDrawer);
@@ -130,8 +127,6 @@
     });
   }
 
-  overlay?.addEventListener("click", ()=>{ closeDrawer(); closeCart(); closeAiPanel(); closeLightbox(); });
-
   // =========================
   // Cart
   // =========================
@@ -142,21 +137,15 @@
     updateCartUI();
   }
   function openCart(){
-    if(!cart || !overlay) return;
-    cart.classList.add("isOpen");
-    cart.setAttribute("aria-hidden","false");
-    overlay.hidden = false;
+    cart?.classList.add("isOpen");
+    cart?.setAttribute("aria-hidden","false");
+    if(overlay) overlay.hidden = false;
     document.body.classList.add("noScroll");
   }
   function closeCart(){
-    if(!cart || !overlay) return;
-    cart.classList.remove("isOpen");
-    cart.setAttribute("aria-hidden","true");
-    const anyOpen = (drawer?.classList.contains("isOpen")) || (aiPanel?.classList.contains("open"));
-    if(!anyOpen){
-      overlay.hidden = true;
-      document.body.classList.remove("noScroll");
-    }
+    cart?.classList.remove("isOpen");
+    cart?.setAttribute("aria-hidden","true");
+    maybeCloseOverlay();
   }
   cartBtn?.addEventListener("click", openCart);
   cartClose?.addEventListener("click", closeCart);
@@ -293,7 +282,9 @@ Not:`;
 
           <div class="pActions">
             <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
-            <button class="btn" data-ai="${p.id}">✨ CoGo AI’a Sor</button>
+            <button class="btn ask-cogo" data-product="${p.name}" data-price="${p.price}" data-cat="${p.cat}">
+              ✨ CoGo AI’a Sor
+            </button>
           </div>
         </div>
       </article>
@@ -301,20 +292,6 @@ Not:`;
 
     $$("[data-add]", grid).forEach(btn=>{
       btn.addEventListener("click", ()=> addToCart(btn.dataset.add));
-    });
-
-    $$("[data-ai]", grid).forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const p = products.find(x=>x.id===btn.dataset.ai);
-        const question =
-`Bu ürün hakkında kısa bilgi ver, kime hediye edilir ve 3 farklı öneri sun:
-Ürün: ${p?.name}
-Kategori: ${p?.cat}
-Fiyat: ${p?.price} TL`;
-        openAiPanel();
-        pushMe(question);
-        askAI(question);
-      });
     });
 
     // Galerileri doldur
@@ -325,7 +302,6 @@ Fiyat: ${p?.price} TL`;
         const img = document.createElement("img");
         img.alt = slug;
         img.loading = "lazy";
-        img.dataset.base = base;
         setImgWithFallback(img, base);
         gal.appendChild(img);
       });
@@ -353,7 +329,7 @@ Fiyat: ${p?.price} TL`;
     if(!lb) return;
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden","true");
-    document.body.classList.remove("noScroll");
+    maybeCloseOverlay();
   }
   function stepLightbox(dir){
     if(!lbList.length || !lbImg) return;
@@ -369,7 +345,6 @@ Fiyat: ${p?.price} TL`;
   function wireGalleries(){
     $$(".galeri").forEach(gal=>{
       const imgs = $$("img", gal).filter(im => im && im.src);
-
       imgs.forEach((img, i)=>{
         img.addEventListener("click", ()=>{
           const list = imgs.map(x=>x.src);
@@ -382,26 +357,29 @@ Fiyat: ${p?.price} TL`;
   // =========================
   // CoGo AI
   // =========================
+  function aiPanelOpen(){
+    return aiPanel && aiPanel.getAttribute("aria-hidden") === "false";
+  }
+
   function openAiPanel(){
-    if(!aiPanel || !overlay) return;
-    aiPanel.classList.add("open"); // CSS'in open sınıfını kullandık
+    if(!aiPanel) return;
+    aiPanel.classList.add("isOpen"); // ✅ senin CSS’in böyleyse
     aiPanel.setAttribute("aria-hidden","false");
-    overlay.hidden = false;
+    if(overlay) overlay.hidden = false;
     document.body.classList.add("noScroll");
-    if(aiMsgs && aiMsgs.childElementCount===0){
+
+    // ilk mesaj
+    if(aiMsgs && aiMsgs.childElementCount === 0){
       pushAI("Selam ✨ Ben CoGo AI. Ürünlerin anlamı, hediye önerisi veya kişiselleştirme için yazabilirsin.");
     }
   }
   function closeAiPanel(){
-    if(!aiPanel || !overlay) return;
-    aiPanel.classList.remove("open");
+    if(!aiPanel) return;
+    aiPanel.classList.remove("isOpen");
     aiPanel.setAttribute("aria-hidden","true");
-    const anyOpen = (drawer?.classList.contains("isOpen")) || (cart?.classList.contains("isOpen"));
-    if(!anyOpen){
-      overlay.hidden = true;
-      document.body.classList.remove("noScroll");
-    }
+    maybeCloseOverlay();
   }
+
   aiFab?.addEventListener("click", openAiPanel);
   aiClose?.addEventListener("click", closeAiPanel);
 
@@ -423,52 +401,85 @@ Fiyat: ${p?.price} TL`;
   }
 
   async function askAI(text){
+    if(!text) return;
+    pushMe(text);
+    pushAI("… düşünüyorum");
+
     try{
-      pushAI("… düşünüyorum");
-      const url = `${API_BASE}?q=${encodeURIComponent(text)}`;
+      const url = `${COGO_AI_URL}?q=${encodeURIComponent(text)}`;
       const res = await fetch(url, { method:"GET" });
       const data = await res.json();
 
-      // “düşünüyorum” mesajını sil
+      // thinking mesajını sil
       aiMsgs?.lastChild?.remove();
 
-      // Worker bazen {text: "..."} döndürür
       pushAI(data?.text || data?.reply || "Şu an cevap veremedim. Bir daha dener misin?");
     }catch(e){
       aiMsgs?.lastChild?.remove();
-      pushAI("CoGo AI şu an cevap veremedi. (Endpoint / CORS kontrol edelim)");
+      pushAI("CoGo AI şu an cevap veremedi. (Worker / CORS kontrol)");
     }
   }
-
-  $$("[data-aiquick]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      openAiPanel();
-      const t = btn.dataset.aiquick;
-      pushMe(t);
-      askAI(t);
-    });
-  });
 
   aiForm?.addEventListener("submit",(e)=>{
     e.preventDefault();
     const t = (aiInput?.value || "").trim();
     if(!t) return;
-    openAiPanel();
-    pushMe(t);
     aiInput.value = "";
+    openAiPanel();
     askAI(t);
   });
 
+  $$("[data-aiquick]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      openAiPanel();
+      askAI(btn.dataset.aiquick);
+    });
+  });
+
+  document.addEventListener("click",(e)=>{
+    const btn = e.target.closest(".ask-cogo");
+    if(!btn) return;
+
+    const product = btn.dataset.product;
+    const price = btn.dataset.price;
+    const cat = btn.dataset.cat;
+
+    const q =
+`Bu ürün hakkında kısa bilgi ver, kime hediye edilir ve 3 farklı öneri sun:
+Ürün: ${product}
+Kategori: ${cat}
+Fiyat: ${price} TL`;
+
+    openAiPanel();
+    askAI(q);
+  });
+
   // =========================
-  // WhatsApp linkleri
+  // Overlay + WhatsApp + ESC
   // =========================
+  function maybeCloseOverlay(){
+    const anyOpen =
+      drawer?.classList.contains("isOpen") ||
+      cart?.classList.contains("isOpen") ||
+      aiPanelOpen() ||
+      lb?.classList.contains("open");
+
+    if(!anyOpen && overlay){
+      overlay.hidden = true;
+      document.body.classList.remove("noScroll");
+    }
+  }
+
+  overlay?.addEventListener("click", ()=>{
+    closeDrawer(); closeCart(); closeAiPanel(); closeLightbox();
+  });
+
   if(waDrawer) waDrawer.href = waLink("Merhaba COGO Ceramic, ürünler hakkında bilgi almak istiyorum.");
   if(waBottom) waBottom.href = waLink("Merhaba COGO Ceramic, sipariş vermek istiyorum.");
 
-  // ESC
   window.addEventListener("keydown",(e)=>{
     if(e.key === "Escape"){
-      closeDrawer(); closeCart(); closeLightbox(); closeAiPanel();
+      closeDrawer(); closeCart(); closeAiPanel(); closeLightbox();
     }
     if(lb?.classList.contains("open")){
       if(e.key === "ArrowLeft") stepLightbox(-1);

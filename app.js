@@ -400,10 +400,7 @@ Not:`;
     aiMsgs.scrollTop = aiMsgs.scrollHeight;
   }
 
-  async function askAI(text){
-    if(!text) return;
-    pushMe(text);
-    pushAI("… düşünüyorum");
+
 
     try{
       const url = `${COGO_AI_URL}?q=${encodeURIComponent(text)}`;
@@ -565,5 +562,27 @@ ${formatTL(p.price)}
   }catch(e){
     aiMsgs.lastChild.remove();
     addMsg("bot","CoGo AI şu an cevap veremedi.");
+  }
+}
+// ================= AI CHAT =================
+async function askAI(text){
+  addMsg("user", text);
+  addMsg("bot", "Yazıyorum…");
+
+  try{
+    const res = await fetch(COGO_AI_URL + "?q=" + encodeURIComponent(text));
+    const data = await res.json();
+
+    // son bot mesajını güncelle
+    const last = document.querySelector(".cogoAI__msg.isBot:last-child");
+    if(last){
+      last.textContent = data.text || data.reply || "Cevap alınamadı.";
+    }
+
+  }catch(e){
+    const last = document.querySelector(".cogoAI__msg.isBot:last-child");
+    if(last){
+      last.textContent = "CoGo AI şu an cevap veremedi.";
+    }
   }
 }

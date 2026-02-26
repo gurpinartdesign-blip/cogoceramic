@@ -491,3 +491,79 @@ Fiyat: ${price} TL`;
   render();
   updateCartUI();
 })();
+// =========================
+// 🤖 CoGo AI – Ürün Öneri + Link Sistemi
+// =========================
+
+// 👉 Sitenin domaini (değiştir)
+const SITE_URL = "https://cogoceramic.com"; // kendi domainini yaz
+
+// Ürünleri AI için indexle
+const PRODUCT_INDEX = products.map(p => ({
+  id: p.id,
+  name: p.name.toLowerCase(),
+  cat: p.cat,
+  price: p.price,
+  slug: p.slug,
+  desc: p.desc.toLowerCase()
+}));
+
+function findProductsFromText(text){
+  const t = text.toLowerCase();
+
+  // kategori eşleşmesi
+  let matches = PRODUCT_INDEX.filter(p =>
+    t.includes(p.cat) ||
+    t.includes(p.name.split(" ")[0]) ||
+    t.includes("kupa") && p.cat==="kupalar" ||
+    t.includes("hediye")
+  );
+
+  // fallback
+  if(matches.length === 0){
+    matches = PRODUCT_INDEX.slice(0,3);
+  }
+
+  return matches.slice(0,3);
+}
+
+// AI cevap + ürün linki oluştur
+async function askAI(question){
+  askAIwithProducts(question);
+}
+
+  addMsg("user", question);
+  addMsg("bot", "✨ düşünüyorum...");
+
+  try{
+    const res = await fetch(COGO_AI_URL + "?q=" + encodeURIComponent(question));
+    const data = await res.json();
+
+    // son mesajı sil
+    aiMsgs.lastChild.remove();
+
+    const aiText = data.text || data.reply || "Bir öneri hazırladım ✨";
+
+    // ürünleri seç
+    const found = findProductsFromText(question);
+
+    let links = "";
+
+    found.forEach(p=>{
+      links += `
+🔸 ${p.name}
+${formatTL(p.price)}
+👉 ${SITE_URL}/#urunler?urun=${p.slug}
+
+`;
+    });
+
+    const finalText = aiText + "\n\n✨ Sana uygun ürünler:\n\n" + links;
+
+    addMsg("bot", finalText);
+
+  }catch(e){
+    aiMsgs.lastChild.remove();
+    addMsg("bot","CoGo AI şu an cevap veremedi.");
+  }
+}

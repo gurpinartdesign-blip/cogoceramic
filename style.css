@@ -699,3 +699,10 @@ input:focus{ border-color: rgba(184,115,51,.55); }
   background: rgba(255,255,255,.92);
   border-top:1px solid var(--line);
 }
+/* CoGo AI butonu taşma fix */
+.pActions .btn.ask-cogo{
+  flex: 1 1 100%;
+  white-space: nowrap;      /* tek satır */
+  overflow: hidden;         /* taşanı kes */
+  text-overflow: ellipsis;  /* ... yap */
+}

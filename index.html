@@ -238,15 +238,53 @@
     </footer>
   </main>
 
+  <!-- ✅ Tek Lightbox (tekrarlar kaldırıldı) -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
+    <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
+    <img id="lbImg" class="lightbox__img" alt="Ürün görseli" />
+    <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
+  </div>
+
+  <!-- ✅ CoGo AI Floating Button + Panel (widget) -->
+  <div class="cogoAI">
+    <button id="cogoAiFab" class="cogoAI__fab" aria-label="CoGo AI">✨</button>
+
+    <section id="cogoAiPanel" class="cogoAI__panel" aria-hidden="true">
+      <header class="cogoAI__head">
+        <div>
+          <div class="cogoAI__title">CoGo AI</div>
+          <div class="cogoAI__sub">Ürün sor • Anlam • Kişiselleştir</div>
+        </div>
+        <button id="cogoAiClose" class="iconBtn" aria-label="Kapat">✕</button>
+      </header>
+
+      <div id="cogoAiMsgs" class="cogoAI__msgs"></div>
+
+      <div class="cogoAI__quick">
+        <button class="cogoAI__chip" data-aiquick="Hediye öner">🎁 Hediye öner</button>
+        <button class="cogoAI__chip" data-aiquick="Bu ürünün anlamı">🜃 Anlamı</button>
+        <button class="cogoAI__chip" data-aiquick="Kişiselleştirme briefi al">✨ Kişiselleştir</button>
+      </div>
+
+      <form id="cogoAiForm" class="cogoAI__form">
+        <input id="cogoAiInput" type="text" placeholder="Bir şey sor..." autocomplete="off" />
+        <button class="btn" type="submit">Gönder</button>
+      </form>
+
+      <div class="cogoAI__note">
+        Not: AI öneridir. Sipariş onayı için “Sepet/İletişim” ile devam edersin.
+      </div>
+    </section>
+  </div>
+
   <script>
     // ---- Ayarlar
     const WHATSAPP_NUMBER = "905529341223";
+    const COGO_AI_URL = "https://cogo-ai.gurpinartdesign.workers.dev/"; 
+   
 
     // ✅ Ürünler:
-    // "slug" = dosya adı kökü (images/ altındaki isim)
-    // Sistem şu dosyaları dener:
-    // 1) images/<slug>.jpg.jpeg  2) .jpg  3) .jpeg  4) .png
-    // Galeri için ayrıca: <slug>-1, <slug>-2, <slug>-3 dener.
     const products = [
       { id:"kartal",   cat:"kupalar",  name:"Kartal Arketipi Kupa",   price: 890, desc:"Yüksek görüş, özgürlük ve farkındalık teması.", size:"200 ml • 8 × 7.5 cm", slug:"kartal" },
       { id:"yilan",    cat:"kupalar",  name:"Yılan Dönüşüm Kupası",   price: 890, desc:"Dönüşüm, yeniden doğuş ve şifa teması.",       size:"200 ml • 8 × 7.5 cm", slug:"yilan" },
@@ -265,7 +303,7 @@
       return "₺" + (Number(n)||0).toLocaleString("tr-TR");
     }
 
-    // ✅ Görsel çözümleyici (uzantı karmaşası bitiyor)
+    // ✅ Görsel çözümleyici
     function buildCandidates(base){
       const exts = [".jpg.jpeg", ".jpg", ".jpeg", ".png", ".webp"];
       return exts.map(ext => `images/${base}${ext}`);
@@ -279,13 +317,10 @@
         if(i < list.length){
           imgEl.src = list[i];
         }else{
-          // hiçbiri yoksa görseli kaldır
           imgEl.remove();
         }
       };
     }
-
-    // ✅ Galeri: slug-1, slug-2, slug-3 (varsa) + ana görsel
     function galleryBases(slug){
       return [`${slug}-1`, `${slug}-2`, `${slug}-3`, `${slug}`];
     }
@@ -310,9 +345,8 @@
     }
     menuBtn.addEventListener("click", openDrawer);
     drawerClose.addEventListener("click", closeDrawer);
-    overlay.addEventListener("click", () => { closeDrawer(); closeCart(); });
+    overlay.addEventListener("click", () => { closeDrawer(); closeCart(); closeAiPanel(); });
 
-    // Drawer nav kategori tıklayınca filtre
     drawer.querySelectorAll("[data-cat]").forEach(a=>{
       a.addEventListener("click",(e)=>{
         e.preventDefault();
@@ -350,7 +384,7 @@
     function closeCart(){
       cart.classList.remove("isOpen");
       cart.setAttribute("aria-hidden","true");
-      if(!drawer.classList.contains("isOpen")){
+      if(!drawer.classList.contains("isOpen") && !aiPanelOpen()){
         overlay.hidden = true;
         document.body.classList.remove("noScroll");
       }
@@ -404,7 +438,6 @@
 
       cartItemsEl.innerHTML = rows || `<div class="empty">Sepetin boş. Ürün ekleyelim 🙂</div>`;
 
-      // Sepette görsel fallback
       cartItemsEl.querySelectorAll("img[data-base]").forEach(img=>{
         setImgWithFallback(img, img.dataset.base);
       });
@@ -452,19 +485,6 @@ Not:`;
     let filterCat = "all";
     let searchQ = "";
 
-    function aiMessageFor(p){
-      return `Merhaba CoGo AI ✨
-${p.name} için kişiye özel tasarım yaptırmak istiyorum.
-
-Ürün tipi: ${p.cat}
-Tema/Arketip/Sembol:
-Renk paleti:
-İsim/İnitial (varsa):
-Özel notlar:
-Bütçe aralığı:
-Teslim/şehir:`;
-    }
-
     function render(){
       const list = products
         .filter(p => filterCat === "all" ? true : p.cat === filterCat)
@@ -477,12 +497,7 @@ Teslim/şehir:`;
       grid.innerHTML = list.map(p => `
         <article class="pCard" data-cat="${p.cat}">
           <div class="pImg">
-
-            <!-- ✅ Kaydırmalı galeri -->
-            <div class="galeri" data-gallery="${p.slug}">
-              <!-- img'ler JS ile doldurulacak -->
-            </div>
-
+            <div class="galeri" data-gallery="${p.slug}"></div>
             <div class="pTag">${p.cat.toUpperCase()}</div>
           </div>
 
@@ -497,32 +512,29 @@ Teslim/şehir:`;
 
             <div class="pActions">
               <button class="btn btn--soft" data-add="${p.id}">Sepete Ekle</button>
-             <button 
-  class="btn ask-cogo" 
-  data-product="${p.name}" 
-  data-price="${p.price}">
-  ✨ CoGo AI’a Sor
-</button>
+              <button
+                class="btn ask-cogo"
+                data-product="${p.name}"
+                data-price="${p.price}"
+                data-cat="${p.cat}">
+                ✨ CoGo AI’a Sor
+              </button>
             </div>
-
           </div>
         </article>
       `).join("");
 
-      // Sepete ekle
       grid.querySelectorAll("[data-add]").forEach(btn=>{
         btn.addEventListener("click", ()=> addToCart(btn.dataset.add));
       });
 
-      // Galerileri doldur + fallback
       grid.querySelectorAll("[data-gallery]").forEach(gal=>{
         const slug = gal.dataset.gallery;
-        const bases = galleryBases(slug); // slug-1, slug-2, slug-3, slug
+        const bases = galleryBases(slug);
         bases.forEach(base=>{
           const img = document.createElement("img");
           img.alt = slug;
           img.loading = "lazy";
-          // Kaydırma snap için tam geniş
           img.style.width = "100%";
           img.style.height = "190px";
           img.style.objectFit = "cover";
@@ -535,7 +547,6 @@ Teslim/şehir:`;
       });
     }
 
-    // Kategori pills
     function setActivePill(cat){
       document.querySelectorAll(".catPill").forEach(b=>{
         b.classList.toggle("isActive", b.dataset.filter === cat);
@@ -570,97 +581,102 @@ Teslim/şehir:`;
     document.getElementById("waDrawer").href = waLink("Merhaba COGO Ceramic, ürünler hakkında bilgi almak istiyorum.");
     document.getElementById("waBottom").href = waLink("Merhaba COGO Ceramic, sipariş vermek istiyorum.");
 
+    // ---- CoGo AI Panel (Chat)
+    const aiFab = document.getElementById("cogoAiFab");
+    const aiPanel = document.getElementById("cogoAiPanel");
+    const aiClose = document.getElementById("cogoAiClose");
+    const aiMsgs = document.getElementById("cogoAiMsgs");
+    const aiForm = document.getElementById("cogoAiForm");
+    const aiInput = document.getElementById("cogoAiInput");
+
+    function aiPanelOpen(){
+      return aiPanel && aiPanel.getAttribute("aria-hidden") === "false";
+    }
+
+    function openAiPanel(){
+      aiPanel.setAttribute("aria-hidden","false");
+      aiPanel.classList.add("isOpen");
+      overlay.hidden = false;
+    }
+    function closeAiPanel(){
+      aiPanel.setAttribute("aria-hidden","true");
+      aiPanel.classList.remove("isOpen");
+      if(!drawer.classList.contains("isOpen") && !cart.classList.contains("isOpen")){
+        overlay.hidden = true;
+        document.body.classList.remove("noScroll");
+      }
+    }
+    aiFab.addEventListener("click", openAiPanel);
+    aiClose.addEventListener("click", closeAiPanel);
+
+    function addMsg(role, text){
+      const div = document.createElement("div");
+      div.className = "cogoAI__msg " + (role === "user" ? "isUser" : "isBot");
+      div.textContent = text;
+      aiMsgs.appendChild(div);
+      aiMsgs.scrollTop = aiMsgs.scrollHeight;
+    }
+
+    async function askAI(question){
+      addMsg("user", question);
+      addMsg("bot", "Yazıyorum…");
+
+      try {
+        const res = await fetch(COGO_AI_URL + "?q=" + encodeURIComponent(question), { method: "GET" });
+        const data = await res.json();
+
+        // Son bot mesajını güncelle
+        const last = aiMsgs.querySelector(".cogoAI__msg.isBot:last-child");
+        if(last) last.textContent = data?.text || "Cevap alınamadı.";
+      } catch(e){
+        const last = aiMsgs.querySelector(".cogoAI__msg.isBot:last-child");
+        if(last) last.textContent = "CoGo AI şu an cevap veremedi.";
+      }
+    }
+
+    aiForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const q = aiInput.value.trim();
+      if(!q) return;
+      aiInput.value = "";
+      openAiPanel();
+      askAI(q);
+    });
+
+    document.querySelectorAll("[data-aiquick]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        openAiPanel();
+        askAI(btn.dataset.aiquick);
+      });
+    });
+
+    // Ürün kartı butonu → AI panel
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest(".ask-cogo");
+      if(!btn) return;
+
+      const product = btn.dataset.product;
+      const price = btn.dataset.price;
+      const cat = btn.dataset.cat;
+
+      const question =
+`Bu ürün hakkında kısa bilgi ver, kime hediye edilir ve 3 farklı öneri sun:
+Ürün: ${product}
+Kategori: ${cat}
+Fiyat: ${price} TL`;
+
+      openAiPanel();
+      askAI(question);
+    });
+
     // İlk render
     render();
     updateCartUI();
 
     // ESC ile kapat
     window.addEventListener("keydown",(e)=>{
-      if(e.key === "Escape"){ closeDrawer(); closeCart(); }
+      if(e.key === "Escape"){ closeDrawer(); closeCart(); closeAiPanel(); }
     });
   </script>
-  <!-- Lightbox -->
-<div id="lightbox" class="lightbox" aria-hidden="true">
-  <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
-
-  <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
-
-  <img id="lbImg" class="lightbox__img" alt="Ürün görseli" />
-
-  <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
-</div>
-
-
-  <script src="app.js" defer></script>
-  <!-- Lightbox -->
-<div id="lightbox" class="lightbox" aria-hidden="true">
-  <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
-  <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
-  <img id="lbImg" class="lightbox__img" alt="Büyük görsel" />
-  <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
-</div>
-<!-- Lightbox -->
-<div id="lightbox" class="lightbox" aria-hidden="true">
-  <button id="lbClose" class="lightbox__close" aria-label="Kapat">✕</button>
-  <button id="lbPrev" class="lightbox__nav lightbox__prev" aria-label="Önceki">‹</button>
-  <img id="lbImg" class="lightbox__img" alt="Büyütülmüş görsel" />
-  <button id="lbNext" class="lightbox__nav lightbox__next" aria-label="Sonraki">›</button>
-</div>
-
-<!-- CoGo AI Floating Button + Panel (widget) -->
-<div class="cogoAI">
-  <button id="cogoAiFab" class="cogoAI__fab" aria-label="CoGo AI">✨</button>
-
-  <section id="cogoAiPanel" class="cogoAI__panel" aria-hidden="true">
-    <header class="cogoAI__head">
-      <div>
-        <div class="cogoAI__title">CoGo AI</div>
-        <div class="cogoAI__sub">Ürün sor • Anlam • Kişiselleştir</div>
-      </div>
-      <button id="cogoAiClose" class="iconBtn" aria-label="Kapat">✕</button>
-    </header>
-
-    <div id="cogoAiMsgs" class="cogoAI__msgs"></div>
-
-    <div class="cogoAI__quick">
-      <button class="cogoAI__chip" data-aiquick="Hediye öner">🎁 Hediye öner</button>
-      <button class="cogoAI__chip" data-aiquick="Bu ürünün anlamı">🜃 Anlamı</button>
-      <button class="cogoAI__chip" data-aiquick="Kişiselleştirme briefi al">✨ Kişiselleştir</button>
-    </div>
-
-    <form id="cogoAiForm" class="cogoAI__form">
-      <input id="cogoAiInput" type="text" placeholder="Bir şey sor..." autocomplete="off" />
-      <button class="btn" type="submit">Gönder</button>
-    </form>
-
-    <div class="cogoAI__note">
-      Not: AI öneridir. Sipariş onayı için “Sepet/İletişim” ile devam edersin.
-    </div>
-  </section>
-</div>
-
-<script src="app.js"></script>
-<script>
-const COGO_AI_URL = "https://cogo-ai.gurpinartdesign.workers.dev/";
-
-document.addEventListener("click", async (e) => {
-  const btn = e.target.closest(".ask-cogo");
-  if(!btn) return;
-
-  const product = btn.dataset.product;
-  const price = btn.dataset.price;
-
-  const question = `Bu ürün hakkında kısa bilgi ver ve kime hediye edilir: ${product} (${price} TL)`;
-
-  try {
-    const res = await fetch(COGO_AI_URL + "?q=" + encodeURIComponent(question));
-    const data = await res.json();
-
-    alert(data.text); // şimdilik popup gösteriyoruz
-  } catch(err){
-    alert("CoGo AI şu an cevap veremedi.");
-  }
-});
-</script>
 </body>
 </html>

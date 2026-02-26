@@ -234,6 +234,32 @@
         <a href="mesafeli-satis.html">Mesafeli Satış</a>
       </div>
     </footer>
+    <!-- ✅ Ürün Quick View (Popup) -->
+<div id="pview" class="pview" aria-hidden="true">
+  <div class="pview__card" role="dialog" aria-modal="true" aria-label="Ürün Detayı">
+    <button id="pviewClose" class="iconBtn pview__close" aria-label="Kapat">✕</button>
+
+    <div class="pview__imgWrap">
+      <img id="pviewImg" alt="Ürün görseli" />
+    </div>
+
+    <div class="pview__body">
+      <div class="pview__cat" id="pviewCat"></div>
+      <h3 class="pview__title" id="pviewTitle"></h3>
+      <div class="pview__desc" id="pviewDesc"></div>
+
+      <div class="pview__meta">
+        <span class="pview__size" id="pviewSize"></span>
+        <strong class="pview__price" id="pviewPrice"></strong>
+      </div>
+
+      <div class="pview__actions">
+        <button class="btn btn--soft" id="pviewAdd">Sepete Ekle</button>
+        <a class="btn" id="pviewWA" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
   </main>
 
   <!-- Lightbox -->

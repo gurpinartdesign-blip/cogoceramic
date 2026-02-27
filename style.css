@@ -739,3 +739,5 @@ input:focus{ border-color: rgba(184,115,51,.55); }
   color: #111 !important;
   border: 1px solid rgba(0,0,0,.10) !important;
 }
+.cogoAI__panel{ z-index:9999; }
+.cogoAI{ z-index:9999; }

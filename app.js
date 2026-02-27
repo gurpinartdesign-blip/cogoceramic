@@ -526,3 +526,41 @@ Fiyat: ${price} TL`;
   render();
   updateCartUI();
 })();
+document.querySelectorAll(".ask-cogo").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    openAiPanel();
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const fab = document.querySelector(".cogoAI__fab");
+  const panel = document.querySelector(".cogoAI__panel");
+
+  if (!fab || !panel) {
+    console.warn("CoGo AI: eleman bulunamadı", { fab, panel });
+    return;
+  }
+
+  const toggle = () => {
+    panel.classList.toggle("isOpen");
+  };
+
+  fab.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggle();
+  });
+
+  // panel dışına tıklayınca kapat
+  document.addEventListener("click", (e) => {
+    if (!panel.classList.contains("isOpen")) return;
+    if (panel.contains(e.target) || fab.contains(e.target)) return;
+    panel.classList.remove("isOpen");
+  });
+
+  // ESC ile kapat
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") panel.classList.remove("isOpen");
+  });
+
+  console.log("CoGo AI hazır ✅");
+});

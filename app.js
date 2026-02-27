@@ -429,7 +429,7 @@ Not:`;
   function addBotMsg(text){
     if(!aiMsgs) return;
     const div = document.createElement("div");
-    div.className = "cogoAI__msg isBot";
+    div.className = "aiMsg";
     div.textContent = text;
     aiMsgs.appendChild(div);
     aiMsgs.scrollTop = aiMsgs.scrollHeight;
@@ -526,61 +526,3 @@ Fiyat: ${price} TL`;
   render();
   updateCartUI();
 })();
-document.addEventListener("DOMContentLoaded", () => {
-  const fab = document.getElementById("cogoAiFab");
-  const panel = document.getElementById("cogoAiPanel");
-  const closeBtn = document.getElementById("cogoAiClose");
-
-  if (!fab || !panel) return;
-
-  fab.addEventListener("click", () => {
-    panel.classList.toggle("isOpen");
-  });
-
-  closeBtn.addEventListener("click", () => {
-    panel.classList.remove("isOpen");
-  });
-});
-document.addEventListener("DOMContentLoaded", () => {
-  const fab = document.getElementById("cogoAiFab");
-  const panel = document.getElementById("cogoAiPanel");
-  const closeBtn = document.getElementById("cogoAiClose");
-
-  if (!fab || !panel) {
-    console.warn("CoGo AI: fab/panel bulunamadı", { fab, panel });
-    return;
-  }
-
-  const openPanel = () => {
-    panel.classList.add("isOpen");
-    panel.setAttribute("aria-hidden", "false");
-  };
-
-  const closePanel = () => {
-    panel.classList.remove("isOpen");
-    panel.setAttribute("aria-hidden", "true");
-  };
-
-  fab.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openPanel();
-  });
-
-  closeBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    closePanel();
-  });
-
-  // Dışarı tıklayınca kapansın
-  document.addEventListener("click", (e) => {
-    if (!panel.classList.contains("isOpen")) return;
-    if (panel.contains(e.target) || fab.contains(e.target)) return;
-    closePanel();
-  });
-
-  // ESC ile kapat
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closePanel();
-  });
-});

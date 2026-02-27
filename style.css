@@ -741,3 +741,17 @@ input:focus{ border-color: rgba(184,115,51,.55); }
 }
 .cogoAI__panel{ z-index:9999; }
 .cogoAI{ z-index:9999; }
+/* CoGo AI – PC tıklama / üstte kalma fix */
+.cogoAI { 
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999 !important;
+  pointer-events: none; /* container tıklamayı yakalamasın */
+}
+.cogoAI__fab,
+.cogoAI__panel {
+  pointer-events: auto; /* buton + panel tıklansın */
+}
+.cogoAI__fab { position: fixed; right: 18px; bottom: 18px; z-index: 10000 !important; }
+.cogoAI__panel { z-index: 10000 !important; }

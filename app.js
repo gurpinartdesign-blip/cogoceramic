@@ -34,6 +34,15 @@
     { id:"takiset",  name:"Takı Seti",   price:300, cat:"taki",     desc:"", size:"", slug:"takiset" },
     { id:"vint",     name:"Vintage Kupa",price:260, cat:"kupalar",  desc:"", size:"", slug:"vint" },
     { id:"yilan",    name:"Yılan Kupa",  price:260, cat:"kupalar",  desc:"", size:"", slug:"yilan" },
+    { id:"ev-buhur", name:"Ev Buhurdanlık", price:850, cat:"buhurdan", desc:"Ev formunda dekoratif seramik buhurdanlık, mum ile kullanılır.", size:"10x10 cm", slug:"ev-buhur" },
+
+{ id:"yin-yang-mum", name:"Yin Yang Mumluk", price:670, cat:"mumluk", desc:"Siyah & beyaz dengeyi temsil eden el yapımı dekoratif mumluk.", size:"9x6 cm", slug:"yin-yang-mum" },
+
+{ id:"fircalik", name:"Seramik Fırçalık & Kalemlik", price:580, cat:"dekor", desc:"Mavi mermer dokulu çok amaçlı organizer.", size:"12x8 cm", slug:"fircalik" },
+
+{ id:"nazar-duvar", name:"Nazar Duvar Süsü", price:680, cat:"duvar", desc:"Etnik bohem stil, nazar boncuğu temalı seramik duvar dekoru.", size:"10 cm", slug:"nazar-duvar" },
+
+{ id:"flora-yuzuk", name:"Flora Seramik Yüzük", price:380, cat:"taki", desc:"Toprak tonlarında çiçek detaylı el yapımı yüzük.", size:"Ayarlanabilir", slug:"flora-yuzuk" },
   ];
 
   // =========================
@@ -526,3 +535,4 @@ Fiyat: ${price} TL`;
   render();
   updateCartUI();
 })();
+

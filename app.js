@@ -601,7 +601,7 @@ window.startPayment = async function () {
       return;
     }
 
-    alert(data.reason || data.message || "Ödeme başlatılamadı.");
+    alert(JSON.stringify(data, null, 2));
   } catch (err) {
     console.error(err);
     alert("Ödeme başlatılırken hata oluştu.");

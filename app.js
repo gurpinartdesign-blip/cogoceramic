@@ -9,7 +9,7 @@
   // Ayarlar
   // =========================
   const WHATSAPP_NUMBER = "905529341223";
-  const COGO_AI_URL = "https://cogo-ai.gurpinartdesign.workers.dev/";
+  const COGO_AI_URL = "https://cogo-ai.gurpinartdesign.workers.dev/ai";
 
   // =========================
   // Ürünler
@@ -531,7 +531,23 @@ Fiyat: ${price} TL`;
   // =========================
   // İlk yükleme
   // =========================
+  window.startPayment = async function () {
+  const totalText = document.getElementById("cartTotal")?.textContent || "₺0";
+  const totalPrice = Number(totalText.replace(/[^\d,]/g, "").replace(",", ".")) || 0;
+
+  const response = await fetch("https://cogo-ai.gurpinartdesign.workers.dev/paytr", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      price: totalPrice
+    })
+  });
+
+  const data = await response.json();
+  console.log("PayTR ödeme başlatıldı:", data);
+};
   render();
   updateCartUI();
 })();
-

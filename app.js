@@ -568,40 +568,45 @@ Fiyat: ${price} TL`;
   // =========================
   // PayTR
   // =========================
-  window.startPayment = async function () {
-    const total = getCartTotal();
+ 
+window.startPayment = async function () {
+  const total = getCartTotal();
 
-    if (!total || total <= 0) {
-      alert("Sepet boş görünüyor.");
+  if (!total || total <= 0) {
+    alert("Sepet boş görünüyor.");
+    return;
+  }
+
+  try {
+    const response = await fetch(PAYTR_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        price: total,
+        email: "orders@cogoceramic.com",
+        user_name: "COGO Customer",
+        user_address: "Türkiye",
+        user_phone: "05000000000"
+      })
+    });
+
+    const data = await response.json();
+    console.log("PayTR ödeme yanıtı:", data);
+
+    if (data.status === "success" && data.token) {
+      const paytrUrl = `https://www.paytr.com/odeme/guvenli/${data.token}`;
+      window.open(paytrUrl, "_blank");
       return;
     }
 
-    try {
-      const response = await fetch(PAYTR_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          price: total
-        })
-      });
-
-      const data = await response.json();
-      console.log("PayTR ödeme yanıtı:", data);
-
-      if (data?.url) {
-        window.location.href = data.url;
-        return;
-      }
-
-      alert("Ödeme başlatıldı. Konsolu kontrol et.");
-    } catch (err) {
-      console.error(err);
-      alert("Ödeme başlatılırken hata oluştu.");
-    }
-  };
-
+    alert(data.reason || data.message || "Ödeme başlatılamadı.");
+  } catch (err) {
+    console.error(err);
+    alert("Ödeme başlatılırken hata oluştu.");
+  }
+};
   // =========================
   // Overlay + WhatsApp + ESC
   // =========================

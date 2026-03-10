@@ -384,7 +384,18 @@
       <div class="totalRow">
         <span>Toplam</span>
         <strong id="cartTotal">₺0</strong>
-      </div>
+        <div class="cart__foot">
+  <div class="totalRow">
+    <span>Toplam</span>
+    <strong id="cartTotal">%0</strong>
+  </div>
+
+  <button class="btn btn--primary" onclick="startPayment(cartTotal)">
+    Ödemeye Geç
+  </button>
+
+</div>
+      
 
       <div class="cart__actions">
         <button class="btn btn--soft" id="clearCart">Sepeti Temizle</button>
@@ -565,5 +576,4 @@
   </section>
 </div>
 
-<!-- TEK JS -->
-<script src="app.js" defer></script>
+

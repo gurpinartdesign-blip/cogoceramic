@@ -570,43 +570,47 @@ Fiyat: ${price} TL`;
   // =========================
  
 window.startPayment = async function () {
-  const total = getCartTotal();
-
-  if (!total || total <= 0) {
-    alert("Sepet boş görünüyor.");
-    return;
-  }
-
   try {
-    const response = await fetch(PAYTR_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        price: total,
-        email: "orders@cogoceramic.com",
-        user_name: "COGO Customer",
-        user_address: "Türkiye",
-        user_phone: "05000000000"
-      })
-    });
+    const totalText = document.getElementById("cartTotal")?.textContent || "₺0";
+    const totalPrice =
+      Number(totalText.replace(/[^\d,]/g, "").replace(",", ".")) || 0;
 
-    const data = await response.json();
-    console.log("PayTR ödeme yanıtı:", data);
-
-    if (data.status === "success" && data.token) {
-      const paytrUrl = `https://www.paytr.com/odeme/guvenli/${data.token}`;
-      window.open(paytrUrl, "_blank");
+    if (!totalPrice || totalPrice <= 0) {
+      alert("Sepet boş görünüyor.");
       return;
     }
 
-    alert(JSON.stringify(data, null, 2));
+    const response = await fetch("https://cogo-ai.gurpinartdesign.workers.dev/paytr", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        price: totalPrice,
+        email: "orders@cogoceramic.com",
+        user_name: "COGO Customer",
+        user_address: "Türkiye",
+        user_phone: "05555555555",
+        basket: [
+          ["COGO Ceramic Sipariş", totalPrice.toFixed(2), 1]
+        ]
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.ok || !data.payment_url) {
+      alert(JSON.stringify(data, null, 2));
+      return;
+    }
+
+    window.location.href = data.payment_url;
   } catch (err) {
     console.error(err);
     alert("Ödeme başlatılırken hata oluştu.");
   }
 };
+
   // =========================
   // Overlay + WhatsApp + ESC
   // =========================

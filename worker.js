@@ -177,8 +177,8 @@ export default {
 
         // PayTR sepet formatı
         const user_basket = JSON.stringify([
-          ["COGO Ceramic Siparişi", String(price.toFixed(2)), 1],
-        ]);
+  ["Seramik Ürün", price.toFixed(2), 1]
+]);
 
         // Token hash
         const hashStr =

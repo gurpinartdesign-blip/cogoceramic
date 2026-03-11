@@ -56,8 +56,29 @@ export default {
             messages: [
               {
                 role: "system",
-                content:
-                  "Sen COGO Seramik markasının yaratıcı asistanısın. Kullanıcıya ürün tasarımı, seramik, mum, buhurdanlık ve kişiye özel tasarım konusunda yardımcı ol.",
+                // ✅ GÜNCELLENDİ: Daha güçlü, ürün odaklı sistem promptu
+                content: `Sen COGO Ceramic'in satış danışmanısın. COGO Ceramic, el yapımı, küçük seri seramik ürünler satan bir Türk markasıdır.
+
+Ürün kategorileri ve örnekler:
+- Kupalar: Boğa Kupa (720₺), Japon Kupa (720₺), Vintage Kupa (480₺), Yılan Kupa (720₺)
+- Buhurdan & Tütsülük: Tütsülük (750₺), Bohem Buhurdan (980₺), Ev Buhurdanlık (850₺)
+- Mumluk: Mumluk (520₺), Fincan (420₺), Yin Yang Mumluk (670₺)
+- Duvar Süsleri: El İzi (720₺), Kartal (720₺), Nazar Duvar Süsü (680₺)
+- Takı: Takı Seti (842₺), Flora Seramik Yüzük (380₺)
+- Diğer: Oda Kokusu (920₺), Palet (480₺), Askı (460₺), Fırçalık & Kalemlik (580₺)
+
+Görevin:
+- Müşterinin ihtiyacını 1-2 soruyla anla (hediye mi? kişisel kullanım mı? hangi bütçe?)
+- En az 2 ürün öner ve neden uygun olduğunu kısaca açıkla
+- Her ürünün arketipi veya sembolik anlamını da paylaşabilirsin (örn: Boğa = güç, kararlılık)
+- Sipariş için WhatsApp veya sepet butonunu kullanmalarını öner
+
+Kurallar:
+- Sadece COGO Ceramic ürünleri hakkında konuş
+- Fiyat veya stok hakkında emin değilsen "WhatsApp'tan sorun" de
+- Maksimum 4 cümle yaz, kısa ve samimi ol
+- Konu dışı sorularda: "Ben sadece COGO seramik ürünleri konusunda yardımcı olabiliyorum 🏺"
+- Türkçe cevap ver`,
               },
               {
                 role: "user",
@@ -149,14 +170,18 @@ export default {
           );
         }
 
-        // DİKKAT: sadece harf + rakam
         const merchant_oid = `COGO${Date.now()}`;
 
+        // ✅ GÜNCELLENDİ: Artık frontend'den gelen gerçek müşteri bilgileri kullanılıyor
         const email = body.email || "orders@cogoceramic.com";
-        const payment_amount = Math.round(price * 100); // kuruş
-        const user_name = body.user_name || "COGO Customer";
-        const user_address = body.user_address || "Türkiye";
+        const payment_amount = Math.round(price * 100);
+        const user_name = body.user_name || "Misafir Müşteri";
+        const user_address = body.user_address || "Belirtilmedi";
         const user_phone = body.user_phone || "05000000000";
+
+        // ✅ GÜNCELLENDİ: Gerçek sepet içeriği PayTR'ye gönderiliyor
+        const cartItems = body.cart_items || [["Seramik Ürün", price.toFixed(2), 1]];
+        const user_basket = JSON.stringify(cartItems);
 
         const merchant_ok_url = "https://cogoceramic.com/odeme-basarili.html";
         const merchant_fail_url = "https://cogoceramic.com/odeme-basarisiz.html";
@@ -167,20 +192,14 @@ export default {
           "127.0.0.1";
 
         const timeout_limit = "30";
-        const debug_on = "1";
-        const test_mode = "1"; // canlıya geçince 0 yap
+        const debug_on = "0"; // ✅ debug kapalı
+        const test_mode = "0"; // ✅ DÜZELTİLDİ: Canlı moda alındı
         const no_installment = "0";
         const max_installment = "12";
         const currency = "TL";
         const lang = "tr";
         const merchant_user_id = "guest";
 
-        // PayTR sepet formatı
-        const user_basket = JSON.stringify([
-  ["Seramik Ürün", price.toFixed(2), 1]
-]);
-
-        // Token hash
         const hashStr =
           merchant_id +
           user_ip +

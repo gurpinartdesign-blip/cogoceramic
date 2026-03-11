@@ -13,30 +13,104 @@
   const PAYTR_URL = "https://cogo-ai.gurpinartdesign.workers.dev/paytr";
 
   // =========================
-  // Ürünler
-  // slug = images klasöründeki dosya adı (uzantısız)
+  // Ürünler — ✅ Açıklamalar ve boyutlar güncellendi
   // =========================
   const products = [
-    { id: "aski", name: "Askı", price: 460, cat: "askilik", desc: "", size: "", slug: "aski" },
-    { id: "boga", name: "Boğa", price: 720, cat: "kupalar", desc: "", size: "", slug: "boga" },
-    { id: "buhur", name: "Tütsülük", price: 750, cat: "buhurdan", desc: "", size: "", slug: "buhur" },
-    { id: "elizi", name: "El İzi", price: 720, cat: "duvar", desc: "", size: "", slug: "elizi" },
-    { id: "fin", name: "Fincan", price: 420, cat: "mumluk", desc: "", size: "", slug: "fin" },
-    { id: "jpn", name: "Japon Kupa", price: 720, cat: "kupalar", desc: "", size: "", slug: "jpn" },
-    { id: "kartal", name: "Kartal", price: 720, cat: "duvar", desc: "", size: "", slug: "kartal" },
-    { id: "koku", name: "Oda Kokusu", price: 920, cat: "koku", desc: "", size: "", slug: "koku" },
-    { id: "pal2", name: "Bohem Buhurdan", price: 980, cat: "buhurdan", desc: "", size: "", slug: "pal2" },
-    { id: "palet", name: "Palet", price: 480, cat: "palet", desc: "", size: "", slug: "palet" },
-    { id: "stm", name: "Mumluk", price: 520, cat: "mumluk", desc: "", size: "", slug: "stm" },
-    { id: "takiset", name: "Takı Seti", price: 842, cat: "taki", desc: "", size: "", slug: "takiset" },
-    { id: "vint", name: "Vintage Kupa", price: 480, cat: "kupalar", desc: "", size: "", slug: "vint" },
-    { id: "yilan", name: "Yılan Kupa", price: 720, cat: "kupalar", desc: "", size: "", slug: "yilan" },
-
-    { id: "ev-buhur", name: "Ev Buhurdanlık", price: 850, cat: "buhurdan", desc: "Ev formunda dekoratif seramik buhurdanlık, mum ile kullanılır.", size: "10x10 cm", slug: "ev-buhur" },
-    { id: "yin-yang-mum", name: "Yin Yang Mumluk", price: 670, cat: "mumluk", desc: "Siyah & beyaz dengeyi temsil eden el yapımı dekoratif mumluk.", size: "9x6 cm", slug: "yin-yang-mum" },
-    { id: "fircalik", name: "Seramik Fırçalık & Kalemlik", price: 580, cat: "kalemlik", desc: "Mavi mermer dokulu çok amaçlı organizer.", size: "12x8 cm", slug: "fircalik" },
-    { id: "nazar-duvar", name: "Nazar Duvar Süsü", price: 680, cat: "duvar", desc: "Etnik bohem stil, nazar boncuğu temalı seramik duvar dekoru.", size: "10 cm", slug: "nazar-duvar" },
-    { id: "flora-yuzuk", name: "Flora Seramik Yüzük", price: 380, cat: "taki", desc: "Toprak tonlarında çiçek detaylı el yapımı yüzük.", size: "Ayarlanabilir", slug: "flora-yuzuk" }
+    {
+      id: "aski", name: "Askı", price: 460, cat: "askilik",
+      desc: "El yapımı seramik duvar askısı. Anahtarlık, takı veya hafif aksesuarlar için şık bir çözüm.",
+      size: "15x8 cm", slug: "aski"
+    },
+    {
+      id: "boga", name: "Boğa", price: 720, cat: "kupalar",
+      desc: "Güç ve kararlılık arketipinden ilham alan el yapımı kupa. Her parça kendine özgü doku taşır.",
+      size: "350 ml", slug: "boga"
+    },
+    {
+      id: "buhur", name: "Tütsülük", price: 750, cat: "buhurdan",
+      desc: "Meditasyon ve rahatlama ritüelleri için el yapımı seramik tütsülük. Çubuk ve koni tütsü uyumlu.",
+      size: "12x5 cm", slug: "buhur"
+    },
+    {
+      id: "elizi", name: "El İzi", price: 720, cat: "duvar",
+      desc: "Sanatçının el izinden dökülen benzersiz duvar süsü. İki aynı parça yoktur — gerçek anlamda tekil.",
+      size: "20x15 cm", slug: "elizi"
+    },
+    {
+      id: "fin", name: "Fincan", price: 420, cat: "mumluk",
+      desc: "Çay veya kahve fincanı formunda romantik mumluk. Tealight mum ile kullanılır.",
+      size: "8x7 cm", slug: "fin"
+    },
+    {
+      id: "jpn", name: "Japon Kupa", price: 720, cat: "kupalar",
+      desc: "Wabi-sabi estetiğinden ilham alan Japon tarzı kupa. Doğal çatlak dokusuyla her parça eşsiz.",
+      size: "300 ml", slug: "jpn"
+    },
+    {
+      id: "kartal", name: "Kartal", price: 720, cat: "duvar",
+      desc: "Özgürlük ve vizyon sembolü kartal. El oyması detaylarla işlenmiş güçlü bir duvar dekoru.",
+      size: "18x14 cm", slug: "kartal"
+    },
+    {
+      id: "koku", name: "Oda Kokusu", price: 920, cat: "koku",
+      desc: "Gözenekli seramik yapısıyla oda kokusunu yavaşça yayan el yapımı difüzör. Esans ile kullanılır.",
+      size: "10x10 cm", slug: "koku"
+    },
+    {
+      id: "pal2", name: "Bohem Buhurdan", price: 980, cat: "buhurdan",
+      desc: "Bohem geometrik motiflerle bezeli premium buhurdanlık. Mum veya tütsü ile kullanılır.",
+      size: "14x10 cm", slug: "pal2"
+    },
+    {
+      id: "palet", name: "Palet", price: 480, cat: "palet",
+      desc: "Sanatçılar için el yapımı seramik boya paleti. Renkleri karıştırmak için ideal yüzey dokusu.",
+      size: "20x12 cm", slug: "palet"
+    },
+    {
+      id: "stm", name: "Mumluk", price: 520, cat: "mumluk",
+      desc: "Sade ve zarif el yapımı seramik mumluk. Standart tealight uyumlu, sofra veya raf için ideal.",
+      size: "8x6 cm", slug: "stm"
+    },
+    {
+      id: "takiset", name: "Takı Seti", price: 842, cat: "taki",
+      desc: "Toprak tonlarında el yapımı seramik takı koleksiyonu. Küpe ve kolye içerir, her set özgün.",
+      size: "Standart", slug: "takiset"
+    },
+    {
+      id: "vint", name: "Vintage Kupa", price: 480, cat: "kupalar",
+      desc: "Nostaljik vintage estetik, modern el işçiliği. Sabah kahveni özel kılan günlük kullanım kupası.",
+      size: "320 ml", slug: "vint"
+    },
+    {
+      id: "yilan", name: "Yılan Kupa", price: 720, cat: "kupalar",
+      desc: "Dönüşüm ve yenilenme sembolü yılan figürlü kupa. Güçlü bir karakter, sofrada konuşma başlatır.",
+      size: "350 ml", slug: "yilan"
+    },
+    {
+      id: "ev-buhur", name: "Ev Buhurdanlık", price: 850, cat: "buhurdan",
+      desc: "Ev formunda dekoratif seramik buhurdanlık. Sıcaklık ve huzur hissi veren raf dekoru.",
+      size: "10x10 cm", slug: "ev-buhur"
+    },
+    {
+      id: "yin-yang-mum", name: "Yin Yang Mumluk", price: 670, cat: "mumluk",
+      desc: "Siyah & beyaz dengeyi temsil eden el yapımı dekoratif mumluk. Meditasyon köşesi için ideal.",
+      size: "9x6 cm", slug: "yin-yang-mum"
+    },
+    {
+      id: "fircalik", name: "Seramik Fırçalık & Kalemlik", price: 580, cat: "kalemlik",
+      desc: "Mavi mermer dokulu çok amaçlı organizer. Masa düzeni için şık ve işlevsel seramik kap.",
+      size: "12x8 cm", slug: "fircalik"
+    },
+    {
+      id: "nazar-duvar", name: "Nazar Duvar Süsü", price: 680, cat: "duvar",
+      desc: "Etnik bohem stil, nazar boncuğu temalı seramik duvar dekoru. Enerji koruma sembolü.",
+      size: "10 cm", slug: "nazar-duvar"
+    },
+    {
+      id: "flora-yuzuk", name: "Flora Seramik Yüzük", price: 380, cat: "taki",
+      desc: "Toprak tonlarında çiçek detaylı el yapımı yüzük. Doğa ile bağlantı kuran zarif aksesuar.",
+      size: "Ayarlanabilir", slug: "flora-yuzuk"
+    }
   ];
 
   // =========================
@@ -157,6 +231,34 @@
   }
 
   // =========================
+  // Toast bildirimi — ✅ YENİ
+  // =========================
+  function showToast(msg, type = "success") {
+    let toast = $("#cogoToast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "cogoToast";
+      toast.style.cssText = `
+        position:fixed; bottom:84px; left:50%; transform:translateX(-50%) translateY(20px);
+        background:${type === "success" ? "#1f1a17" : "#c0392b"};
+        color:#fff; padding:10px 20px; border-radius:999px;
+        font-size:13px; font-weight:700; z-index:99999;
+        opacity:0; transition:all 0.25s ease; pointer-events:none;
+        white-space:nowrap; box-shadow:0 8px 24px rgba(0,0,0,0.2);
+      `;
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = "1";
+    toast.style.transform = "translateX(-50%) translateY(0)";
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translateX(-50%) translateY(20px)";
+    }, 2500);
+  }
+
+  // =========================
   // Drawer
   // =========================
   function openDrawer() {
@@ -221,6 +323,8 @@
     else cartState.push({ id: pid, qty: 1 });
 
     saveCart();
+    // ✅ YENİ: Toast bildirimi
+    showToast(`✓ ${p.name} sepete eklendi`);
     openCart();
   }
 
@@ -311,6 +415,7 @@ Not:`;
   clearCartBtn?.addEventListener("click", () => {
     cartState = [];
     saveCart();
+    showToast("Sepet temizlendi");
   });
 
   // =========================
@@ -375,7 +480,8 @@ Not:`;
               data-product="${escapeHtml(p.name)}"
               data-price="${escapeHtml(String(p.price))}"
               data-cat="${escapeHtml(p.cat)}">
-              ✨ CoGo AI’a Sor
+              <span class="desktop-label">✨ CoGo AI'a Sor</span>
+              <span class="mobile-label">✨ AI</span>
             </button>
           </div>
         </div>
@@ -485,7 +591,7 @@ Not:`;
     document.body.classList.add("noScroll");
 
     if (aiMsgs && aiMsgs.childElementCount === 0) {
-      addBotMsg("Selam ✨ Ben CoGo AI. Ürünlerin anlamı, hediye önerisi veya kişiselleştirme için yazabilirsin.");
+      addBotMsg("Selam ✨ Ben CoGo AI. Ürün öneri, hediye fikri veya anlamı hakkında yaz!");
     }
   }
 
@@ -566,55 +672,198 @@ Fiyat: ${price} TL`;
   });
 
   // =========================
-  // PayTR
+  // ✅ GÜNCELLENDİ: Müşteri bilgi modalı + PayTR
   // =========================
- 
-window.startPayment = async function () {
-  try {
+
+  // Modal HTML'i sayfaya ekle
+  function injectPaymentModal() {
+    if (document.getElementById("cogoPayModal")) return;
+
+    const modal = document.createElement("div");
+    modal.id = "cogoPayModal";
+    modal.style.cssText = `
+      position:fixed; inset:0; z-index:99998;
+      background:rgba(0,0,0,0.5);
+      display:none; align-items:center; justify-content:center;
+      padding:20px;
+    `;
+
+    modal.innerHTML = `
+      <div style="
+        background:#fff; border-radius:24px;
+        padding:28px; width:min(440px, 100%);
+        box-shadow:0 24px 60px rgba(0,0,0,0.2);
+        position:relative;
+      ">
+        <button id="cogoPayModalClose" style="
+          position:absolute; top:16px; right:16px;
+          width:36px; height:36px; border-radius:12px;
+          border:1px solid rgba(0,0,0,0.1);
+          background:rgba(0,0,0,0.04);
+          cursor:pointer; font-size:16px;
+        ">✕</button>
+
+        <div style="font-weight:900; font-size:1.2rem; margin-bottom:6px;">Teslimat Bilgileri</div>
+        <div style="color:#7a6e65; font-size:0.88rem; margin-bottom:20px;">Siparişini tamamlamak için bilgilerini gir.</div>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            <label style="font-size:12px; font-weight:800; color:#7a6e65; display:block; margin-bottom:5px;">Ad Soyad *</label>
+            <input id="payName" type="text" placeholder="Ahmet Yılmaz" style="
+              width:100%; height:44px; border-radius:12px;
+              border:1px solid rgba(0,0,0,0.12);
+              padding:0 14px; font-size:14px; outline:none;
+            " />
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:800; color:#7a6e65; display:block; margin-bottom:5px;">Telefon *</label>
+            <input id="payPhone" type="tel" placeholder="05XX XXX XX XX" style="
+              width:100%; height:44px; border-radius:12px;
+              border:1px solid rgba(0,0,0,0.12);
+              padding:0 14px; font-size:14px; outline:none;
+            " />
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:800; color:#7a6e65; display:block; margin-bottom:5px;">E-posta *</label>
+            <input id="payEmail" type="email" placeholder="ornek@mail.com" style="
+              width:100%; height:44px; border-radius:12px;
+              border:1px solid rgba(0,0,0,0.12);
+              padding:0 14px; font-size:14px; outline:none;
+            " />
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:800; color:#7a6e65; display:block; margin-bottom:5px;">Adres *</label>
+            <textarea id="payAddress" placeholder="Mahalle, cadde, sokak, kapı no, şehir" style="
+              width:100%; height:90px; border-radius:12px;
+              border:1px solid rgba(0,0,0,0.12);
+              padding:10px 14px; font-size:14px; outline:none;
+              resize:none; font-family:inherit;
+            "></textarea>
+          </div>
+        </div>
+
+        <div id="payFormError" style="
+          color:#c0392b; font-size:12px; margin-top:8px; display:none;
+        ">Lütfen tüm alanları doldurun.</div>
+
+        <button id="cogoPayConfirm" style="
+          width:100%; height:48px; margin-top:16px;
+          border-radius:999px; border:none;
+          background:#1f1a17; color:#fff;
+          font-size:14px; font-weight:800;
+          cursor:pointer;
+        ">Ödemeye Geç →</button>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    document.getElementById("cogoPayModalClose").addEventListener("click", closePayModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closePayModal(); });
+    document.getElementById("cogoPayConfirm").addEventListener("click", submitPayment);
+  }
+
+  function openPayModal() {
+    injectPaymentModal();
+    const modal = document.getElementById("cogoPayModal");
+    if (modal) {
+      modal.style.display = "flex";
+      document.body.classList.add("noScroll");
+    }
+  }
+
+  function closePayModal() {
+    const modal = document.getElementById("cogoPayModal");
+    if (modal) {
+      modal.style.display = "none";
+      document.body.classList.remove("noScroll");
+    }
+  }
+
+  async function submitPayment() {
+    const name = document.getElementById("payName")?.value.trim();
+    const phone = document.getElementById("payPhone")?.value.trim();
+    const email = document.getElementById("payEmail")?.value.trim();
+    const address = document.getElementById("payAddress")?.value.trim();
+    const errEl = document.getElementById("payFormError");
+    const confirmBtn = document.getElementById("cogoPayConfirm");
+
+    if (!name || !phone || !email || !address) {
+      if (errEl) errEl.style.display = "block";
+      return;
+    }
+    if (errEl) errEl.style.display = "none";
+
     const totalText = document.getElementById("cartTotal")?.textContent || "₺0";
-    const totalPrice =
-      Number(totalText.replace(/[^\d,]/g, "").replace(",", ".")) || 0;
+    const totalPrice = Number(totalText.replace(/[^\d,]/g, "").replace(",", ".")) || 0;
 
     if (!totalPrice || totalPrice <= 0) {
-      alert("Sepet boş görünüyor.");
+      showToast("Sepet boş görünüyor.", "error");
+      closePayModal();
       return;
     }
 
-    const response = await fetch("https://cogo-ai.gurpinartdesign.workers.dev/paytr", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        price: totalPrice,
-        email: "orders@cogoceramic.com",
-        user_name: "COGO Customer",
-        user_address: "Türkiye",
-        user_phone: "05555555555"
-      }),
-    });
+    // Gerçek sepet içeriğini hazırla
+    const cartItems = cartState.map((item) => {
+      const p = products.find((x) => x.id === item.id);
+      return p ? [p.name, p.price.toFixed(2), item.qty] : null;
+    }).filter(Boolean);
 
-    const data = await response.json();
+    confirmBtn.textContent = "İşleniyor...";
+    confirmBtn.disabled = true;
 
-    if (!response.ok) {
-      alert(JSON.stringify(data, null, 2));
-      return;
+    try {
+      const response = await fetch(PAYTR_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          price: totalPrice,
+          email,
+          user_name: name,
+          user_address: address,
+          user_phone: phone,
+          cart_items: cartItems
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        showToast("Ödeme başlatılamadı. Tekrar dene.", "error");
+        confirmBtn.textContent = "Ödemeye Geç →";
+        confirmBtn.disabled = false;
+        return;
+      }
+
+      const token = data?.paytr_response?.token;
+      const status = data?.paytr_response?.status;
+
+      if (status !== "success" || !token) {
+        showToast("PayTR hatası. WhatsApp ile sipariş ver.", "error");
+        confirmBtn.textContent = "Ödemeye Geç →";
+        confirmBtn.disabled = false;
+        return;
+      }
+
+      closePayModal();
+      window.location.href = `https://www.paytr.com/odeme/guvenli/${token}`;
+
+    } catch (err) {
+      console.error(err);
+      showToast("Bağlantı hatası. Tekrar dene.", "error");
+      confirmBtn.textContent = "Ödemeye Geç →";
+      confirmBtn.disabled = false;
     }
-
-    const token = data?.paytr_response?.token;
-    const status = data?.paytr_response?.status;
-
-    if (status !== "success" || !token) {
-      alert(JSON.stringify(data, null, 2));
-      return;
-    }
-
-    window.location.href = `https://www.paytr.com/odeme/guvenli/${token}`;
-  } catch (err) {
-    console.error(err);
-    alert("Ödeme başlatılırken hata oluştu.");
   }
-};
+
+  // Global startPayment artık modalı açıyor
+  window.startPayment = function () {
+    if (cartState.length === 0) {
+      showToast("Sepet boş. Önce ürün ekle.", "error");
+      return;
+    }
+    openPayModal();
+  };
 
   // =========================
   // Overlay + WhatsApp + ESC
@@ -640,6 +889,7 @@ window.startPayment = async function () {
       closeCart();
       closeAiPanel();
       closeLightbox();
+      closePayModal();
     }
 
     if (lb?.classList.contains("open")) {

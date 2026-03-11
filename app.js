@@ -590,21 +590,26 @@ window.startPayment = async function () {
         email: "orders@cogoceramic.com",
         user_name: "COGO Customer",
         user_address: "Türkiye",
-        user_phone: "05555555555",
-        basket: [
-          ["COGO Ceramic Sipariş", totalPrice.toFixed(2), 1]
-        ]
+        user_phone: "05555555555"
       }),
     });
 
     const data = await response.json();
 
-    if (!response.ok || !data.ok || !data.payment_url) {
+    if (!response.ok) {
       alert(JSON.stringify(data, null, 2));
       return;
     }
 
-    window.location.href = data.payment_url;
+    const token = data?.paytr_response?.token;
+    const status = data?.paytr_response?.status;
+
+    if (status !== "success" || !token) {
+      alert(JSON.stringify(data, null, 2));
+      return;
+    }
+
+    window.location.href = `https://www.paytr.com/odeme/guvenli/${token}`;
   } catch (err) {
     console.error(err);
     alert("Ödeme başlatılırken hata oluştu.");

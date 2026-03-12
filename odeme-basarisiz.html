@@ -1,3 +1,89 @@
-<h1>Ödeme Başarısız</h1>
-<p>İşlem tamamlanamadı.</p>
-<a href="/">Ana sayfaya dön</a>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ödeme Başarısız — COGO Ceramic</title>
+  <meta name="description" content="Ödeme işlemi tamamlanamadı. Tekrar deneyin veya WhatsApp ile sipariş verin." />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .fail-wrap {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .fail-card {
+      max-width: 480px;
+      width: 100%;
+      background: white;
+      border: 1px solid rgba(31,26,23,.12);
+      border-radius: 28px;
+      padding: 48px 36px;
+      text-align: center;
+      box-shadow: 0 14px 40px rgba(0,0,0,.08);
+    }
+    .fail-icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .fail-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 10px; color: #1f1a17; }
+    .fail-sub {
+      color: rgba(31,26,23,.66);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .fail-box {
+      background: #fdecea;
+      border: 1px solid rgba(192,57,43,.2);
+      border-radius: 18px;
+      padding: 16px 20px;
+      text-align: left;
+      margin-bottom: 28px;
+      font-size: 0.9rem;
+      color: #6b3530;
+      line-height: 1.6;
+    }
+    .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-group .btn { flex: 1; min-width: 120px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="index.html">
+        <div class="logo">COGO</div>
+        <div class="brandText">
+          <div class="brandName">COGO Ceramic</div>
+          <div class="brandTag">El emeği • Küçük seri • Tekil</div>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <div class="fail-wrap">
+    <div class="fail-card">
+      <div class="fail-icon">😔</div>
+      <div class="fail-title">Ödeme Tamamlanamadı</div>
+      <div class="fail-sub">
+        Bir sorun oluştu ve ödemen alınamadı.<br>
+        Kartından herhangi bir ücret kesilmedi.
+      </div>
+
+      <div class="fail-box">
+        Sık karşılaşılan nedenler:<br>
+        • Kart bakiyesi yetersiz<br>
+        • 3D Secure onayı verilmedi<br>
+        • Kart limiti aşıldı<br><br>
+        Sorun devam ederse WhatsApp üzerinden sipariş verebilirsin.
+      </div>
+
+      <div class="btn-group">
+        <a class="btn btn--soft" href="index.html">Tekrar Dene</a>
+        <a class="btn" href="https://wa.me/905529341223?text=Merhaba%2C%20odeme%20sorunum%20var%2C%20yardimci%20olur%20musunuz%3F" target="_blank" rel="noopener">
+          WhatsApp ile Sipariş
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

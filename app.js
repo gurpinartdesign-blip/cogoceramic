@@ -32,7 +32,7 @@
       size: "12x5 cm", slug: "buhur"
     },
     {
-      id: "elizi", name: "El İzi", price: 720, cat: "duvar",
+      id: "elizi", name: "El İzi", price: 720, cat: "kupalar",
       desc: "Sanatçının el izinden dökülen benzersiz duvar süsü. İki aynı parça yoktur — gerçek anlamda tekil.",
       size: "20x15 cm", slug: "elizi"
     },
@@ -42,12 +42,12 @@
       size: "8x7 cm", slug: "fin"
     },
     {
-      id: "jpn", name: "Japon Kupa", price: 720, cat: "kupalar",
+      id: "jpn", name: "Japon Kupa", price: 720, cat: "mumluk",
       desc: "Wabi-sabi estetiğinden ilham alan Japon tarzı kupa. Doğal çatlak dokusuyla her parça eşsiz.",
       size: "300 ml", slug: "jpn"
     },
     {
-      id: "kartal", name: "Kartal", price: 720, cat: "duvar",
+      id: "kartal", name: "Kartal", price: 720, cat: "kupalar",
       desc: "Özgürlük ve vizyon sembolü kartal. El oyması detaylarla işlenmiş güçlü bir duvar dekoru.",
       size: "18x14 cm", slug: "kartal"
     },
@@ -77,7 +77,7 @@
       size: "Standart", slug: "takiset"
     },
     {
-      id: "vint", name: "Vintage Kupa", price: 480, cat: "kupalar",
+      id: "vint", name: "Vintage Kupa", price: 480, cat: "mumluk",
       desc: "Nostaljik vintage estetik, modern el işçiliği. Sabah kahveni özel kılan günlük kullanım kupası.",
       size: "320 ml", slug: "vint"
     },

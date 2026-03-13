@@ -33,7 +33,7 @@
     },
     {
       id: "elizi", name: "El İzi", price: 720, cat: "kupalar",
-      desc: "Sanatçının el izinden dökülen benzersiz duvar süsü. İki aynı parça yoktur — gerçek anlamda tekil.",
+      desc: "Sanatçının el izinden ilham alınan kupa. Her parça biricik bir doku taşır — dünyada bir tane.",
       size: "20x15 cm", slug: "elizi"
     },
     {
@@ -43,12 +43,12 @@
     },
     {
       id: "jpn", name: "Japon Kupa", price: 720, cat: "mumluk",
-      desc: "Wabi-sabi estetiğinden ilham alan Japon tarzı kupa. Doğal çatlak dokusuyla her parça eşsiz.",
+      desc: "Wabi-sabi estetiğinden ilham alınan el yapımı seramik mumluk. Doğal dokusuyla huzur ve sadelik yayar.",
       size: "300 ml", slug: "jpn"
     },
     {
       id: "kartal", name: "Kartal", price: 720, cat: "kupalar",
-      desc: "Özgürlük ve vizyon sembolü kartal. El oyması detaylarla işlenmiş güçlü bir duvar dekoru.",
+      desc: "Kartal figürlü el yapımı seramik kupa. Güç ve özgürlük enerjisi taşıyan, her sabah ilham veren özel bir parça.",
       size: "18x14 cm", slug: "kartal"
     },
     {
@@ -78,7 +78,7 @@
     },
     {
       id: "vint", name: "Vintage Kupa", price: 480, cat: "mumluk",
-      desc: "Nostaljik vintage estetik, modern el işçiliği. Sabah kahveni özel kılan günlük kullanım kupası.",
+      desc: "Vintage estetikten ilham alınan el yapımı seramik mumluk. Tealight mum ile sıcak bir atmosfer yaratır.",
       size: "320 ml", slug: "vint"
     },
     {

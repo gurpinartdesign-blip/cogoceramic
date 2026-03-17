@@ -1,3 +1,4 @@
+
 /* =========================
    COGO Ceramic — app.js
    (tek dosya)
@@ -466,6 +467,20 @@ Not:`;
           <div class="pMeta">
             ${p.size ? `<span class="meta">${escapeHtml(p.size)}</span>` : `<span class="meta"></span>`}
             <strong class="price">${formatTL(p.price)}</strong>
+          </div>
+
+          <div class="taksit-wrapper" style="margin-top:8px;">
+            <style>
+              #paytr_taksit_tablosu_${p.id}{clear:both;font-size:11px;max-width:100%;text-align:center;font-family:Arial,sans-serif;}
+              #paytr_taksit_tablosu_${p.id} .taksit-tablosu-wrapper{margin:3px;width:120px;padding:6px;cursor:default;text-align:center;display:inline-block;border:1px solid #e1e1e1;}
+              #paytr_taksit_tablosu_${p.id} .taksit-logo img{max-height:20px;padding-bottom:6px;}
+              #paytr_taksit_tablosu_${p.id} .taksit-tutari-text{float:left;width:54px;color:#a2a2a2;margin-bottom:3px;font-size:10px;}
+              #paytr_taksit_tablosu_${p.id} .taksit-tutar-wrapper{display:inline-block;background-color:#f7f7f7;}
+              #paytr_taksit_tablosu_${p.id} .taksit-tutari{float:left;width:54px;padding:4px 0;color:#474747;border:2px solid #fff;font-size:10px;}
+              #paytr_taksit_tablosu_${p.id} .taksit-tutari-bold{font-weight:bold;}
+            </style>
+            <div id="paytr_taksit_tablosu_${p.id}"></div>
+            <script src="https://www.paytr.com/odeme/taksit-tablosu/v2?token=b57bb099e5bc39f11466174b64338e64a7fc1b62a77c95e4c81bec9572fc6e54&merchant_id=678861&amount=${p.price}&taksit=0&tumu=0&element_id=paytr_taksit_tablosu_${p.id}"></script>
           </div>
 
           <div class="pActions">

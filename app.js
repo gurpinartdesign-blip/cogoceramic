@@ -197,7 +197,7 @@
   // Görsel yardımcıları
   // =========================
   function buildCandidates(base) {
-    const exts = [".jpg", ".jpeg", ".png", ".webp"];
+    const exts = [".jpg", ".jpeg", ".jpg.jpeg", ".png", ".webp"];
     return exts.map((ext) => `images/${base}${ext}`);
   }
 

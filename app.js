@@ -111,6 +111,62 @@
       id: "flora-yuzuk", name: "Flora Seramik Yüzük", price: 380, cat: "taki",
       desc: "Toprak tonlarında çiçek detaylı el yapımı yüzük. Doğa ile bağlantı kuran zarif aksesuar.",
       size: "Ayarlanabilir", slug: "flora-yuzuk"
+    },
+    // --- Trendyol'dan eklenen yeni ürünler ---
+    {
+      id: "vanilya-mum-spiral", name: "Vanilya Mum — Spiral", price: 949, cat: "mumluk",
+      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Spiral desen işlemeli, 7x8 cm.",
+      size: "7x8 cm", slug: "vanilya-mum-spiral"
+    },
+    {
+      id: "vanilya-mum-nazar", name: "Vanilya Mum — Nazar", price: 949, cat: "mumluk",
+      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Nazar motifli, 7x8 cm.",
+      size: "7x8 cm", slug: "vanilya-mum-nazar"
+    },
+    {
+      id: "vanilya-mum-bulut", name: "Vanilya Mum — Bulut", price: 949, cat: "mumluk",
+      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Bulut & yağmur motifli, 7x8 cm.",
+      size: "7x8 cm", slug: "vanilya-mum-bulut"
+    },
+    {
+      id: "vanilya-mum-flamingo", name: "Vanilya Mum — Flamingo", price: 949, cat: "mumluk",
+      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Flamingo figürlü, 7x8 cm.",
+      size: "7x8 cm", slug: "vanilya-mum-flamingo"
+    },
+    {
+      id: "vanilya-mum-cicek", name: "Vanilya Mum — Çiçek", price: 949, cat: "mumluk",
+      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Nazar çiçek motifli, 7x8 cm.",
+      size: "7x8 cm", slug: "vanilya-mum-cicek"
+    },
+    {
+      id: "vanilya-mum-sembol", name: "Vanilya Mum — Sembol", price: 949, cat: "mumluk",
+      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Şamanik sembol işlemeli, 7x8 cm.",
+      size: "7x8 cm", slug: "vanilya-mum-sembol"
+    },
+    {
+      id: "sukulent-saksisi", name: "Sukulent Saksısı", price: 246, cat: "palet",
+      desc: "El yapımı minimalist seramik sukulent saksısı. Doğal doku, sade tasarım.",
+      size: "10x8 cm", slug: "sukulent-saksisi"
+    },
+    {
+      id: "espresso-kupa", name: "Stoneware Espresso Kupası", price: 918, cat: "kupalar",
+      desc: "Ergonomik tasarımlı stoneware espresso kupası. Isıyı uzun süre tutar, el yapımı.",
+      size: "200 ml", slug: "espresso-kupa"
+    },
+    {
+      id: "elsokmal-kupa", name: "El Sokmalı Stoneware Kupa", price: 1782, cat: "kupalar",
+      desc: "El sokmalı ergonomik stoneware kupa. Isıyı tutar, benzersiz kavrama tasarımı.",
+      size: "350 ml", slug: "elsokmal-kupa"
+    },
+    {
+      id: "kibrit-kutusu", name: "Kibrit Kutusu", price: 849, cat: "duvar",
+      desc: "Geyik & orman rölyefli el yapımı seramik kibrit kutusu. Dekoratif ve fonksiyonel.",
+      size: "10x6 cm", slug: "kibrit-kutusu"
+    },
+    {
+      id: "seramik-kolye", name: "Seramik Kolye", price: 380, cat: "taki",
+      desc: "El yapımı mavi seramik kolye. Doğal ip askılı, özgün tasarım.",
+      size: "3 cm çap", slug: "seramik-kolye"
     }
   ];
 

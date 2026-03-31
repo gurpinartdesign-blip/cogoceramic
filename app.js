@@ -591,7 +591,7 @@
   }
 
   function updateCartUI() {
-    if (!cartItemsEl || !cartCountEl || !cartTotalEl || !checkoutWA) return;
+    if (!cartItemsEl || !cartCountEl || !cartTotalEl) return;
     const count = cartState.reduce((s, x) => s + x.qty, 0);
     cartCountEl.textContent = String(count);
     const rows = cartState.map((item) => {

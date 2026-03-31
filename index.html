@@ -171,11 +171,7 @@
 
       <div class="cart__actions">
         <button class="btn btn--soft" id="clearCart">Sepeti Temizle</button>
-        <a class="btn" id="checkoutWA" href="#" target="_blank" rel="noopener">WhatsApp ile Sipariş</a>
-      </div>
-
-      <div class="cart__actions" style="margin-top:10px;">
-        <button class="btn" onclick="startPayment()">Ödemeye Geç</button>
+        <button class="btn" onclick="startPayment()">Ödemeye Geç →</button>
       </div>
 
       <div class="hint"></div>
@@ -204,6 +200,34 @@
           <span class="chip">Yeni koleksiyonlar</span>
         </div>
       </div>
+
+      <!-- Kampanya & İndirim Kutusu -->
+      <div class="hero__promo" style="
+        display:flex; flex-direction:column; gap:12px;
+        min-width:240px; max-width:280px;
+      ">
+        <div style="background:rgba(255,255,255,0.12); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.2); border-radius:16px; padding:18px;">
+          <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:#d4b896; margin-bottom:8px;">🎁 ÜYE AVANTAJI</div>
+          <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:4px;">Kayıtta 50 Puan!</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.75);">Her 10₺ = 1 puan • 100 puan = %10 indirim</div>
+          <a href="#uyelik" style="display:inline-block; margin-top:10px; background:#b87333; color:#fff; font-size:12px; font-weight:800; padding:7px 16px; border-radius:999px; text-decoration:none;">Hemen Üye Ol →</a>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.12); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.2); border-radius:16px; padding:18px;">
+          <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:#d4b896; margin-bottom:8px;">🏺 YENİ KOLEKSİYON</div>
+          <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:4px;">Vanilya Aromalı Mumlar</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.75);">El yapımı seramik mumluk + balmumu mum. 6 farklı desen.</div>
+          <a href="#urunler" style="display:inline-block; margin-top:10px; background:rgba(255,255,255,0.15); color:#fff; font-size:12px; font-weight:800; padding:7px 16px; border-radius:999px; text-decoration:none; border:1px solid rgba(255,255,255,0.3);">Keşfet →</a>
+        </div>
+
+        <div style="background:rgba(184,115,51,0.3); backdrop-filter:blur(8px); border:1px solid rgba(184,115,51,0.4); border-radius:16px; padding:18px;">
+          <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:#d4b896; margin-bottom:8px;">⚡ SINIRLI STOK</div>
+          <div style="font-size:15px; font-weight:800; color:#fff; margin-bottom:4px;">Stoneware Kupalar</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.75);">Espresso & el sokmalı — üretimi zaman alan özel parçalar.</div>
+          <a href="#urunler" style="display:inline-block; margin-top:10px; background:rgba(255,255,255,0.15); color:#fff; font-size:12px; font-weight:800; padding:7px 16px; border-radius:999px; text-decoration:none; border:1px solid rgba(255,255,255,0.3);">Stoğu Gör →</a>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -318,17 +342,13 @@
         <div class="miniCard">
           <div class="miniTitle">WhatsApp</div>
           <div class="miniText">Hızlı sipariş &amp; stok soruları.</div>
-          <!-- ✅ Telefon numarası düz metin olarak eklendi -->
-          <div class="miniText" style="font-weight:800; color:#1f1a17; margin-bottom:8px;">
-            Tel: 0552 934 12 23
-          </div>
           <a class="btn" id="waBottom" href="#" target="_blank" rel="noopener">WhatsApp'tan yaz</a>
         </div>
 
         <div class="miniCard">
           <div class="miniTitle">E-posta</div>
           <div class="miniText">Detaylı siparişler &amp; kurumsal talepler.</div>
-          <a class="btn btn--soft" href="/cdn-cgi/l/email-protection#e7889583829594a784888088848295868a8e84c984888a"><span class="__cf_email__" data-cfemail="147b667071666754777b737b77716675797d773a777b79">[email&#160;protected]</span></a>
+          <a class="btn btn--soft" href="mailto:orders@cogoceramic.com">orders@cogoceramic.com</a>
         </div>
 
         <!-- ✅ Adres kartı eklendi -->
@@ -347,7 +367,7 @@
       <div>© 2026 COGO Ceramic</div>
       <!-- ✅ Footer'a da adres ve telefon eklendi (PayTR için) -->
       <div class="muted" style="font-size:12px; text-align:center;">
-        Tel: 0552 934 12 23 &nbsp;|&nbsp; Karadeniz Mah. Ümraniye Sok. İlkadım / Samsun
+        Karadeniz Mah. Ümraniye Sok. İlkadım / Samsun
       </div>
       <div class="footerLinks">
         <a href="gizlilik.html">Gizlilik</a><span>•</span>

@@ -433,7 +433,7 @@
   const cartItemsEl = $("#cartItems");
   const cartCountEl = $("#cartCount");
   const cartTotalEl = $("#cartTotal");
-  const checkoutWA = $("#checkoutWA");
+  const checkoutWA = $("#checkoutWA"); // artık kullanılmıyor
   const clearCartBtn = $("#clearCart");
   const grid = $("#productGrid");
   const searchInput = $("#searchInput");
@@ -623,7 +623,7 @@
       return p ? `• ${p.name} x${item.qty} — ${formatTL(p.price * item.qty)}` : "";
     }).filter(Boolean);
     const msg = `Merhaba COGO Ceramic,\nSipariş vermek istiyorum:\n\n${lines.join("\n")}\n\nToplam: ${formatTL(total)}\nAd Soyad:\nAdres:\nNot:`;
-    checkoutWA.href = waLink(msg);
+    if (checkoutWA) checkoutWA.href = waLink(msg);
   }
 
   clearCartBtn?.addEventListener("click", () => {
@@ -692,7 +692,6 @@
           </div>
           <div class="pActions">
             <button class="btn btn--soft" data-add="${escapeHtml(p.id)}">Sepete Ekle</button>
-            <a class="btn" href="${waLink(`Merhaba COGO Ceramic, ${p.name} ürününü satın almak istiyorum.`)}" target="_blank" rel="noopener">Satın Al</a>
             <button class="btn ask-cogo" data-product="${escapeHtml(p.name)}" data-price="${escapeHtml(String(p.price))}" data-cat="${escapeHtml(p.cat)}">
               <span class="desktop-label">✨ CoGo AI'a Sor</span>
               <span class="mobile-label">✨ AI</span>

@@ -654,6 +654,7 @@
   // Render
   // =========================
   function render() {
+    if (!grid) return;
     const list = products
       .filter((p) => (filterCat === "all" ? true : p.cat === filterCat))
       .filter((p) => {
@@ -957,9 +958,7 @@
   // =========================
   // İlk yükleme
   // =========================
-  if (grid) {
-    render();
-  }
+  render();
   updateCartUI();
   updateAuthButton();
 })();

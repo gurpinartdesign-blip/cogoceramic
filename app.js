@@ -451,8 +451,6 @@
   const aiForm = $("#cogoAiForm");
   const aiInput = $("#cogoAiInput");
 
-  if (!grid) return;
-
   // =========================
   // Genel state
   // =========================
@@ -959,7 +957,9 @@
   // =========================
   // İlk yükleme
   // =========================
-  render();
+  if (grid) {
+    render();
+  }
   updateCartUI();
   updateAuthButton();
 })();

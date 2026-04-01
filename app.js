@@ -900,8 +900,7 @@
     const confirmBtn = document.getElementById("cogoPayConfirm");
     if (!name || !phone || !email || !address) { if (errEl) errEl.style.display = "block"; return; }
     if (errEl) errEl.style.display = "none";
-    const totalText = document.getElementById("cartTotal")?.textContent || "₺0";
-    const totalPrice = Number(totalText.replace(/[^\d,]/g, "").replace(",", ".")) || 0;
+    const totalPrice = getCartTotal();
     if (!totalPrice || totalPrice <= 0) { showToast("Sepet boş görünüyor.", "error"); closePayModal(); return; }
     const cartItems = cartState.map((item) => {
       const p = products.find((x) => x.id === item.id);

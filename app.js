@@ -451,6 +451,7 @@
   const aiForm = $("#cogoAiForm");
   const aiInput = $("#cogoAiInput");
 
+
   // =========================
   // Genel state
   // =========================

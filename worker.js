@@ -351,7 +351,82 @@ Kurallar:
         });
       }
     }
+// =========================
+// AUTH - REGISTER
+// =========================
+if (url.pathname === "/auth/register") {
+  if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
+  try {
+    const { email, name, password } = await request.json();
+    if (!email || !name || !password) return new Response(JSON.stringify({ ok: false, error: "Eksik alan" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } });
+    const existing = await env.DB.prepare("SELECT id FROM members WHERE email = ?").bind(email).first();
+    if (existing) return new Response(JSON.stringify({ ok: false, error: "Bu e-posta zaten kayıtlı." }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+    const hash = btoa(password + "cogo2024salt");
+    const id = crypto.randomUUID();
+    await env.DB.prepare("INSERT INTO members (id, email, name, password_hash, points) VALUES (?, ?, ?, ?, 50)").bind(id, email, name, hash).run();
+    const token = btoa(id + ":" + Date.now());
+    const user = { id, email, name, points: 50 };
+    return new Response(JSON.stringify({ ok: true, token, user }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+  } catch (e) {
+    return new Response(JSON.stringify({ ok: false, error: String(e) }), { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } });
+  }
+}
 
+// =========================
+// AUTH - LOGIN
+// =========================
+if (url.pathname === "/auth/login") {
+  if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
+  try {
+    const { email, password } = await request.json();
+    const hash = btoa(password + "cogo2024salt");
+    const user = await env.DB.prepare("SELECT id, email, name, points FROM members WHERE email = ? AND password_hash = ?").bind(email, hash).first();
+    if (!user) return new Response(JSON.stringify({ ok: false, error: "E-posta veya şifre hatalı." }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+    const token = btoa(user.id + ":" + Date.now());
+    return new Response(JSON.stringify({ ok: true, token, user }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+  } catch (e) {
+    return new Response(JSON.stringify({ ok: false, error: String(e) }), { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } });
+  }
+}
+
+// =========================
+// AUTH - ME
+// =========================
+if (url.pathname === "/auth/me") {
+  try {
+    const auth = request.headers.get("Authorization") || "";
+    const token = auth.replace("Bearer ", "");
+    const decoded = atob(token);
+    const userId = decoded.split(":")[0];
+    const user = await env.DB.prepare("SELECT id, email, name, points FROM members WHERE id = ?").bind(userId).first();
+    if (!user) return new Response(JSON.stringify({ ok: false, error: "Kullanıcı bulunamadı" }), { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } });
+    return new Response(JSON.stringify({ ok: true, user, orders: [], discount_codes: [] }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+  } catch (e) {
+    return new Response(JSON.stringify({ ok: false, error: String(e) }), { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } });
+  }
+}
+
+// =========================
+// AUTH - REDEEM
+// =========================
+if (url.pathname === "/auth/redeem") {
+  if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
+  try {
+    const auth = request.headers.get("Authorization") || "";
+    const token = auth.replace("Bearer ", "");
+    const decoded = atob(token);
+    const userId = decoded.split(":")[0];
+    const user = await env.DB.prepare("SELECT id, points FROM members WHERE id = ?").bind(userId).first();
+    if (!user) return new Response(JSON.stringify({ ok: false, error: "Kullanıcı bulunamadı" }), { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } });
+    if (user.points < 100) return new Response(JSON.stringify({ ok: false, error: "Yeterli puan yok. En az 100 puan gerekli." }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+    const code = "COGO" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    await env.DB.prepare("UPDATE members SET points = points - 100 WHERE id = ?").bind(userId).run();
+    await env.DB.prepare("INSERT OR IGNORE INTO discount_codes (code, member_id, discount_pct) VALUES (?, ?, 10)").bind(code, userId).run();
+    return new Response(JSON.stringify({ ok: true, code, discount_pct: 10 }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+  } catch (e) {
+    return new Response(JSON.stringify({ ok: false, error: String(e) }), { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } });
+  }
+}
     return new Response("Not Found", { status: 404 });
   },
 };

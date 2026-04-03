@@ -135,7 +135,7 @@
 
       <div class="right">
         <div class="search">
-          <input id="searchInput" type="search" placeholder="Ürün ara (kupa, kartal, tütsülük...)" />
+          <input id="searchInput" type="search" autocomplete="off" placeholder="Ürün ara (kupa, kartal, tütsülük...)" />
         </div>
 
         <button id="authBtn" onclick="openAuthModal('login')" style="background:none;border:1px solid #d4b896;color:#1f1a17;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:12px;font-family:Arial,sans-serif;white-space:nowrap;transition:all .2s;" onmouseover="this.style.background='#f0e8df'" onmouseout="this.style.background='none'">
@@ -280,11 +280,11 @@
         <form id="signupForm" class="formRow">
           <div class="field">
             <label for="name">Ad Soyad</label>
-            <input id="name" type="text" placeholder="Gizem Gürpınar" required />
+            <input id="name" type="text" autocomplete="name" placeholder="Gizem Gürpınar" required />
           </div>
           <div class="field">
             <label for="email">E-posta</label>
-            <input id="email" type="email" placeholder="ornek@mail.com" required />
+            <input id="email" type="email" autocomplete="email" placeholder="ornek@mail.com" required />
           </div>
           <button class="btn" type="submit">Üye Ol</button>
         </form>

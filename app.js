@@ -457,7 +457,7 @@
   // =========================
   let filterCat = "all";
   let searchQ = "";
-  let cartState = JSON.parse(localStorage.getItem("cogo_cart") || "[]");
+  let cartState = JSON.parse(localStorage.getItem("cogo_cart") || localStorage.getItem("cogoCart") || "[]");
 
   // =========================
   // Panel yardımcıları
@@ -544,6 +544,7 @@
   // =========================
   function saveCart() {
     localStorage.setItem("cogo_cart", JSON.stringify(cartState));
+    localStorage.setItem("cogoCart", JSON.stringify(cartState));
     updateCartUI();
   }
 

@@ -185,193 +185,39 @@
     } else {
       showToast((result && result.error) || "Hata olu\u015Ftu.");
     }
-  };
-
-  // =========================
+  };  // =========================
   // Ürünler
   // =========================
-  const products = [
-    {
-      id: "aski", name: "Askı", price: 720, cat: "askilik",
-      desc: "El yapımı seramik duvar askısı. Anahtarlık, takı veya hafif aksesuarlar için şık bir çözüm.",
-      size: "15x8 cm", slug: "aski"
-    },
-    {
-      id: "boga", name: "Boğa", price: 720, cat: "kupalar",
-      desc: "Güç ve kararlılık arketipinden ilham alan el yapımı kupa. Her parça kendine özgü doku taşır.",
-      size: "350 ml", slug: "boga"
-    },
-    {
-      id: "buhur", name: "Tütsülük", price: 848, cat: "buhurdan",
-      desc: "Meditasyon ve rahatlama ritüelleri için el yapımı seramik tütsülük. Çubuk ve koni tütsü uyumlu.",
-      size: "12x5 cm", slug: "buhur"
-    },
-    {
-      id: "elizi", name: "El İzi", price: 720, cat: "kupalar",
-      desc: "Sanatçının el izinden ilham alınan kupa. Her parça biricik bir doku taşır — dünyada bir tane.",
-      size: "20x15 cm", slug: "elizi"
-    },
-    {
-      id: "fin", name: "Fincan", price: 848, cat: "mumluk",
-      desc: "Çay veya kahve fincanı formunda romantik mumluk. Tealight mum ile kullanılır.",
-      size: "8x7 cm", slug: "fin"
-    },
-    {
-      id: "jpn", name: "Japon Kupa", price: 848, cat: "mumluk",
-      desc: "Wabi-sabi estetiğinden ilham alınan el yapımı seramik mumluk. Doğal dokusuyla huzur ve sadelik yayar.",
-      size: "300 ml", slug: "jpn"
-    },
-    {
-      id: "kartal", name: "Kartal", price: 720, cat: "kupalar",
-      desc: "Kartal figürlü el yapımı seramik kupa. Güç ve özgürlük enerjisi taşıyan, her sabah ilham veren özel bir parça.",
-      size: "18x14 cm", slug: "kartal"
-    },
-    {
-      id: "koku", name: "Oda Kokusu", price: 720, cat: "koku",
-      desc: "Gözenekli seramik yapısıyla oda kokusunu yavaşça yayan el yapımı difüzör. Esans ile kullanılır.",
-      size: "10x10 cm", slug: "koku"
-    },
-    {
-      id: "pal2", name: "Bohem Buhurdan", price: 848, cat: "buhurdan",
-      desc: "Bohem geometrik motiflerle bezeli premium buhurdanlık. Mum veya tütsü ile kullanılır.",
-      size: "14x10 cm", slug: "pal2"
-    },
-    {
-      id: "palet", name: "Palet", price: 618, cat: "palet",
-      desc: "Sanatçılar için el yapımı seramik boya paleti. Renkleri karıştırmak için ideal yüzey dokusu.",
-      size: "20x12 cm", slug: "palet"
-    },
-    {
-      id: "stm", name: "Mumluk", price: 848, cat: "mumluk",
-      desc: "Sade ve zarif el yapımı seramik mumluk. Standart tealight uyumlu, sofra veya raf için ideal.",
-      size: "8x6 cm", slug: "stm"
-    },
-    {
-      id: "takiset", name: "Takı Seti", price: 720, cat: "taki",
-      desc: "Toprak tonlarında el yapımı seramik takı koleksiyonu. Küpe ve kolye içerir, her set özgün.",
-      size: "Standart", slug: "takiset"
-    },
-    {
-      id: "vint", name: "Vintage Kupa", price: 848, cat: "mumluk",
-      desc: "Vintage estetikten ilham alınan el yapımı seramik mumluk. Tealight mum ile sıcak bir atmosfer yaratır.",
-      size: "320 ml", slug: "vint"
-    },
-    {
-      id: "yilan", name: "Yılan Kupa", price: 720, cat: "kupalar",
-      desc: "Dönüşüm ve yenilenme sembolü yılan figürlü kupa. Güçlü bir karakter, sofrada konuşma başlatır.",
-      size: "350 ml", slug: "yilan"
-    },
-    {
-      id: "ev-buhur", name: "Ev Buhurdanlık", price: 848, cat: "buhurdan",
-      desc: "Ev formunda dekoratif seramik buhurdanlık. Sıcaklık ve huzur hissi veren raf dekoru.",
-      size: "10x10 cm", slug: "ev-buhur"
-    },
-    {
-      id: "yin-yang-mum", name: "Yin Yang Mumluk", price: 848, cat: "mumluk",
-      desc: "Siyah & beyaz dengeyi temsil eden el yapımı dekoratif mumluk. Meditasyon köşesi için ideal.",
-      size: "9x6 cm", slug: "yin-yang-mum"
-    },
-    {
-      id: "fircalik", name: "Seramik Fırçalık & Kalemlik", price: 720, cat: "kalemlik",
-      desc: "Mavi mermer dokulu çok amaçlı organizer. Masa düzeni için şık ve işlevsel seramik kap.",
-      size: "12x8 cm", slug: "fircalik"
-    },
-    {
-      id: "nazar-duvar", name: "Nazar Duvar Süsü", price: 680, cat: "duvar",
-      desc: "Etnik bohem stil, nazar boncuğu temalı seramik duvar dekoru. Enerji koruma sembolü.",
-      size: "10 cm", slug: "nazar-duvar"
-    },
-    {
-      id: "flora-yuzuk", name: "Flora Seramik Yüzük", price: 720, cat: "taki",
-      desc: "Toprak tonlarında çiçek detaylı el yapımı yüzük. Doğa ile bağlantı kuran zarif aksesuar.",
-      size: "Ayarlanabilir", slug: "flora-yuzuk"
-    },
-    {
-      id: "vanilya-mum-spiral", name: "Vanilya Mum — Spiral", price: 848, cat: "mumluk",
-      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Spiral desen işlemeli, 7x8 cm.",
-      size: "7x8 cm", slug: "vanilya-mum-spiral"
-    },
-    {
-      id: "vanilya-mum-nazar", name: "Vanilya Mum — Nazar", price: 848, cat: "mumluk",
-      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Nazar motifli, 7x8 cm.",
-      size: "7x8 cm", slug: "vanilya-mum-nazar"
-    },
-    {
-      id: "vanilya-mum-bulut", name: "Vanilya Mum — Bulut", price: 848, cat: "mumluk",
-      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Bulut & yağmur motifli, 7x8 cm.",
-      size: "7x8 cm", slug: "vanilya-mum-bulut"
-    },
-    {
-      id: "vanilya-mum-flamingo", name: "Vanilya Mum — Flamingo", price: 848, cat: "mumluk",
-      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Flamingo figürlü, 7x8 cm.",
-      size: "7x8 cm", slug: "vanilya-mum-flamingo"
-    },
-    {
-      id: "vanilya-mum-cicek", name: "Vanilya Mum — Çiçek", price: 848, cat: "mumluk",
-      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Nazar çiçek motifli, 7x8 cm.",
-      size: "7x8 cm", slug: "vanilya-mum-cicek"
-    },
-    {
-      id: "vanilya-mum-sembol", name: "Vanilya Mum — Sembol", price: 848, cat: "mumluk",
-      desc: "El yapımı seramik mumluk içinde vanilya aromalı doğal balmumu mum. Şamanik sembol işlemeli, 7x8 cm.",
-      size: "7x8 cm", slug: "vanilya-mum-sembol"
-    },
-    {
-      id: "sukulent-saksisi", name: "Sukulent Saksısı", price: 618, cat: "palet",
-      desc: "El yapımı minimalist seramik sukulent saksısı. Doğal doku, sade tasarım.",
-      size: "10x8 cm", slug: "sukulent-saksisi"
-    },
-    {
-      id: "espresso-kupa", name: "Stoneware Espresso Kupası", price: 720, cat: "kupalar",
-      desc: "Ergonomik tasarımlı stoneware espresso kupası. Isıyı uzun süre tutar, el yapımı.",
-      size: "200 ml", slug: "espresso-kupa"
-    },
-    {
-      id: "elsokmal-kupa", name: "El Sokmalı Stoneware Kupa", price: 720, cat: "kupalar",
-      desc: "El sokmalı ergonomik stoneware kupa. Isıyı tutar, benzersiz kavrama tasarımı.",
-      size: "350 ml", slug: "elsokmal-kupa"
-    },
-    {
-      id: "kibrit-kutusu", name: "Kibrit Kutusu", price: 849, cat: "duvar",
-      desc: "Geyik & orman rölyefli el yapımı seramik kibrit kutusu. Dekoratif ve fonksiyonel.",
-      size: "10x6 cm", slug: "kibrit-kutusu"
-    },
-    {
-      id: "seramik-kolye", name: "Seramik Kolye", price: 720, cat: "taki",
-      desc: "El yapımı mavi seramik kolye. Doğal ip askılı, özgün tasarım.",
-      size: "3 cm çap", slug: "seramik-kolye"
-    },
-    {
-      id: "nazar-mum", name: "Nazar Mumluk", price: 848, cat: "mumluk",
-      desc: "Nazarlık sembollü el yapımı seramik mumluk. Vanilya aromalı balmumu mum içerir. 8x8 cm.",
-      size: "8x8 cm", slug: "nazmum"
-    },
-    {
-      id: "cay-kupasi", name: "Çay Kupası", price: 720, cat: "kupalar",
-      desc: "Çiçek desenli vintage el yapımı çay kupası. Nostaljik estetik, modern el işçiliği. 8x7.5 cm.",
-      size: "8x7.5 cm", slug: "cay"
-    },
-    {
-      id: "boho-mum", name: "Boho Mumluk", price: 848, cat: "mumluk",
-      desc: "Bohem tarzı el yapımı seramik mumluk. Vanilya aromalı balmumu mum içerir. 8x8 cm.",
-      size: "8x8 cm", slug: "boho"
-    },
-    {
-      id: "ceylan-saksi", name: "Ceylan Saksı", price: 618, cat: "palet",
-      desc: "El yapımı dekoratif seramik saksı. Teşhir ve sukulent için ideal. 8x10 cm.",
-      size: "8x10 cm", slug: "ceylan"
-    },
-    {
-      id: "salyangoz-saksi", name: "Salyangoz Saksı", price: 618, cat: "palet",
-      desc: "Salyangoz figürlü el yapımı dekoratif seramik saksı. 8x10 cm.",
-      size: "8x10 cm", slug: "salyangoz"
-    },
-    {
-      id: "nazar-saksi", name: "Nazar Saksı", price: 618, cat: "palet",
-      desc: "Nazar motifli el yapımı dekoratif seramik saksı. 8x10 cm.",
-      size: "8x10 cm", slug: "nazar"
+  let products = [];
+
+  async function loadProducts() {
+    try {
+      const res = await fetch('data/products.json?ts=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) throw new Error('Ürün verisi okunamadı');
+      const data = await res.json();
+      if (!Array.isArray(data)) throw new Error('Geçersiz ürün verisi');
+      products = data.map((raw, idx) => ({
+        id: String(raw.id || ('urun-' + idx)),
+        name: String(raw.name || 'Ürün'),
+        price: Number(raw.price || 0),
+        cat: String(raw.cat || 'dekor'),
+        desc: String(raw.desc || ''),
+        size: String(raw.size || ''),
+        slug: String(raw.slug || raw.id || ('urun-' + idx)),
+        stock: Number(raw.stock || 0),
+        inStock: raw.inStock !== undefined ? !!raw.inStock : Number(raw.stock || 0) > 0,
+        images: Array.isArray(raw.images) ? raw.images.filter(Boolean) : [],
+        mainImage: String(raw.mainImage || ''),
+        barcode: raw.barcode || '',
+        stokKodu: raw.stokKodu || ''
+      }));
+    } catch (err) {
+      console.error('[COGO] ürün yükleme hatası:', err);
+      products = [];
+      showToast('Ürün listesi yüklenemedi. Lütfen sayfayı yenileyin.', 'error');
     }
-  ];
+  }
+
 
   // =========================
   // Helpers
@@ -404,8 +250,13 @@
     return exts.map((ext) => `images/${base}${ext}`);
   }
 
-  function setImgWithFallback(imgEl, base) {
-    const list = buildCandidates(base);
+  function setImgWithFallback(imgEl, baseOrUrl) {
+    if (!imgEl) return;
+    if (typeof baseOrUrl === 'string' && /^https?:\/\//i.test(baseOrUrl)) {
+      imgEl.src = baseOrUrl;
+      return;
+    }
+    const list = buildCandidates(baseOrUrl);
     let i = 0;
     function tryNext() {
       if (i >= list.length) { imgEl.remove(); return; }
@@ -567,6 +418,10 @@
   function addToCart(pid) {
     const p = products.find((x) => x.id === pid);
     if (!p) return;
+    if (!p.inStock) {
+      showToast('Bu ürün şu an stokta yok.', 'error');
+      return;
+    }
     const found = cartState.find((x) => x.id === pid);
     if (found) found.qty += 1;
     else cartState.push({ id: pid, qty: 1 });
@@ -599,7 +454,7 @@
       if (!p) return "";
       return `
         <div class="cartRow">
-          <div class="cartRow__img"><img data-base="${escapeHtml(p.slug)}" alt="${escapeHtml(p.name)}"></div>
+          <div class="cartRow__img"><img data-base="${escapeHtml((p.images && p.images[0]) ? p.images[0] : p.slug)}" alt="${escapeHtml(p.name)}"></div>
           <div class="cartRow__info">
             <div class="cartRow__name">${escapeHtml(p.name)}</div>
             <div class="cartRow__muted">${formatTL(p.price)} • ${escapeHtml(String(p.cat).toUpperCase())}</div>
@@ -678,19 +533,7 @@
             ${p.size ? `<span class="meta">${escapeHtml(p.size)}</span>` : `<span class="meta"></span>`}
             <strong class="price">${formatTL(p.price)}</strong>
           </div>
-          <div class="taksit-wrapper" style="margin-top:8px;">
-            <style>
-              #paytr_taksit_tablosu_${p.id}{clear:both;font-size:11px;max-width:100%;text-align:center;font-family:Arial,sans-serif;}
-              #paytr_taksit_tablosu_${p.id} .taksit-tablosu-wrapper{margin:3px;width:120px;padding:6px;cursor:default;text-align:center;display:inline-block;border:1px solid #e1e1e1;}
-              #paytr_taksit_tablosu_${p.id} .taksit-logo img{max-height:20px;padding-bottom:6px;}
-              #paytr_taksit_tablosu_${p.id} .taksit-tutari-text{float:left;width:54px;color:#a2a2a2;margin-bottom:3px;font-size:10px;}
-              #paytr_taksit_tablosu_${p.id} .taksit-tutar-wrapper{display:inline-block;background-color:#f7f7f7;}
-              #paytr_taksit_tablosu_${p.id} .taksit-tutari{float:left;width:54px;padding:4px 0;color:#474747;border:2px solid #fff;font-size:10px;}
-              #paytr_taksit_tablosu_${p.id} .taksit-tutari-bold{font-weight:bold;}
-            </style>
-            <div id="paytr_taksit_tablosu_${p.id}"></div>
-            <script src="https://www.paytr.com/odeme/taksit-tablosu/v2?token=b57bb099e5bc39f11466174b64338e64a7fc1b62a77c95e4c81bec9572fc6e54&merchant_id=678861&amount=${p.price}&taksit=0&tumu=0&element_id=paytr_taksit_tablosu_${p.id}"><\/script>
-          </div>
+          <div class="stockNote ${p.inStock ? 'in' : 'out'}">${p.inStock ? 'Stokta' : 'Tükendi'}</div>
           <div class="pActions">
             <button class="btn btn--soft" data-add="${escapeHtml(p.id)}">Sepete Ekle</button>
             <button class="btn ask-cogo" data-product="${escapeHtml(p.name)}" data-price="${escapeHtml(String(p.price))}" data-cat="${escapeHtml(p.cat)}">
@@ -706,12 +549,17 @@
 
     $$("[data-gallery]", grid).forEach((gal) => {
       const slug = gal.dataset.gallery;
-      const bases = galleryBases(slug);
-      bases.forEach((base) => {
+      const pid = gal.closest('.pCard')?.querySelector('[data-add]')?.dataset.add;
+      const product = products.find((x) => x.id === pid);
+      const imageList = (product?.images && product.images.length > 0)
+        ? product.images.slice(0, 5)
+        : galleryBases(slug);
+
+      imageList.forEach((imgRef) => {
         const img = document.createElement("img");
-        img.alt = slug;
+        img.alt = product?.name || slug;
         img.loading = "lazy";
-        setImgWithFallback(img, base);
+        setImgWithFallback(img, imgRef);
         gal.appendChild(img);
       });
     });
@@ -919,8 +767,23 @@
           cart_items: cartItems, user_id: user ? user.id : null
         }),
       });
-      const data = await response.json();
-      if (!response.ok) { showToast("Ödeme başlatılamadı. Tekrar dene.", "error"); confirmBtn.textContent = "Ödemeye Geç →"; confirmBtn.disabled = false; return; }
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const errMsg = (data && data.error) ? String(data.error) : '';
+        if (errMsg.toLowerCase().includes('secrets')) {
+          const lines = cartState.map((item) => {
+            const p = products.find((x) => x.id === item.id);
+            return p ? `• ${p.name} x${item.qty} — ${formatTL(p.price * item.qty)}` : '';
+          }).filter(Boolean);
+          const waMsg = `Merhaba COGO Ceramic, web sitesinden sipariş vermek istiyorum.\n\n${lines.join('\n')}\n\nToplam: ${formatTL(totalPrice)}\nAd Soyad: ${name}\nTelefon: ${phone}\nE-posta: ${email}\nAdres: ${address}`;
+          window.location.href = waLink(waMsg);
+          return;
+        }
+        showToast("Ödeme başlatılamadı. Tekrar dene.", "error");
+        confirmBtn.textContent = "Ödemeye Geç →";
+        confirmBtn.disabled = false;
+        return;
+      }
       const token = data?.paytr_response?.token;
       const status = data?.paytr_response?.status;
       if (status !== "success" || !token) { showToast("PayTR hatası. WhatsApp ile sipariş ver.", "error"); confirmBtn.textContent = "Ödemeye Geç →"; confirmBtn.disabled = false; return; }
@@ -960,7 +823,9 @@
   // =========================
   // İlk yükleme
   // =========================
-  render();
-  updateCartUI();
-  updateAuthButton();
+  loadProducts().finally(() => {
+    render();
+    updateCartUI();
+    updateAuthButton();
+  });
 })();

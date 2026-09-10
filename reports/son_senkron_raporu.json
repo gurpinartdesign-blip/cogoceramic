@@ -1,0 +1,226 @@
+{
+  "sync_time_utc": "2026-09-10T11:06:57Z",
+  "site_product_total": 170,
+  "trendyol_product_total": 134,
+  "price_or_stock_updated_count": 11,
+  "newly_added_from_trendyol_count": 0,
+  "site_only_count": 36,
+  "site_only_products": [
+    {
+      "id": "aski",
+      "name": "Askı",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "pal2",
+      "name": "Bohem Buhurdan",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "ev-buhur",
+      "name": "Ev Buhurdanlık",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "buhur",
+      "name": "Tütsülük",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "kibrit-kutusu",
+      "name": "Kibrit Kutusu",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "nazar-duvar",
+      "name": "Nazar Duvar Süsü",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "fircalik",
+      "name": "Seramik Fırçalık & Kalemlik",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "koku",
+      "name": "Oda Kokusu",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "boga",
+      "name": "Boğa",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "elizi",
+      "name": "El İzi",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "elsokmal-kupa",
+      "name": "El Sokmalı Stoneware Kupa",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "kartal",
+      "name": "Kartal",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "espresso-kupa",
+      "name": "Stoneware Espresso Kupası",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "yilan",
+      "name": "Yılan Kupa",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "cay-kupasi",
+      "name": "Çay Kupası",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "boho-mum",
+      "name": "Boho Mumluk",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "fin",
+      "name": "Fincan",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "jpn",
+      "name": "Japon Kupa",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "stm",
+      "name": "Mumluk",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "nazar-mum",
+      "name": "Nazar Mumluk",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "vanilya-mum-bulut",
+      "name": "Vanilya Mum — Bulut",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "vanilya-mum-flamingo",
+      "name": "Vanilya Mum — Flamingo",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "vanilya-mum-nazar",
+      "name": "Vanilya Mum — Nazar",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "vanilya-mum-sembol",
+      "name": "Vanilya Mum — Sembol",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "vanilya-mum-spiral",
+      "name": "Vanilya Mum — Spiral",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "vanilya-mum-cicek",
+      "name": "Vanilya Mum — Çiçek",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "vint",
+      "name": "Vintage Kupa",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "yin-yang-mum",
+      "name": "Yin Yang Mumluk",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "ceylan-saksi",
+      "name": "Ceylan Saksı",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "nazar-saksi",
+      "name": "Nazar Saksı",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "palet",
+      "name": "Palet",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "salyangoz-saksi",
+      "name": "Salyangoz Saksı",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "sukulent-saksisi",
+      "name": "Sukulent Saksısı",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "flora-yuzuk",
+      "name": "Flora Seramik Yüzük",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "seramik-kolye",
+      "name": "Seramik Kolye",
+      "stokKodu": "",
+      "barcode": ""
+    },
+    {
+      "id": "takiset",
+      "name": "Takı Seti",
+      "stokKodu": "",
+      "barcode": ""
+    }
+  ]
+}

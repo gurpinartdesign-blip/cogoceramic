@@ -12,6 +12,8 @@ export default {
 
     const url = new URL(request.url);
 
+    const hasDb = !!env.DB;
+
     // =========================
     // ANA KONTROL
     // =========================
@@ -20,7 +22,7 @@ export default {
         JSON.stringify({
           ok: true,
           service: "cogo-ai-worker",
-          routes: ["/ai", "/paytr", "/paytr-callback"],
+          routes: ["/ai", "/paytr", "/paytr-callback", "/paytr-config"],
         }),
         {
           headers: {
@@ -117,6 +119,25 @@ Kurallar:
           }
         );
       }
+    }
+
+    // =========================
+    // PAYTR CONFIG
+    // =========================
+    if (url.pathname === "/paytr-config") {
+      return new Response(
+        JSON.stringify({
+          ok: true,
+          paytrConfigured: !!(env.PAYTR_MERCHANT_ID && env.PAYTR_MERCHANT_KEY && env.PAYTR_MERCHANT_SALT),
+          dbConfigured: !!env.DB,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
+      );
     }
 
     // =========================
@@ -356,6 +377,7 @@ Kurallar:
 // =========================
 if (url.pathname === "/auth/register") {
   if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
+  if (!hasDb) return new Response(JSON.stringify({ ok: false, error: "Üyelik servisi geçici olarak kullanılamıyor" }), { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } });
   try {
     const { email, name, password } = await request.json();
     if (!email || !name || !password) return new Response(JSON.stringify({ ok: false, error: "Eksik alan" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } });
@@ -377,6 +399,7 @@ if (url.pathname === "/auth/register") {
 // =========================
 if (url.pathname === "/auth/login") {
   if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
+  if (!hasDb) return new Response(JSON.stringify({ ok: false, error: "Üyelik servisi geçici olarak kullanılamıyor" }), { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } });
   try {
     const { email, password } = await request.json();
     const hash = btoa(password + "cogo2024salt");
@@ -393,6 +416,7 @@ if (url.pathname === "/auth/login") {
 // AUTH - ME
 // =========================
 if (url.pathname === "/auth/me") {
+  if (!hasDb) return new Response(JSON.stringify({ ok: false, error: "Üyelik servisi geçici olarak kullanılamıyor" }), { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } });
   try {
     const auth = request.headers.get("Authorization") || "";
     const token = auth.replace("Bearer ", "");
@@ -411,6 +435,7 @@ if (url.pathname === "/auth/me") {
 // =========================
 if (url.pathname === "/auth/redeem") {
   if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers: corsHeaders });
+  if (!hasDb) return new Response(JSON.stringify({ ok: false, error: "Üyelik servisi geçici olarak kullanılamıyor" }), { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } });
   try {
     const auth = request.headers.get("Authorization") || "";
     const token = auth.replace("Bearer ", "");

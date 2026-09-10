@@ -370,6 +370,14 @@ a:hover{ color:var(--copper); }
 }
 .meta{ color: rgba(31,26,23,.62); font-size:12px; }
 .price{ font-weight:1000; }
+.stockNote{
+  margin-top:6px;
+  font-size:12px;
+  font-weight:700;
+}
+.stockNote.in{ color:#2e7d32; }
+.stockNote.out{ color:#c0392b; }
+button[disabled]{ opacity:.6; cursor:not-allowed; }
 
 /* ✅ GÜNCELLENDİ: Ürün butonları — mobil düzeltmesi */
 .pActions{

@@ -1,0 +1,46 @@
+# Trendyol → Site Ürün Senkron Raporu
+
+- Senkron zamanı (UTC): 2026-09-10T11:06:57Z
+- Trendyol ürün adedi: 134
+- Site toplam ürün adedi: 170
+- Fiyat/stok güncellenen ürün: 11
+- Yeni eklenen ürün: 0
+- Sitede kalıp Trendyol'da olmayan ürün: 36
+
+## Sitede Kalıp Trendyol Listesinde Olmayan Ürünler
+- Askı (id: aski, stokKodu: -, barkod: -)
+- Bohem Buhurdan (id: pal2, stokKodu: -, barkod: -)
+- Ev Buhurdanlık (id: ev-buhur, stokKodu: -, barkod: -)
+- Tütsülük (id: buhur, stokKodu: -, barkod: -)
+- Kibrit Kutusu (id: kibrit-kutusu, stokKodu: -, barkod: -)
+- Nazar Duvar Süsü (id: nazar-duvar, stokKodu: -, barkod: -)
+- Seramik Fırçalık & Kalemlik (id: fircalik, stokKodu: -, barkod: -)
+- Oda Kokusu (id: koku, stokKodu: -, barkod: -)
+- Boğa (id: boga, stokKodu: -, barkod: -)
+- El İzi (id: elizi, stokKodu: -, barkod: -)
+- El Sokmalı Stoneware Kupa (id: elsokmal-kupa, stokKodu: -, barkod: -)
+- Kartal (id: kartal, stokKodu: -, barkod: -)
+- Stoneware Espresso Kupası (id: espresso-kupa, stokKodu: -, barkod: -)
+- Yılan Kupa (id: yilan, stokKodu: -, barkod: -)
+- Çay Kupası (id: cay-kupasi, stokKodu: -, barkod: -)
+- Boho Mumluk (id: boho-mum, stokKodu: -, barkod: -)
+- Fincan (id: fin, stokKodu: -, barkod: -)
+- Japon Kupa (id: jpn, stokKodu: -, barkod: -)
+- Mumluk (id: stm, stokKodu: -, barkod: -)
+- Nazar Mumluk (id: nazar-mum, stokKodu: -, barkod: -)
+- Vanilya Mum — Bulut (id: vanilya-mum-bulut, stokKodu: -, barkod: -)
+- Vanilya Mum — Flamingo (id: vanilya-mum-flamingo, stokKodu: -, barkod: -)
+- Vanilya Mum — Nazar (id: vanilya-mum-nazar, stokKodu: -, barkod: -)
+- Vanilya Mum — Sembol (id: vanilya-mum-sembol, stokKodu: -, barkod: -)
+- Vanilya Mum — Spiral (id: vanilya-mum-spiral, stokKodu: -, barkod: -)
+- Vanilya Mum — Çiçek (id: vanilya-mum-cicek, stokKodu: -, barkod: -)
+- Vintage Kupa (id: vint, stokKodu: -, barkod: -)
+- Yin Yang Mumluk (id: yin-yang-mum, stokKodu: -, barkod: -)
+- Ceylan Saksı (id: ceylan-saksi, stokKodu: -, barkod: -)
+- Nazar Saksı (id: nazar-saksi, stokKodu: -, barkod: -)
+- Palet (id: palet, stokKodu: -, barkod: -)
+- Salyangoz Saksı (id: salyangoz-saksi, stokKodu: -, barkod: -)
+- Sukulent Saksısı (id: sukulent-saksisi, stokKodu: -, barkod: -)
+- Flora Seramik Yüzük (id: flora-yuzuk, stokKodu: -, barkod: -)
+- Seramik Kolye (id: seramik-kolye, stokKodu: -, barkod: -)
+- Takı Seti (id: takiset, stokKodu: -, barkod: -)

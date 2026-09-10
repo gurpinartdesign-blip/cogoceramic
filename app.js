@@ -520,18 +520,32 @@
         return blob.includes(searchQ);
       });
 
-    grid.innerHTML = list.map((p) => `
+    grid.innerHTML = list.map((p) => {
+      const shortDesc = p.desc && p.desc.length > 120 ? p.desc.slice(0, 120).trim() + '…' : p.desc;
+      const hasLongDesc = p.desc && p.desc.length > 120;
+      const discount = Number(p.discount || 0);
+      const origPrice = p.originalPrice || p.price;
+      return `
       <article class="pCard" data-cat="${escapeHtml(p.cat)}">
         <div class="pImg">
           <div class="galeri" data-gallery="${escapeHtml(p.slug)}"></div>
           <div class="pTag">${escapeHtml(String(p.cat).toUpperCase())}</div>
+          ${discount > 0 ? `<div class="pDiscount">%${discount} İNDİRİM</div>` : ''}
         </div>
         <div class="pBody">
           <h3>${escapeHtml(p.name)}</h3>
-          ${p.desc ? `<p class="muted">${escapeHtml(p.desc)}</p>` : ""}
+          ${p.desc ? `
+            <p class="muted pDesc" data-full="${escapeHtml(p.desc)}" data-short="${escapeHtml(shortDesc || '')}">
+              ${escapeHtml(shortDesc || p.desc)}
+            </p>
+            ${hasLongDesc ? `<button class="descToggle" data-id="${escapeHtml(p.id)}">Daha fazla ↓</button>` : ''}
+          ` : ""}
           <div class="pMeta">
             ${p.size ? `<span class="meta">${escapeHtml(p.size)}</span>` : `<span class="meta"></span>`}
-            <strong class="price">${formatTL(p.price)}</strong>
+            <div class="priceBlock">
+              ${discount > 0 ? `<span class="origPrice">${formatTL(origPrice)}</span>` : ''}
+              <strong class="price${discount > 0 ? ' discounted' : ''}">${formatTL(p.price)}</strong>
+            </div>
           </div>
           <div class="stockNote ${p.inStock ? 'in' : 'out'}">${p.inStock ? 'Stokta' : 'Tükendi'}</div>
           <div class="pActions">
@@ -543,9 +557,28 @@
           </div>
         </div>
       </article>
-    `).join("");
+    `}).join("");
 
     $$("[data-add]", grid).forEach((btn) => btn.addEventListener("click", () => addToCart(btn.dataset.add)));
+
+    // Açıklama genişlet/daralt
+    $$(".descToggle", grid).forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const card = btn.closest(".pBody");
+        const descEl = card?.querySelector(".pDesc");
+        if (!descEl) return;
+        const isExpanded = btn.dataset.expanded === "1";
+        if (isExpanded) {
+          descEl.textContent = descEl.dataset.short;
+          btn.textContent = "Daha fazla ↓";
+          btn.dataset.expanded = "0";
+        } else {
+          descEl.textContent = descEl.dataset.full;
+          btn.textContent = "Daha az ↑";
+          btn.dataset.expanded = "1";
+        }
+      });
+    });
 
     $$("[data-gallery]", grid).forEach((gal) => {
       const slug = gal.dataset.gallery;

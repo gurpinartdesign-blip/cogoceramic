@@ -361,15 +361,41 @@ a:hover{ color:var(--copper); }
   z-index:6;
 }
 
+/* İndirim rozeti */
+.pDiscount{
+  position:absolute; right:10px; top:10px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:#e53935;
+  color:#fff;
+  font-weight:900;
+  font-size:11px;
+  z-index:7;
+  letter-spacing:.5px;
+}
+
 .pBody{ padding:12px; }
 .pBody h3{ margin:0 0 6px; font-size:16px; }
+
+/* Açıklama toggle */
+.pDesc{ font-size:13px; color:rgba(31,26,23,.65); line-height:1.5; margin:0 0 4px; }
+.descToggle{
+  background:none; border:none; padding:0;
+  font-size:12px; color:#8b5c2a; cursor:pointer;
+  font-weight:700; margin-bottom:6px;
+  text-decoration:underline;
+}
+.descToggle:hover{ color:#5c3a18; }
 
 .pMeta{
   margin-top:10px;
   display:flex; align-items:center; justify-content:space-between; gap:10px;
 }
 .meta{ color: rgba(31,26,23,.62); font-size:12px; }
+.priceBlock{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+.origPrice{ font-size:12px; color:#aaa; text-decoration:line-through; }
 .price{ font-weight:1000; }
+.price.discounted{ color:#e53935; }
 .stockNote{
   margin-top:6px;
   font-size:12px;
@@ -377,6 +403,43 @@ a:hover{ color:var(--copper); }
 }
 .stockNote.in{ color:#2e7d32; }
 .stockNote.out{ color:#c0392b; }
+
+/* Ürün Banner */
+.productBanner{
+  background: linear-gradient(135deg, #3d1f0d 0%, #7c4118 50%, #3d1f0d 100%);
+  border-radius:16px;
+  padding:32px 24px;
+  margin:24px 0 32px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:20px; overflow:hidden; position:relative;
+}
+.productBanner::before{
+  content:''; position:absolute; inset:0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+.productBanner__text{ position:relative; z-index:1; flex:1; }
+.productBanner__text h2{ color:#fff; font-size:clamp(18px,4vw,28px); margin:0 0 8px; font-weight:900; }
+.productBanner__text p{ color:rgba(255,255,255,.8); font-size:14px; margin:0 0 16px; }
+.productBanner__text .btn--banner{
+  display:inline-block; background:#fff; color:#3d1f0d;
+  padding:10px 24px; border-radius:999px; font-weight:800;
+  font-size:14px; text-decoration:none; border:none; cursor:pointer;
+  transition:transform .15s;
+}
+.productBanner__text .btn--banner:hover{ transform:scale(1.04); }
+.productBanner__imgs{
+  position:relative; z-index:1;
+  display:flex; gap:10px; flex-shrink:0;
+}
+.productBanner__imgs .bImg{
+  width:80px; height:80px; object-fit:cover;
+  border-radius:12px; border:2px solid rgba(255,255,255,.3);
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+@media(max-width:560px){
+  .productBanner{ flex-direction:column; text-align:center; }
+  .productBanner__imgs .bImg{ width:60px; height:60px; }
+}
 button[disabled]{ opacity:.6; cursor:not-allowed; }
 
 /* ✅ GÜNCELLENDİ: Ürün butonları — mobil düzeltmesi */

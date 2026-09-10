@@ -47,55 +47,62 @@ export default {
       try {
         const { message } = await request.json();
 
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [
-              {
-                role: "system",
-                // ✅ GÜNCELLENDİ: Daha güçlü, ürün odaklı sistem promptu
-                content: `Sen COGO Ceramic'in satış danışmanısın. COGO Ceramic, el yapımı, küçük seri seramik ürünler satan bir Türk markasıdır.
+        const systemPrompt = `Sen COGO Ceramic'in satış danışmanısın. COGO Ceramic, el yapımı, küçük seri seramik ürünler satan bir Türk markasıdır.
 
 Ürün kategorileri ve örnekler:
-- Kupalar: Boğa Kupa (720₺), Japon Kupa (720₺), Vintage Kupa (480₺), Yılan Kupa (720₺)
-- Buhurdan & Tütsülük: Tütsülük (750₺), Bohem Buhurdan (980₺), Ev Buhurdanlık (850₺)
-- Mumluk: Mumluk (520₺), Fincan (420₺), Yin Yang Mumluk (670₺)
-- Duvar Süsleri: El İzi (720₺), Kartal (720₺), Nazar Duvar Süsü (680₺)
-- Takı: Takı Seti (842₺), Flora Seramik Yüzük (380₺)
-- Diğer: Oda Kokusu (920₺), Palet (480₺), Askı (460₺), Fırçalık & Kalemlik (580₺)
+- Kupalar: Boğa Kupa (720₺), Japon Kupa (720₺), Vintage Kupa (480₺), Yılan Kupa (720₺), El Sokmalı Stoneware Kupa, Espresso Kupası
+- Buhurdan & Tütsülük: Tütsülük (750₺), Bohem Buhurdan (980₺), Ev Buhurdanlık, Palo Santo Tütsülük
+- Mumluk: Mumluk (520₺), Fincan (420₺), Yin Yang Mumluk, Vanilya Mum Serisi
+- Duvar Süsleri: El İzi, Kartal, Nazar Duvar Süsü, Bohem Antik Figürlü Süs
+- Takı: Takı Seti, Flora Seramik Yüzük, Seramik Kolye, Seramik Küpe
+- Saksı: Ceylan Saksı, Nazar Saksı, Salyangoz Saksı, Sukulent Saksısı
+- Diğer: Oda Kokusu, Palet (Boya), Askı, Kalemlik & Fırçalık, Kibrit Kutusu
 
 Görevin:
 - Müşterinin ihtiyacını 1-2 soruyla anla (hediye mi? kişisel kullanım mı? hangi bütçe?)
 - En az 2 ürün öner ve neden uygun olduğunu kısaca açıkla
-- Her ürünün arketipi veya sembolik anlamını da paylaşabilirsin (örn: Boğa = güç, kararlılık)
-- Sipariş için WhatsApp veya sepet butonunu kullanmalarını öner
+- Sipariş için sepete eklemelerini veya WhatsApp'tan ulaşmalarını öner
 
 Kurallar:
 - Sadece COGO Ceramic ürünleri hakkında konuş
 - Fiyat veya stok hakkında emin değilsen "WhatsApp'tan sorun" de
 - Maksimum 4 cümle yaz, kısa ve samimi ol
 - Konu dışı sorularda: "Ben sadece COGO seramik ürünleri konusunda yardımcı olabiliyorum 🏺"
-- Türkçe cevap ver`,
-              },
-              {
-                role: "user",
-                content: message || "Merhaba",
-              },
-            ],
-          }),
-        });
+- Türkçe cevap ver`;
 
-        const data = await response.json();
+        // Cloudflare Workers AI kullan (harici API key gerektirmez)
+        let reply = "Şu an cevap veremiyorum, lütfen WhatsApp'tan ulaşın.";
+        if (env.AI) {
+          const aiResult = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: message || "Merhaba" },
+            ],
+            max_tokens: 512,
+          });
+          reply = aiResult?.response || reply;
+        } else if (env.OPENAI_API_KEY) {
+          // Yedek: OpenAI API key varsa kullan
+          const response = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "gpt-4o-mini",
+              messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: message || "Merhaba" },
+              ],
+            }),
+          });
+          const data = await response.json();
+          reply = data?.choices?.[0]?.message?.content || reply;
+        }
 
         return new Response(
-          JSON.stringify({
-            reply: data?.choices?.[0]?.message?.content || "Şu an cevap veremiyorum.",
-          }),
+          JSON.stringify({ reply }),
           {
             headers: {
               "Content-Type": "application/json",

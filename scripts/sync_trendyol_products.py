@@ -19,6 +19,7 @@ import re
 import subprocess
 import sys
 import unicodedata
+import tempfile
 from pathlib import Path
 from typing import Dict, List, Tuple, Any
 from difflib import SequenceMatcher
@@ -340,6 +341,30 @@ def git_run(args: List[str], cwd: Path) -> subprocess.CompletedProcess:
     return subprocess.run(['git', *args], cwd=cwd, check=True, text=True, capture_output=True)
 
 
+def load_github_token() -> str | None:
+    token = os.environ.get('GITHUB_TOKEN')
+    if token:
+        return token
+    if not SECRETS_PATH.exists():
+        return None
+    try:
+        data = json.loads(SECRETS_PATH.read_text(encoding='utf-8'))
+        for k, v in data.items():
+            if k.lower() == 'githubuser':
+                return v.get('secrets', {}).get('access_token', {}).get('value')
+    except Exception:
+        return None
+    return None
+
+
+def resolve_origin_default_branch() -> str:
+    cp = git_run(['symbolic-ref', 'refs/remotes/origin/HEAD'], REPO_ROOT)
+    ref = (cp.stdout or '').strip()
+    if not ref:
+        return 'main'
+    return ref.rsplit('/', 1)[-1]
+
+
 def maybe_git_commit_push(do_commit: bool, do_push: bool, commit_message: str) -> None:
     if not do_commit and not do_push:
         return
@@ -354,24 +379,37 @@ def maybe_git_commit_push(do_commit: bool, do_push: bool, commit_message: str) -
                 raise
 
     if do_push:
-        headers = []
-        token = os.environ.get('GITHUB_TOKEN')
-        if not token and SECRETS_PATH.exists():
-            try:
-                data = json.loads(SECRETS_PATH.read_text(encoding='utf-8'))
-                for k, v in data.items():
-                    if k.lower() == 'githubuser':
-                        token = v.get('secrets', {}).get('access_token', {}).get('value')
-                        break
-            except Exception:
-                token = None
-        cmd = ['git']
-        if token:
-            import base64
-            cred = base64.b64encode(f"x-access-token:{token}".encode()).decode()
-            cmd += ['-c', f'http.https://github.com/.extraheader=AUTHORIZATION: basic {cred}']
-        cmd += ['push', 'origin', 'HEAD']
-        subprocess.run(cmd, cwd=REPO_ROOT, check=True, text=True, capture_output=True)
+        token = load_github_token()
+        if not token:
+            raise RuntimeError('Git push için GITHUB_TOKEN bulunamadı (ortam değişkeni veya secrets dosyası).')
+
+        default_branch = resolve_origin_default_branch()
+        tmp_root = Path('/home/ubuntu/.tmp') if Path('/home/ubuntu/.tmp').exists() else None
+        with tempfile.TemporaryDirectory(prefix='git_askpass_', dir=str(tmp_root) if tmp_root else None) as td:
+            askpass = Path(td) / 'askpass.sh'
+            askpass.write_text(
+                '#!/usr/bin/env sh\n'
+                'case "$1" in\n'
+                '  *Username*) echo "x-access-token" ;;\n'
+                '  *Password*) echo "$GITHUB_TOKEN" ;;\n'
+                '  *) echo "" ;;\n'
+                'esac\n',
+                encoding='utf-8',
+            )
+            askpass.chmod(0o700)
+
+            env = os.environ.copy()
+            env['GITHUB_TOKEN'] = token
+            env['GIT_TERMINAL_PROMPT'] = '0'
+
+            subprocess.run(
+                ['git', '-c', f'core.askpass={askpass}', 'push', 'origin', f'HEAD:refs/heads/{default_branch}'],
+                cwd=REPO_ROOT,
+                env=env,
+                check=True,
+                text=True,
+                capture_output=True,
+            )
 
 
 def main() -> int:

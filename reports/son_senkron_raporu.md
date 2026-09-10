@@ -1,9 +1,9 @@
 # Trendyol → Site Ürün Senkron Raporu
 
-- Senkron zamanı (UTC): 2026-09-10T16:32:41Z
+- Senkron zamanı (UTC): 2026-09-10T16:34:15Z
 - Trendyol ürün adedi: 134
 - Site toplam ürün adedi: 170
-- Fiyat/stok güncellenen ürün: 12
+- Fiyat/stok güncellenen ürün: 11
 - Yeni eklenen ürün: 0
 - Sitede kalıp Trendyol'da olmayan ürün: 36
 

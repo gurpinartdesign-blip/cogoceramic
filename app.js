@@ -542,10 +542,11 @@
           ` : ""}
           <div class="pMeta">
             ${p.size ? `<span class="meta">${escapeHtml(p.size)}</span>` : `<span class="meta"></span>`}
+            ${p.inStock ? `
             <div class="priceBlock">
               ${discount > 0 ? `<span class="origPrice">${formatTL(origPrice)}</span>` : ''}
               <strong class="price${discount > 0 ? ' discounted' : ''}">${formatTL(p.price)}</strong>
-            </div>
+            </div>` : ''}
           </div>
           <div class="stockNote ${p.inStock ? 'in' : 'out'}">${p.inStock ? 'Stokta' : 'Tükendi'}</div>
           <div class="pActions">
